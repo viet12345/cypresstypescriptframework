@@ -35,3 +35,26 @@
 //     }
 //   }
 // }
+
+declare namespace Cypress {
+    interface Chainable {
+      /**
+       * Custom command to select DOM element by data-cy attribute.
+       * @example cy.dataCy('greeting')
+       */
+      login(email: string, password?: string): Chainable<Element>
+    }
+  }
+  
+  Cypress.Commands.add('login', (user?: string, password?: string) => {
+    cy.visit('/signin')
+    if (user && password) {
+      cy.get('#username').type(user)
+      cy.get('#password').type(password)
+    } else if (user) {
+      cy.get('#username').type(user)
+    } else if (password){
+      cy.get('password').type(password)
+    }
+    cy.get('button[type="submit"]').click()
+  })

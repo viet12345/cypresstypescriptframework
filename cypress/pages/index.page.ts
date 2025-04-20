@@ -1,1 +1,1 @@
-export * from "./common.page";
+export * from "./SignInPage";

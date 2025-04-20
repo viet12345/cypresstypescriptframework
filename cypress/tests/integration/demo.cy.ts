@@ -1,16 +1,16 @@
-import { PAGE_URLS } from '../../fixtures/url'
-import { commonPage } from '../../pages/index.page'
+import { PAGE_URLS } from '../../fixtures/urls'
+import { signInPage } from '../../pages/index.page'
 
 describe('my first demo', () => {
     before('redirect to the login page of demo guru', () => {
-        cy.visit(PAGE_URLS.LOGIN_PAGE);
+        cy.visit(PAGE_URLS.SIGNIN_PAGE);
     })
 
     describe('login with valid credentials', () => {
 
         it('verify user is able to login with valid credentials', () => {
-            commonPage.passwordInputBox().should('be.visible');
-            commonPage.usernameInputBox().should('be.visible');
+            signInPage.passwordInputBox().should('be.visible');
+            signInPage.usernameInputBox().should('be.visible');
         })
     })
 })

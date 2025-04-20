@@ -1,4 +1,4 @@
-export class CommonPage {
+export class SignInPage {
   usernameInputBox() {
     return cy.get("#username");
   }
@@ -8,4 +8,4 @@ export class CommonPage {
   }
 }
 
-export const commonPage = new CommonPage();
+export const signInPage = new SignInPage();
