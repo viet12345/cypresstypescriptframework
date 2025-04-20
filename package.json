@@ -9,10 +9,12 @@
     "lint": "eslint . --ext .ts,.js",
     "open": "yarn cypress open",
     "reset_frw": "rm -rf node_modules yarn.lock && yarn install",
+    "delete:reports": "rm -r cypress/reports/* || true",
+    "prereport": "yarn delete:reports",
     "run:test": "yarn cypress run",
     "allure:generate": "allure generate cypress/reports/allure-results -o cypress/reports/allure-report",
     "allure:open": "allure open cypress/reports/allure-report",
-    "test:allure": "yarn test && yarn allure:generate && yarn allure:open"
+    "test:allure": "yarn prereport && yarn test && yarn allure:generate && yarn allure:open"
   },
   "devDependencies": {
     "@types/cypress": "^1.1.6",
