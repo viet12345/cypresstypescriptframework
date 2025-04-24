@@ -10,52 +10,27 @@ describe('my first demo', () => {
     describe('login with valid credentials', () => {
         
         it('Kiểm tra các element hiển thị trên page', () => {
-            signInPage.passwordInputBox().should('be.visible');
-            signInPage.usernameInputBox().should('be.visible');
-            signInPage.loginButton().should('be.visible');
-            signInPage.verifyTitleLoginPage('Sign in').should('be.visible');
-            signInPage.signUpButton().should('be.visible');
-            signInPage.rememberMeCheckbox().should('be.visible');
+            signInPage.verifyLoginElement();
+            signInPage.verifyTitleLoginPage('Sign In');
         })
 
         it('Kiểm tra login thành công', () => {
-            signInPage.usernameInputBox().type(VALID_USER.USER);
-            signInPage.passwordInputBox().type(VALID_USER.PASSWORD);
-            signInPage.loginButton().click();
-            cy.contains(VALID_USER.USER).should('be.visible');
+            signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
+            signInPage.verifyLoginSucessfulWithUser(VALID_USER.USER);
         });
 
-        it('Kiểm tra validation invalid login', () => {
-            //Kiểm tra các field không được để trống
-            signInPage.usernameInputBox().should('be.empty');
-            signInPage.passwordInputBox().should('be.empty');
-            signInPage.loginButton().click();
-            signInPage.loginButton().should('be.disabled');
-            signInPage.loginUserNameErrorMessage().should('be.visible').and('have.text', 'Username is required');
-            //signInPage.loginPasswordErrorMessage().should('be.visible').and('have.text', 'Password is required'); (tạm thời bỏ qua để pass test vì demo không yêu cầu, nhưng thực tế sẽ cần)
-
-            //Kiểm tra user name không hợp lệ
-            cy.reload();
-            cy.get('body', { timeout: 10000 }).should('be.visible');
-            signInPage.usernameInputBox().type(INVALID_USER.USER);
-            signInPage.passwordInputBox().type(VALID_USER.PASSWORD);
-            signInPage.loginButton().click();
-            //Verify validation message hiển thị
-            signInPage.loginErrorMessageAPI().should('be.visible').and('have.text', 'Username or password is invalid');
-
-            //Kiểm tra password không hợp lệ
-            cy.reload();
-            cy.get('body', { timeout: 10000 }).should('be.visible');
-            signInPage.usernameInputBox().type(VALID_USER.USER);
-            signInPage.passwordInputBox().type(INVALID_USER.PASSWORD);
-            signInPage.loginButton().click();
-            //Verify validation message hiển thị
-            signInPage.loginErrorMessageAPI().should('be.visible').and('have.text', 'Username or password is invalid');
+        it('Kiểm tra các field không được để trống', () => {
+            signInPage.loginWith('', '');
+            signInPage.verifyLoginUserNameErrorMessage('Username is required');
+            signInPage.verifyLoginPasswordErrorMessage('Password is required');
         });
 
-        it('verify user is able to login with valid credentials', () => {
-            signInPage.passwordInputBox().should('be.visible');
-            signInPage.usernameInputBox().should('be.visible');
+        it('Kiểm tra login invalid user', () => {
+            signInPage.loginWith(INVALID_USER.USER, VALID_USER.PASSWORD);
+            signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid')
+            signInPage.clearAllField();
+            signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
+            signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid')
         })
     })
-})
+}) 

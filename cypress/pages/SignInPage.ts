@@ -1,51 +1,97 @@
-const LoginPageSelectors = {
-  usernameInput: "#username",
-  passwordInput: "#password",
-  loginButton: "[data-test='signin-submit']",
-  loginTitle: "h1",
-  buttonSignUp: "[data-test='signup']",
-  checkboxRememberMe: "[data-test='signin-remember-me']",
-  loginUserNameErrorMessage: "[id='username-helper-text']",
-  loginPasswordErrorMessage: "[id='password-helper-text']",
-  loginErrorMessageAPI: "[data-test='signin-error']",
-};
+
+const usernameInput = "#username";
+const passwordInput = "#password";
+const loginButton = "[data-test='signin-submit']";
+const loginTitle = "h1";
+const buttonSignUp = "[data-test='signup']";
+const checkboxRememberMe = "[data-test='signin-remember-me']";
+const loginUserNameErrorMessage = "[id='username-helper-text']";
+const loginPasswordErrorMessage = "[id='password-helper-text']";
+const loginErrorMessageAPI = "[data-test='signin-error']";
 
 export class SignInPage {
+
+  // ---------- Element Getters ----------
+
   usernameInputBox() {
-    return cy.get(LoginPageSelectors.usernameInput);
+    return cy.get(usernameInput);
   }
 
   passwordInputBox() {
-    return cy.get(LoginPageSelectors.passwordInput);
+    return cy.get(passwordInput);
   }
 
   loginButton() {
-    return cy.get(LoginPageSelectors.loginButton);
-  }
-
-  verifyTitleLoginPage(titleLoginPage:string) {
-    return cy.get(LoginPageSelectors.loginTitle).should('have.text', titleLoginPage);
+    return cy.get(loginButton);
   }
 
   signUpButton() {
-    return cy.get(LoginPageSelectors.buttonSignUp);
+    return cy.get(buttonSignUp);
   }
 
   rememberMeCheckbox() {
-    return cy.get(LoginPageSelectors.checkboxRememberMe);
+    return cy.get(checkboxRememberMe);
   }
 
   loginUserNameErrorMessage() {
-    return cy.get(LoginPageSelectors.loginUserNameErrorMessage);
+    return cy.get(loginUserNameErrorMessage);
   }
 
   loginPasswordErrorMessage() {
-    return cy.get(LoginPageSelectors.loginPasswordErrorMessage);
+    return cy.get(loginPasswordErrorMessage);
   }
-  
+
   loginErrorMessageAPI() {
-    return cy.get(LoginPageSelectors.loginErrorMessageAPI);
+    return cy.get(loginErrorMessageAPI);
+  }
+
+  // ---------- Actions ----------
+
+  loginWith(userName: string, password: string) {
+    this.usernameInputBox().type(userName);
+    this.passwordInputBox().type(password);
+    this.loginButton().click();
+  }
+
+  clearAllField() {
+    this.usernameInputBox().clear(); // không chắc hàm này để clear, check lại sau
+    this.passwordInputBox().clear();
+  }
+
+
+
+  // ---------- Verifications ----------
+
+  verifyLoginElement() {
+    this.passwordInputBox().should('be.visible');
+    this.usernameInputBox().should('be.visible');
+    this.loginButton().should('be.visible');
+    this.signUpButton().should('be.visible');
+    this.rememberMeCheckbox().should('be.visible');
+  }
+
+  verifyTitleLoginPage(loginTitleContent: string) {
+    cy.get(loginTitle).should('have.text', loginTitleContent);
+  }
+
+  verifyLoginSucessfulWithUser(user: string) {
+    cy.contains(user).should('be.visible');
+  }
+
+  verifyLoginUserNameErrorMessage(MessageWarning: string) {
+    this.loginButton().should('be.disabled');
+    this.loginUserNameErrorMessage().should('be.visible').and('have.text', MessageWarning);
+  }
+
+  verifyLoginPasswordErrorMessage(MessageWarning: string) {
+    this.loginButton().should('be.disabled');
+    this.loginPasswordErrorMessage().should('be.visible').and('have.text', MessageWarning);
+  }
+
+  verifyInvalidCredentialErrorMessage(MessageWarning: string) {
+    this.loginErrorMessageAPI().should('be.visible').and('have.text', MessageWarning);
   }
 }
 
 export const signInPage = new SignInPage();
+ 
