@@ -21,7 +21,7 @@ export class SignInPage {
     return cy.get(passwordInput);
   }
 
-  loginButton() {
+  signInButton() {
     return cy.get(loginButton);
   }
 
@@ -48,9 +48,13 @@ export class SignInPage {
   // ---------- Actions ----------
 
   loginWith(userName: string, password: string) {
-    this.usernameInputBox().type(userName);
-    this.passwordInputBox().type(password);
-    this.loginButton().click();
+    this.usernameInputBox().clear();
+    if (userName) this.usernameInputBox().type(userName);
+    this.passwordInputBox().clear();
+    if (password) this.passwordInputBox().type(password);
+    if (userName && password) {
+      this.signInButton().click();
+    }
   }
 
   clearAllField() {
@@ -65,7 +69,7 @@ export class SignInPage {
   verifyLoginElement() {
     this.passwordInputBox().should('be.visible');
     this.usernameInputBox().should('be.visible');
-    this.loginButton().should('be.visible');
+    this.signInButton().should('be.visible');
     this.signUpButton().should('be.visible');
     this.rememberMeCheckbox().should('be.visible');
   }
@@ -78,13 +82,17 @@ export class SignInPage {
     cy.contains(user).should('be.visible');
   }
 
+  verifySignInBtnDisabled() {
+    this.signInButton().should('be.disabled');
+  }
+
   verifyLoginUserNameErrorMessage(MessageWarning: string) {
-    this.loginButton().should('be.disabled');
+    this.signInButton().should('be.disabled');
     this.loginUserNameErrorMessage().should('be.visible').and('have.text', MessageWarning);
   }
 
   verifyLoginPasswordErrorMessage(MessageWarning: string) {
-    this.loginButton().should('be.disabled');
+    this.signInButton().should('be.disabled');
     this.loginPasswordErrorMessage().should('be.visible').and('have.text', MessageWarning);
   }
 
@@ -94,4 +102,3 @@ export class SignInPage {
 }
 
 export const signInPage = new SignInPage();
- 
