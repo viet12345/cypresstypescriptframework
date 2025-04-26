@@ -1,6 +1,8 @@
 import { PAGE_URLS } from '../../fixtures/urls'
 import { signInPage } from '../../pages/index.page'
 import {VALID_USER,INVALID_USER} from '../../fixtures/users'
+import { backButton } from '../../components/BackButton'
+import { homePage } from '../../pages/HomePage'
 
 describe('my first demo', () => {
     beforeEach('redirect to the login page of demo guru', () => {
@@ -32,5 +34,12 @@ describe('my first demo', () => {
             signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid')
         })
+
+        it.only('Test demo back button', () => {
+            signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
+            homePage.switchContactsTab();
+            backButton.clickBackButtonFromBrowser();
+            backButton.verifyBackAction(PAGE_URLS.HOMEPAGE);
+        });
     })
 }) 
