@@ -7,6 +7,6 @@ describe("Test commands", function () {
   });
 
   it("verify logo", function () {
-    header.logo().should('not.be.visible')   //make a fail case
+    header.logo().should('be.visible')
   });
 });

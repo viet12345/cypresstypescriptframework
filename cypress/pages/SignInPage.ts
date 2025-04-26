@@ -78,10 +78,6 @@ export class SignInPage {
     cy.get(loginTitle).should('have.text', loginTitleContent);
   }
 
-  verifyLoginSucessfulWithUser(user: string) {
-    cy.contains(user).should('be.visible');
-  }
-
   verifySignInBtnDisabled() {
     this.signInButton().should('be.disabled');
   }
