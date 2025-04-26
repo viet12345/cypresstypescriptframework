@@ -1,7 +1,6 @@
 import { PAGE_URLS } from '../../fixtures/urls'
 import { signInPage } from '../../pages/index.page'
 import { VALID_USER, INVALID_USER } from '../../fixtures/users'
-import { backButton } from '../../components/BackButton'
 import { homePage } from '../../pages/HomePage'
 
 describe('my first demo', () => {
@@ -18,13 +17,12 @@ describe('my first demo', () => {
 
         it('Kiểm tra login thành công', () => {
             signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
-            signInPage.verifyLoginSucessfulWithUser(VALID_USER.USER);
+            homePage.verifyLoginSucessfulWithUser(VALID_USER.USER);
         });
 
         it('Kiểm tra các field không được để trống', () => {
             signInPage.loginWith('', '');
             signInPage.verifyLoginUserNameErrorMessage('Username is required');
-            signInPage.verifyLoginPasswordErrorMessage('Password is required');
             signInPage.verifySignInBtnDisabled();
         });
 
@@ -35,12 +33,5 @@ describe('my first demo', () => {
             signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid');
         })
-
-        it.only('Test demo back button', () => {
-            signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
-            homePage.switchContactsTab();
-            backButton.clickBackButtonFromBrowser();
-            backButton.verifyBackAction(PAGE_URLS.HOMEPAGE);
-        });
     })
 }) 

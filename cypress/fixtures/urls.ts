@@ -4,3 +4,12 @@ export const PAGE_URLS = {
   CONTACTS_PAGE: "/contacts",
   PERSONAL_PAGE: "/personal",
 };
+
+export const HOME_PAGE_URLS = {
+  'MY_ACCOUNT': "/user/settings",
+  'BANKS_ACCOUNTS': "/bankaccounts",
+  'NOTIFICATONS': "/notifications",
+  'FRIENDS': "/contacts",
+  'MINE': "/personal",
+  'NEW_TRANSACTION': "/transaction/new"
+}
