@@ -96,21 +96,44 @@ You can use these handy shortcuts:
 
 ```json
 "scripts": {
-  "test": "cypress run",
-  "open": "cypress open",
-  "verify": "cypress verify"
+  "test:allure": "yarn prereport && yarn test || echo '⚠️ Test failed' && yarn allure:generate && yarn allure:open"
 }
 ```
 
 Run with:
 
 ```bash
-yarn test
-yarn open
-yarn verify
+yarn run test:allure
 ```
 
 ---
+
+## 🔄 How to Handle `yarn.lock` Conflicts
+
+When working with multiple branches, it’s common that `yarn.lock` may be modified in different features. This can cause merge conflicts or inconsistent dependency trees.
+
+### ✅ Best Practices
+
+1. **Always commit `yarn.lock`** together with `package.json` whenever dependencies change.
+2. **Do NOT manually resolve `yarn.lock` conflicts** line by line.
+
+### 🛠 If you encounter a merge conflict in `yarn.lock`:
+
+```bash
+# Step 1: Choose which version to keep (ours or theirs)
+git checkout --ours yarn.lock   # or --theirs, based on your needs
+
+# Step 2: Reinstall dependencies to regenerate a clean lockfile
+yarn install
+
+# Step 3: Re-test your app to ensure dependencies are correct
+# Step 4: Commit the fixed yarn.lock
+git add yarn.lock
+git commit -m "Fix yarn.lock after merge"
+
+
+---
+
 
 ## 💡 Tips
 
