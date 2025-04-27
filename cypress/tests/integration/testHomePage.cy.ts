@@ -1,9 +1,10 @@
-import { HOME_PAGE_URLS } from '../../fixtures/urls';
+import { backButton } from '../../components/BackButton';
+import { HOME_PAGE_URLS,PAGE_URLS } from '../../fixtures/urls';
 import { VALID_USER } from '../../fixtures/users';
-import { homePage } from '../../pages/index.page'
+import { homePage,tabNames } from '../../pages/index.page'
 
 describe('Home Page Test', () => {
-    before('redirect to the login page of demo guru', () => {
+    beforeEach('redirect to the login page of demo guru', () => {
         cy.login(VALID_USER.USER, VALID_USER.PASSWORD);
     })
 
@@ -12,6 +13,16 @@ describe('Home Page Test', () => {
             it(`Verify url of ${site_name}`, () => {
                 homePage.openUrl(url);
                 homePage.verifyAvailableUrl(url);
+            })
+        })
+    })
+
+    describe('Back action from browser button test', () => {
+        Object.entries(tabNames).forEach(([tab_name, tab]) => {
+            it.only(`Verify back action from ${tab_name}`, () => {
+                homePage.switchTab(tab);
+                backButton.clickBackButtonFromBrowser();
+                backButton.verifyBackAction(PAGE_URLS.HOMEPAGE);
             })
         })
     })
