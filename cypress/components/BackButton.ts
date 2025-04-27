@@ -1,17 +1,16 @@
-const backButtonOnPage = '[data-cy=back-button]';
 
 export class BackButton {
     
     // ---------- Element Getters ----------
 
-    backButton() {
-        return cy.get(backButtonOnPage);
+    backButton(backButtOnPage:string) {
+        return cy.get(backButtOnPage);
     }
 
     // ---------- Actions ----------
 
-    clickBackButton() {
-        this.backButton().click();
+    clickBackButton(backButtOnPage:string) {
+        this.backButton(backButtOnPage).click();
     }
     
     clickBackButtonFromBrowser() {
