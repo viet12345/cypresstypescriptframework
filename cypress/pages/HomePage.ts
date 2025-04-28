@@ -7,10 +7,6 @@ export class HomePage {
 
   // ---------- Actions ----------
 
-  openUrl(url: string) {
-    cy.visit(url);
-  }
-
   // ---------- Verifications ----------
 
   verifyLoginSucessfulWithUser(user: string) {
