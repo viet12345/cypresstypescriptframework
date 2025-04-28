@@ -1,31 +1,23 @@
 export class Form {
   // ---------- Element Getters ----------
 
-  form(formSelector: string) {
-    return cy.get(formSelector);
-  }
-
-  inputField(formSelector:string ,inputSelector: string) {
-    return this.form(formSelector).find(inputSelector);
-  }
-
-  numberInputField(formSelector:string ,inputSelector: string) {
-    return this.form(formSelector).find(inputSelector).should('have.attr', 'type', 'number');
+  inputField(inputSelector: string) {
+    return cy.get(inputSelector);
   }
 
   submitButton(submitSelector: string) {
-    return this.form(submitSelector).find('button[type="submit"]');
+    return cy.get(submitSelector).should('be.visible').should('not.be.disabled');
   }
 
     errorMessage(errorSelector: string) {
-            return cy.get(errorSelector);
+      return cy.get(errorSelector);
     }
 
   // ---------- Actions ----------
 
-fillInputField(formSelector: string, inputSelector: string, value: string | number) {
-    this.inputField(formSelector, inputSelector).type(value.toString());
-}
+  fillInputField(inputSelector: string, value: string | number) {
+    this.inputField(inputSelector).type(value.toString());
+  }
 
   clickSubmitButton(submitSelector: string) {
     this.submitButton(submitSelector).click();
@@ -37,7 +29,12 @@ fillInputField(formSelector: string, inputSelector: string, value: string | numb
     cy.contains(successMessage).should('be.visible');
   }
 
+  verifyValidationError(errorSelector: string, errorMessage: string) {
+    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
+  }
+
 verifyInputFieldLength(errorSelector: string, errorMessage: string = 'This field can not exceed 255 characters') {
     this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
 }
 }
+export const form = new Form();
