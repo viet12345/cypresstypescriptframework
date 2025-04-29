@@ -6,15 +6,11 @@ export class Form {
   }
 
   submitButton(submitSelector: string) {
-    return cy.get(submitSelector).should('be.visible').should('not.be.disabled');
+    return cy.get(submitSelector).should('be.visible');
   }
 
     errorMessage(errorSelector: string) {
       return cy.get(errorSelector);
-    }
-
-    successMessage(messageSelector: string) {
-      return cy.get(messageSelector);
     }
   // ---------- Actions ----------
 
@@ -28,12 +24,12 @@ export class Form {
 
   // ---------- Verifications ----------
 
-  verifyFormSubmissionSuccess(messageSelector: string, successMessage: string) {
-    this.successMessage(messageSelector).should('be.visible').and('contain', 'Successfully');
+  verifyValidationErrorMessage(errorSelector: string, errorMessage: string) {
+    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
   }
 
-  verifyValidationError(errorSelector: string, errorMessage: string) {
-    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
+  verifySubmitButtonDisabled(submitSelector: string) {
+    this.submitButton(submitSelector).should('be.disabled');
   }
 }
 export const form = new Form();
