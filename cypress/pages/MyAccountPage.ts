@@ -1,31 +1,28 @@
-"[data-test='sidenav-user-settings']"
-"[data-test='user-settings-email-input']"
-'#user-settings-email-input-helper-text'
+const myAccountSideBarMenu = "[data-test='sidenav-user-settings']";
+const emailInput = "[data-test='user-settings-email-input']";
+const emailMessageValidation = '#user-settings-email-input-helper-text';
 
 export class MyAccountPage {
 
   // ---------- Element Getters ----------
 
+  myAccountSideBarMenu() {
+    return cy.get(myAccountSideBarMenu);
+  }
+
+  emailInput() {
+    return cy.get(emailInput);
+  }
+
+  emailMessageValidation() {
+    return cy.get(emailMessageValidation);
+  }
 
   // ---------- Actions ----------
 
-  openUrl(url: string) {
-    cy.visit(url);
-  }
-
-  switchTab(tabName: string) {
-    return cy.get(tabName).click();
-  }
 
   // ---------- Verifications ----------
 
-  verifyLoginSucessfulWithUser(user: string) {
-    cy.contains(user).should('be.visible');
-  }
-
-  verifyAvailableUrl(url: string) {
-    cy.url().should('include', url);
-  }
 }
 
 export const myAccountPage = new MyAccountPage();

@@ -32,9 +32,5 @@ export class Form {
   verifyValidationError(errorSelector: string, errorMessage: string) {
     this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
   }
-
-verifyInputFieldLength(errorSelector: string, errorMessage: string = 'This field can not exceed 255 characters') {
-    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
-}
 }
 export const form = new Form();
