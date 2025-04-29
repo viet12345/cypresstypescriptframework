@@ -18,14 +18,21 @@ export class Form {
     this.inputField(inputSelector).type(value.toString());
   }
 
+  clearInputField(inputSelector: string) {
+    this.inputField(inputSelector).clear();
+  }
+
   clickSubmitButton(submitSelector: string) {
     this.submitButton(submitSelector).click();
   }
 
   // ---------- Verifications ----------
 
-  verifyValidationErrorMessage(errorSelector: string, errorMessage: string) {
-    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
+  verifyValidationErrorMessage(errorSelector: string, errorMessage?: string) {
+    const assertion = this.errorMessage(errorSelector).should('be.visible');
+    if (errorMessage) {
+      assertion.and('contain', errorMessage);
+    }
   }
 
   verifySubmitButtonDisabled(submitSelector: string) {

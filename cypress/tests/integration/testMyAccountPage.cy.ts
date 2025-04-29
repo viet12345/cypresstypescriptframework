@@ -1,6 +1,4 @@
-import { form } from '../../components/Form'
 import { VALID_USER } from '../../fixtures/users';
-import { PAGE_URLS } from '../../fixtures/urls';
 import { myAccountPage, inputFields } from '../../pages/MyAccountPage';
 
 
@@ -13,9 +11,9 @@ describe('Validation input field test', () => {
         myAccountPage.verifyEmailWithInvalidFormat();
     })
     describe('Verify required fields', () => {
-        Object.entries(inputFields).forEach(([fieldName, inputField]) => {
-            it.only(`Verify required ${fieldName} field`, () => {
-                verifyRequiredField(inputField, fieldName, );
+        Object.entries(inputFields).forEach(([inputNameField, inputField]) => {
+            it.only(`Verify ${inputNameField} required field`, () => {
+                myAccountPage.verifyRequiredField(inputField, 'The ' + inputNameField + ' is required');
             })
         })
     })
