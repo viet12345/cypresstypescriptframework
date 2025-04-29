@@ -11,6 +11,11 @@ declare namespace Cypress {
       verifyUrl(expectedPath: string): Chainable<Subject>;
   
       /**
+        * Click the button Back from the browser.
+        */
+      backActionFromBrowser(): Chainable<Subject>;
+  
+      /**
        * Clear cookies and local storage to reset session.
        */
       clearSession(): Chainable<Subject>;

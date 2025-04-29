@@ -40,5 +40,5 @@
 // Import globalCommands:
 import './commands/globalCommands'
 
-// Import commands.js using ES2015 syntax:
+// Import Page Commands:
 import './commands/pageCommands/loginPageCommands'

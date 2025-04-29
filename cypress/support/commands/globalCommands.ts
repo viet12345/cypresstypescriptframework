@@ -13,3 +13,8 @@ Cypress.Commands.add('clearSession', () => {
     cy.clearLocalStorage();
     cy.log('🧹 Session cleared.');
 });
+
+Cypress.Commands.add('backActionFromBrowser', () => {
+    cy.go('back');
+    cy.log('Navigated back using browser action.');
+});

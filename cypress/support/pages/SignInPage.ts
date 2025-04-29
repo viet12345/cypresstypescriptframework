@@ -1,48 +1,39 @@
-
-const usernameInput = "#username";
-const passwordInput = "#password";
-const loginButton = "[data-test='signin-submit']";
-const loginTitle = "h1";
-const buttonSignUp = "[data-test='signup']";
-const checkboxRememberMe = "[data-test='signin-remember-me']";
-const loginUserNameErrorMessage = "[id='username-helper-text']";
-const loginPasswordErrorMessage = "[id='password-helper-text']";
-const loginErrorMessageAPI = "[data-test='signin-error']";
+import { SignInPageSelectors as S } from '../selectors/signInPageSelectors';
 
 export class SignInPage {
 
   // ---------- Element Getters ----------
 
   usernameInputBox() {
-    return cy.get(usernameInput);
+    return cy.get(S.usernameInput);
   }
 
   passwordInputBox() {
-    return cy.get(passwordInput);
+    return cy.get(S.passwordInput);
   }
 
   signInButton() {
-    return cy.get(loginButton);
+    return cy.get(S.loginButton);
   }
 
   signUpButton() {
-    return cy.get(buttonSignUp);
+    return cy.get(S.buttonSignUp);
   }
 
   rememberMeCheckbox() {
-    return cy.get(checkboxRememberMe);
+    return cy.get(S.checkboxRememberMe);
   }
 
   loginUserNameErrorMessage() {
-    return cy.get(loginUserNameErrorMessage);
+    return cy.get(S.loginUserNameErrorMessage);
   }
 
   loginPasswordErrorMessage() {
-    return cy.get(loginPasswordErrorMessage);
+    return cy.get(S.loginPasswordErrorMessage);
   }
 
   loginErrorMessageAPI() {
-    return cy.get(loginErrorMessageAPI);
+    return cy.get(S.loginErrorMessageAPI);
   }
 
   // ---------- Actions ----------
@@ -57,12 +48,10 @@ export class SignInPage {
     }
   }
 
-  clearAllField() {
-    this.usernameInputBox().clear(); // không chắc hàm này để clear, check lại sau
+  clearAllFields() {
+    this.usernameInputBox().clear();
     this.passwordInputBox().clear();
   }
-
-
 
   // ---------- Verifications ----------
 
@@ -75,7 +64,7 @@ export class SignInPage {
   }
 
   verifyTitleLoginPage(loginTitleContent: string) {
-    cy.get(loginTitle).should('have.text', loginTitleContent);
+    cy.get(S.loginTitle).should('have.text', loginTitleContent);
   }
 
   verifySignInBtnDisabled() {

@@ -3,6 +3,7 @@ import { signInPage, homePage } from '../../support/pages/index.page'
 import { VALID_USER, INVALID_USER } from '../../fixtures/users'
 
 describe('my first demo', () => {
+    
     beforeEach('redirect to the login page of demo guru', () => {
         cy.visit(PAGE_URLS.SIGNIN_PAGE);
     })
@@ -28,7 +29,7 @@ describe('my first demo', () => {
         it('Kiểm tra login invalid user', () => {
             signInPage.loginWith(INVALID_USER.USER, VALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid');
-            signInPage.clearAllField();
+            signInPage.clearAllFields();
             signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid');
         })
