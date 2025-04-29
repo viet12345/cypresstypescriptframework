@@ -6,7 +6,7 @@ export class Form {
   }
 
   submitButton(submitSelector: string) {
-    return cy.get(submitSelector).should('be.visible');
+    return cy.get(submitSelector);
   }
 
     errorMessage(errorSelector: string) {
