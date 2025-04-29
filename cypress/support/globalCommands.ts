@@ -1,5 +1,3 @@
-
-
 Cypress.Commands.add('verifyUrl', (expectedPath: string) => {
     const expectedUrl = buildUrl(Cypress.config('baseUrl')!, expectedPath);
     cy.url().then((currentUrl) => {
@@ -12,4 +10,9 @@ Cypress.Commands.add('clearSession', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.log('🧹 Session cleared.');
+});
+
+Cypress.Commands.add('backActionFromBrowser', () => {
+    cy.go('back');
+    cy.log('🔙 Navigated back using browser action.');
 });

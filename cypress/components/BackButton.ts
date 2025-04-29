@@ -20,17 +20,5 @@ export class BackButton {
 
     // ---------- Verifications ----------
 
-    verifyBackAction(preUrl: string): void {
-        cy.url().should('eq', Cypress.config('baseUrl')+preUrl);
-
-        //Suggest tạo một file Commands custom riêng cho các hành động log này => Sẽ bổ sung sau
-        // cy.url().then((currentUrl) => {
-        //     if (currentUrl === Cypress.config('baseUrl')+preUrl) {
-        //         cy.log('Back action verified successfully.');
-        //     } else {
-        //         cy.log(`Back action failed. Expected: ${Cypress.config('baseUrl')+preUrl}, but got: ${currentUrl}`);
-        //     }
-        // });
-    }
 }
 export const backButton = new BackButton();
