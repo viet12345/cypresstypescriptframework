@@ -1,3 +1,5 @@
+/// <reference path="./commands.d.ts" />
+
 // ***********************************************************
 // This example support/e2e.ts is processed and
 // loaded automatically before your test files.
@@ -13,8 +15,18 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// Import globalCommands:
+import './globalCommands'
+
 // Import commands.js using ES2015 syntax:
 import './commands'
 
 // https://github.com/allure-framework/allure-js/blob/main/packages/allure-cypress/README.md
 import "allure-cypress";
+
+// Import path from utils:
+import * as pathUtils from '../utils/path';
+
+(globalThis as any).joinPaths = pathUtils.joinPaths;
+(globalThis as any).buildUrl = pathUtils.buildUrl;
+(globalThis as any).normalizePath = pathUtils.normalizePath;
