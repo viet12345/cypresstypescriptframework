@@ -1,30 +1,42 @@
-"[data-test='sidenav-user-settings']"
-"[data-test='user-settings-email-input']"
-'#user-settings-email-input-helper-text'
+import { Form } from '../components/Form';
+
+const myAccountSideBarMenu = "[data-test='sidenav-user-settings']";
+const emailInput = "[data-test='user-settings-email-input']";
+const emailMessageValidation = '#user-settings-email-input-helper-text';
+const submitButton = "[data-test='user-settings-submit']";
+
+export const inputFields = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+}
 
 export class MyAccountPage {
+  private form: Form;
+
+  constructor() {
+    this.form = new Form();
+  }
 
   // ---------- Element Getters ----------
 
-
   // ---------- Actions ----------
-
-  openUrl(url: string) {
-    cy.visit(url);
-  }
-
-  switchTab(tabName: string) {
-    return cy.get(tabName).click();
+  goToMyAccountSideBarMenu() {
+    return cy.get(myAccountSideBarMenu).click();
   }
 
   // ---------- Verifications ----------
-
-  verifyLoginSucessfulWithUser(user: string) {
-    cy.contains(user).should('be.visible');
+  verifyEmailWithInvalidFormat(): void {
+    this.form.fillInputField(emailInput, 'email@invalid');
+    this.form.verifyValidationErrorMessage(emailMessageValidation, 'Must contain a valid email address');
+    this.form.verifySubmitButtonDisabled(submitButton);
   }
 
-  verifyAvailableUrl(url: string) {
-    cy.url().should('include', url);
+  verifyRequiredField(inputField:string,errorSelector:string): void {
+    this.form.fillInputField(inputField, '');
+    this.form.verifyValidationErrorMessage(errorSelector, 'field is required');
+    this.form.verifySubmitButtonDisabled(submitButton);
   }
 }
 

@@ -6,13 +6,12 @@ export class Form {
   }
 
   submitButton(submitSelector: string) {
-    return cy.get(submitSelector).should('be.visible').should('not.be.disabled');
+    return cy.get(submitSelector);
   }
 
     errorMessage(errorSelector: string) {
       return cy.get(errorSelector);
     }
-
   // ---------- Actions ----------
 
   fillInputField(inputSelector: string, value: string | number) {
@@ -25,16 +24,12 @@ export class Form {
 
   // ---------- Verifications ----------
 
-  verifyFormSubmissionSuccess(successMessage: string) {
-    cy.contains(successMessage).should('be.visible');
-  }
-
-  verifyValidationError(errorSelector: string, errorMessage: string) {
+  verifyValidationErrorMessage(errorSelector: string, errorMessage: string) {
     this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
   }
 
-verifyInputFieldLength(errorSelector: string, errorMessage: string = 'This field can not exceed 255 characters') {
-    this.errorMessage(errorSelector).should('be.visible').and('contain', errorMessage);
-}
+  verifySubmitButtonDisabled(submitSelector: string) {
+    this.submitButton(submitSelector).should('be.disabled');
+  }
 }
 export const form = new Form();

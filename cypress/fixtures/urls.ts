@@ -3,7 +3,8 @@ export const PAGE_URLS = {
   HOMEPAGE: "",
   CONTACTS_PAGE: "/contacts",
   PERSONAL_PAGE: "/personal",
-  SETTINGS_PAGE: "/user/settings",
+  MY_ACCOUNT: "/user/settings",
+
 };
 
 export const HOME_PAGE_URLS = {

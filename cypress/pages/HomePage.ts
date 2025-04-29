@@ -13,10 +13,6 @@ export class HomePage {
 
   // ---------- Actions ----------
 
-  openUrl(url: string) {
-    cy.visit(url);
-  }
-
   switchTab(tabName: string) {
     return cy.get(tabName).click();
   }
