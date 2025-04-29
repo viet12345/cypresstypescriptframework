@@ -14,7 +14,7 @@
     "run:test": "yarn cypress run",
     "allure:generate": "allure generate cypress/reports/allure-results -o cypress/reports/allure-report",
     "allure:open": "allure open cypress/reports/allure-report",
-    "test:allure": "yarn prereport && yarn test || echo '⚠️ Test failed' && yarn allure:generate && yarn allure:open"
+    "test:allure": "yarn prereport && yarn test || echo 'Test failed' && yarn allure:generate && yarn allure:open"
   },
   "devDependencies": {
     "@types/cypress": "^1.1.6",

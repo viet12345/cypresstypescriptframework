@@ -13,7 +13,6 @@ export default defineConfig({
       return config;
     },
     specPattern: ['cypress/tests/**/*.{js,jsx,ts,tsx}', 'cypress/e2e/**/*.{js,jsx,ts,tsx}'],
-    excludeSpecPattern: ['cypress/e2e/1-getting-started/*.js', 'cypress/e2e/2-advanced-examples/*.js'],
     baseUrl: 'http://localhost:3000/',
   },  
 });

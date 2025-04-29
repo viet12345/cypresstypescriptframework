@@ -1,4 +1,4 @@
-import { header } from "../../components/index.components";
+import { header } from "../../support/components/index.components";
 import { VALID_USER } from "../../fixtures/users";
 
 describe("Test commands", function () {

@@ -1,5 +1,5 @@
 import { PAGE_URLS } from '../../fixtures/urls'
-import { signInPage, homePage } from '../../pages/index.page'
+import { signInPage, homePage } from '../../support/pages/index.page'
 import { VALID_USER, INVALID_USER } from '../../fixtures/users'
 
 describe('my first demo', () => {
