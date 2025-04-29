@@ -5,6 +5,13 @@ const emailInput = "[data-test='user-settings-email-input']";
 const emailMessageValidation = '#user-settings-email-input-helper-text';
 const submitButton = "[data-test='user-settings-submit']";
 
+export const inputFields = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+}
+
 export class MyAccountPage {
   private form: Form;
 
@@ -23,6 +30,12 @@ export class MyAccountPage {
   verifyEmailWithInvalidFormat(): void {
     this.form.fillInputField(emailInput, 'email@invalid');
     this.form.verifyValidationErrorMessage(emailMessageValidation, 'Must contain a valid email address');
+    this.form.verifySubmitButtonDisabled(submitButton);
+  }
+
+  verifyRequiredField(inputField:string,errorSelector:string): void {
+    this.form.fillInputField(inputField, '');
+    this.form.verifyValidationErrorMessage(errorSelector, 'field is required');
     this.form.verifySubmitButtonDisabled(submitButton);
   }
 }
