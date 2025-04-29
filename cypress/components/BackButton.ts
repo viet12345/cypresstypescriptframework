@@ -13,10 +13,6 @@ export class BackButton {
     clickBackButton() {
         this.backButton().click();
     }
-    
-    clickBackButtonFromBrowser() {
-        cy.go('back');
-    }
 
     // ---------- Verifications ----------
 

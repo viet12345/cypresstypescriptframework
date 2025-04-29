@@ -13,6 +13,9 @@ export class Form {
       return cy.get(errorSelector);
     }
 
+    successMessage(messageSelector: string) {
+      return cy.get(messageSelector);
+    }
   // ---------- Actions ----------
 
   fillInputField(inputSelector: string, value: string | number) {
@@ -25,8 +28,8 @@ export class Form {
 
   // ---------- Verifications ----------
 
-  verifyFormSubmissionSuccess(successMessage: string) {
-    cy.contains(successMessage).should('be.visible');
+  verifyFormSubmissionSuccess(messageSelector: string, successMessage: string) {
+    this.successMessage(messageSelector).should('be.visible').and('contain', 'Successfully');
   }
 
   verifyValidationError(errorSelector: string, errorMessage: string) {
