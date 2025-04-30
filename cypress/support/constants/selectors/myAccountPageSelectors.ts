@@ -8,6 +8,6 @@ export const MyAccountPageSelectors = {
     phoneInput: "[data-test='user-settings-phoneNumber-input']",
     firstNameErrorMessage: "#user-settings-firstName-input-helper-text",
     lastNameErrorMessage: "#user-settings-lastName-input-helper-text",
-    phoneErrorMessage: "#user-settings-phone-input-helper-text",
+    phoneErrorMessage: "#user-settings-phoneNumber-input-helper-text",
 
 }

@@ -3,7 +3,7 @@ import { myAccountPage } from '../../support/pages/index.page';
 
 
 describe('Validation input field test', () => {
-    
+
     beforeEach('Login and redirect to My Account page', () => {
         cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
         myAccountPage.goToMyAccountSideBarMenu();
@@ -16,7 +16,7 @@ describe('Validation input field test', () => {
     describe('Verify required fields', () => {
         Object.entries(myAccountPage.inputFields).forEach(([inputNameField, inputField]) => {
             it(`Verify ${inputNameField} required field`, () => {
-                myAccountPage.verifyRequiredField(inputField, 'The ' + inputNameField + ' is required');
+                myAccountPage.verifyFieldInvalidFormat(inputField[0], '', inputField[1], inputField[2]);
             })
         })
     })

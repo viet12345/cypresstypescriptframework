@@ -44,18 +44,40 @@ This installs all required packages using Yarn.
 ## 📂 Project Structure
 
 ```
-cypresstypescriptframework/
-│
-├── cypress/
-│   ├── e2e/                 # Test specs
-│   ├── fixtures/            # Static data files
-│   ├── support/             # Custom commands, setup files
-│
-├── cypress.config.ts       # Cypress configuration
-├── tsconfig.json           # TypeScript compiler settings
-├── package.json            # Project metadata and scripts
-└── README.md               # You're reading it
-```
+cypress/
+├── downloads/                             # 📥 Lưu các file được tải về trong quá trình test
+├── fixtures/
+│   ├── urls.ts                            # 🌐 Danh sách các URL phục vụ test
+│   └── users.ts                           # 👤 Danh sách thông tin user test (username, password,...)
+├── reports/
+│   ├── allure-report/                     # 📊 Báo cáo Allure HTML đã generate
+│   ├── allure-results/                    # 🧾 Kết quả raw JSON do plugin Allure sinh ra
+│   └── screenshots/                       # 📸 Ảnh chụp màn hình khi test thất bại
+├── support/
+│   ├── commands/
+│   │   ├── globalCommands.ts              # 🛠 Các lệnh `cy.` dùng toàn cục, ví dụ `cy.verifyUrl()`
+│   │   └── pageCommands/
+│   │       └── signInPageCommands.ts      # 🔧 Lệnh liên quan riêng đến trang đăng nhập (SignIn)
+│   ├── components/
+│   │   ├── ModalDialog.ts                 # 💬 Xử lý modal dialog (có thể kế thừa BasePage nếu có tương tác)
+│   │   └── Table.ts                       # 📊 Component bảng, chứa logic tương tác với bảng (sort, filter,...)
+│   ├── constants/
+│   │   ├── messages/
+│   │   │   └── signInPageMessages.ts      # 💬 Các message hiển thị trên SignIn page (warning, error...)
+│   │   └── selectors/
+│   │       └── signInPageSelectors.ts     # 🎯 Các selector (DOM locator) riêng cho SignInPage
+│   ├── pages/
+│   │   ├── BasePage.ts                    # 🧱 Lớp cơ sở cho tất cả page, chứa các hành động như get, click, visit
+│   │   ├── SignInPage.ts                  # 📘 Class đại diện cho trang đăng nhập, kế thừa BasePage
+│   │   └── index.page.ts                  # 📦 Import tập trung các page để dùng trong test hoặc command
+│   ├── utils/
+│   │   ├── dateHelper.ts                  # 🕓 Hàm hỗ trợ xử lý ngày tháng
+│   │   ├── path.ts                        # 📁 Hàm xử lý đường dẫn, join path, build URL
+│   │   └── ...
+│   ├── commands.ts                        # 📥 Import tất cả các command nhỏ trong folder commands vào đây để load 1 lần
+│   ├── commands.d.ts                      # 📌 Định nghĩa TypeScript cho custom command (giúp gợi ý cy.xyz)
+│   └── e2e.ts                             # 🚀 Entry point khởi chạy test: load pages, commands,...
+
 
 ---
 

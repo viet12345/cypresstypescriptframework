@@ -1,6 +1,8 @@
-import { SignInPageSelectors as S } from '../selectors/signInPageSelectors';
+import { SignInPageSelectors as S } from '../constants/selectors/signInPageSelectors';
+import { SignInPageMessages as M } from '../constants/messages/signInPageMessages';
+import { BasePage } from './BasePage';
 
-export class SignInPage {
+export class SignInPage extends BasePage {
 
   // ---------- Element Getters ----------
 
@@ -39,18 +41,17 @@ export class SignInPage {
   // ---------- Actions ----------
 
   loginWith(userName: string, password: string) {
-    this.usernameInputBox().clear();
-    if (userName) this.usernameInputBox().type(userName);
-    this.passwordInputBox().clear();
-    if (password) this.passwordInputBox().type(password);
+    this.clearAllFields();
+    if (userName) this.type(S.usernameInput, userName);
+    if (password) this.type(S.passwordInput, password);
     if (userName && password) {
-      this.signInButton().click();
+      this.click(S.loginButton);
     }
   }
 
   clearAllFields() {
-    this.usernameInputBox().clear();
-    this.passwordInputBox().clear();
+    this.clear(S.usernameInput);
+    this.clear(S.passwordInput);
   }
 
   // ---------- Verifications ----------
@@ -71,18 +72,18 @@ export class SignInPage {
     this.signInButton().should('be.disabled');
   }
 
-  verifyLoginUserNameErrorMessage(MessageWarning: string) {
+  verifyLoginUserNameErrorMessage() {
     this.signInButton().should('be.disabled');
-    this.loginUserNameErrorMessage().should('be.visible').and('have.text', MessageWarning);
+    this.loginUserNameErrorMessage().should('be.visible').and('have.text', M.usernameIsRequired);
   }
 
-  verifyLoginPasswordErrorMessage(MessageWarning: string) {
+  verifyLoginPasswordErrorMessage() {
     this.signInButton().should('be.disabled');
-    this.loginPasswordErrorMessage().should('be.visible').and('have.text', MessageWarning);
+    this.loginPasswordErrorMessage().should('be.visible').and('have.text', M.userNamePasswordInvalid);
   }
 
-  verifyInvalidCredentialErrorMessage(MessageWarning: string) {
-    this.loginErrorMessageAPI().should('be.visible').and('have.text', MessageWarning);
+  verifyInvalidCredentialErrorMessage() {
+    this.loginErrorMessageAPI().should('be.visible').and('have.text', M.userNamePasswordInvalid);
   }
 }
 

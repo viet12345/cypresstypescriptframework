@@ -1,6 +1,7 @@
-import { HomPageSelectors as S } from "../selectors/homePageSelectors";
+import { HomPageSelectors as S } from "../constants/selectors/homePageSelectors";
+import { BasePage } from "./BasePage";
 
-export class HomePage {
+export class HomePage extends BasePage{
   
 tabNames = {
   contactsTab: S.contactsTab,
@@ -13,17 +14,13 @@ tabNames = {
   // ---------- Actions ----------
 
   switchTab(tabName: string) {
-    return cy.get(tabName).click();
+    return this.click(tabName);
   }
 
   // ---------- Verifications ----------
 
   verifyLoginSucessfulWithUser(user: string) {
     cy.contains(user).should('be.visible');
-  }
-
-  verifyAvailableUrl(url: string) {
-    cy.url().should('include', url);
   }
 }
 

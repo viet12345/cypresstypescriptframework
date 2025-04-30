@@ -22,16 +22,16 @@ describe('my first demo', () => {
 
         it('Kiểm tra các field không được để trống', () => {
             signInPage.loginWith('', '');
-            signInPage.verifyLoginUserNameErrorMessage('Username is required');
+            signInPage.verifyLoginUserNameErrorMessage();
             signInPage.verifySignInBtnDisabled();
         });
 
         it('Kiểm tra login invalid user', () => {
             signInPage.loginWith(INVALID_USER.USER, VALID_USER.PASSWORD);
-            signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid');
+            signInPage.verifyInvalidCredentialErrorMessage();
             signInPage.clearAllFields();
             signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
-            signInPage.verifyInvalidCredentialErrorMessage('Username or password is invalid');
+            signInPage.verifyInvalidCredentialErrorMessage();
         })
     })
 }) 
