@@ -1,13 +1,19 @@
-// export class NavigationMenu {
-//     openMenu() {
-//       cy.get('nav').should('be.visible');
-//     }
-  
-//     clickMenuItem(itemText: string) {
-//       cy.get('nav').contains(itemText).click();
-//     }
-  
-//     verifyActiveItem(itemText: string) {
-//       cy.get('nav .active').should('contain.text', itemText);
-//     }
-//   }
+import { BasePage } from "../pages/BasePage";
+import { HomPageSelectors as S } from "../constants/homePageConstants";
+
+export class NavigationMenu extends BasePage {
+
+    goToMyAccountSideBarMenu() {
+        this.click(S.myAccountSideBarMenu);
+    }
+
+    goToBankAccountsSideBarMenu() {
+        this.click(S.bankAccounts);
+    }
+
+    goToNotificationsSideBarMenu() {
+        this.click(S.notifications);
+    }
+}
+
+export const navigationMenu = new NavigationMenu();

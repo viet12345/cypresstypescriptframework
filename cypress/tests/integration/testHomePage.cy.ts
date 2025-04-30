@@ -19,7 +19,7 @@ describe('Home Page Test', () => {
 
     describe('Back action from browser button test', () => {
         Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {
-            it(`Verify back action from ${tab_name}`, () => {
+            it(`Verify back action from ${tab_name} tab`, () => {
                 homePage.switchTab(tab);
                 cy.backActionFromBrowser()
                 cy.verifyUrl(PAGE_URLS.HOMEPAGE);

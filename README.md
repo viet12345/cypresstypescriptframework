@@ -62,10 +62,8 @@ cypress/
 │   │   ├── ModalDialog.ts                 # 💬 Xử lý modal dialog (có thể kế thừa BasePage nếu có tương tác)
 │   │   └── Table.ts                       # 📊 Component bảng, chứa logic tương tác với bảng (sort, filter,...)
 │   ├── constants/
-│   │   ├── messages/
-│   │   │   └── signInPageMessages.ts      # 💬 Các message hiển thị trên SignIn page (warning, error...)
-│   │   └── selectors/
-│   │       └── signInPageSelectors.ts     # 🎯 Các selector (DOM locator) riêng cho SignInPage
+│   │   ├── signInPageConstants.ts         # 🎯 Các constants riêng cho SignInPage
+│   │   └── myAccountPageConstants.ts      # 🎯 Các constants riêng cho MyAccountPage
 │   ├── pages/
 │   │   ├── BasePage.ts                    # 🧱 Lớp cơ sở cho tất cả page, chứa các hành động như get, click, visit
 │   │   ├── SignInPage.ts                  # 📘 Class đại diện cho trang đăng nhập, kế thừa BasePage

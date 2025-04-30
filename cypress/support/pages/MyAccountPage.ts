@@ -1,10 +1,9 @@
 import { Form } from '../components/Form';
-import { MyAccountPageSelectors as S } from '../constants/selectors/myAccountPageSelectors';
-import { MyAccountPageMessages as M } from '../constants/messages/myAccountPageMessages';
+import { MyAccountPageSelectors as S, MyAccountPageMessages as M , Email as E} from '../constants/myAccountPageConstants';
 import { BasePage } from './BasePage';
 
 
-export class MyAccountPage extends BasePage{
+export class MyAccountPage extends BasePage {
   private form: Form;
 
   constructor() {
@@ -14,18 +13,9 @@ export class MyAccountPage extends BasePage{
 
   // ---------- Element Getters ----------
 
-  inputFields = {
-    'Email': [S.emailInput, S.emailMessageValidation, M.noEmail],
-    'First name': [S.firstNameInput, S.firstNameErrorMessage, M.noFirstName],
-    'Last name': [S.lastNameInput, S.lastNameErrorMessage, M.noLastName],
-    'Phone number': [S.phoneInput, S.phoneErrorMessage, M.noPhoneNumber],
-  }
 
   // ---------- Actions ----------
 
-  goToMyAccountSideBarMenu() {
-    return this.click(S.myAccountSideBarMenu);
-  }
 
   // ---------- Verifications ----------
 
@@ -37,11 +27,23 @@ export class MyAccountPage extends BasePage{
   }
 
   verifyEmailWithInvalidFormat(): void {
-    this.verifyFieldInvalidFormat(S.emailInput, 'email@invalid', S.emailMessageValidation, M.invalidEmail);
+    this.verifyFieldInvalidFormat(S.emailInput, E.invalidEmail, S.emailMessageValidation, M.invalidEmail);
   }
 
-  verifyRequiredField(inputFieldSelector: string, errorSelector: string, message: string): void {
-    this,this.verifyFieldInvalidFormat(inputFieldSelector, '', errorSelector, message);
+  verifyRequiredEmail(): void {
+    this.verifyFieldInvalidFormat(S.emailInput, '', S.emailMessageValidation, M.noEmail);
+  }
+
+  verifyRequiredFirstName(): void {
+    this.verifyFieldInvalidFormat(S.firstNameInput, '', S.firstNameErrorMessage, M.noFirstName);
+  }
+
+  verifyRequiredLastName(): void {
+    this.verifyFieldInvalidFormat(S.lastNameInput, '', S.lastNameErrorMessage, M.noLastName);
+  }
+
+  verifyRequiredPhoneNumber(): void {
+    this.verifyFieldInvalidFormat(S.phoneInput, '', S.phoneErrorMessage, M.noPhoneNumber);
   }
 }
 

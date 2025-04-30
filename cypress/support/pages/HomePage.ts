@@ -1,12 +1,12 @@
-import { HomPageSelectors as S } from "../constants/selectors/homePageSelectors";
+import { HomPageSelectors as S } from "../constants/homePageConstants";
 import { BasePage } from "./BasePage";
 
-export class HomePage extends BasePage{
-  
-tabNames = {
-  contactsTab: S.contactsTab,
-  personalTab: S.personalTab,
-}
+export class HomePage extends BasePage {
+
+  tabNames = {
+    contacts: S.contactsTab,
+    personal: S.personalTab,
+  }
 
   // ---------- Element Getters ----------
 

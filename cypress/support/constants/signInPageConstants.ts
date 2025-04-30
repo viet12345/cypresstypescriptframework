@@ -9,3 +9,8 @@ export const SignInPageSelectors = {
     loginPasswordErrorMessage: "[id='password-helper-text']",
     loginErrorMessageAPI: "[data-test='signin-error']",
 }
+
+export const SignInPageMessages = {
+    usernameIsRequired: 'Username is required',
+    userNamePasswordInvalid: 'Username or password is invalid',
+}
