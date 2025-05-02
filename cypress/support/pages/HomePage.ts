@@ -1,4 +1,4 @@
-import { HomPageSelectors as S } from "../constants/homePageConstants";
+import { HomPageSelectors as S } from "../constants/pages/homePageConstants";
 import { BasePage } from "./BasePage";
 
 export class HomePage extends BasePage {

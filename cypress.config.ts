@@ -2,6 +2,7 @@ import { defineConfig } from "cypress";
 import { allureCypress } from "allure-cypress/reporter";
 
 export default defineConfig({
+  projectId: 'h848ba',
   
   e2e: {
     screenshotsFolder: "cypress/reports/screenshots",

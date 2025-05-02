@@ -24,6 +24,6 @@ export abstract class BasePage {
      * Click vào element
      */
     protected click(selector: string) {
-        return this.get(selector).click();
+        return this.get(selector).click({ force: true });
     }
 }

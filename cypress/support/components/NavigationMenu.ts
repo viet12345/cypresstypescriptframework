@@ -1,5 +1,5 @@
 import { BasePage } from "../pages/BasePage";
-import { HomPageSelectors as S } from "../constants/homePageConstants";
+import { HomPageSelectors as S } from "../constants/pages/homePageConstants";
 
 export class NavigationMenu extends BasePage {
 

@@ -1,4 +1,4 @@
-import { SignInPageSelectors as S, SignInPageMessages as M } from '../constants/signInPageConstants';
+import { SignInPageSelectors as S, SignInPageMessages as M } from '../constants/pages/signInPageConstants';
 import { BasePage } from './BasePage';
 
 export class SignInPage extends BasePage {

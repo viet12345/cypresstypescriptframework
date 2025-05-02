@@ -1,5 +1,5 @@
 import { Form } from '../components/Form';
-import { MyAccountPageSelectors as S, MyAccountPageMessages as M , Email as E} from '../constants/myAccountPageConstants';
+import { MyAccountPageSelectors as S, MyAccountPageMessages as M, Email as E } from '../constants/pages/myAccountPageConstants';
 import { BasePage } from './BasePage';
 
 
