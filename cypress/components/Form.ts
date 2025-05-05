@@ -27,12 +27,27 @@ export class Form {
   }
 
   // ---------- Verifications ----------
+  verifyInputFieldCanType(inputSelector: string, value: string | number) {
+    this.inputField(inputSelector).should('be.visible').type(value.toString()).should('have.value', value.toString());
+  }
+  
+  verifyTitleField(titleSelector: string, titleName: string) {
+    this.inputField(titleSelector).should('contain', titleName);
+  }
+
+  verifyPlaceHolder(inputSelector: string, placeHoderText: string) {
+    this.inputField(inputSelector).should('have.attr', 'placeholder', placeHoderText);
+  }
 
   verifyValidationErrorMessage(errorSelector: string, errorMessage?: string) {
     const assertion = this.errorMessage(errorSelector).should('be.visible');
     if (errorMessage) {
       assertion.and('contain', errorMessage);
     }
+  }
+
+  verifyHighlightInputFieldInvalid(inputSelector: string) {
+    this.inputField(inputSelector).should('have.css', 'color', 'rgb(211, 47, 47)');
   }
 
   verifySubmitButtonDisabled(submitSelector: string) {

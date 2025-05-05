@@ -12,8 +12,27 @@ describe('Validation input field test', () => {
     })
     describe('Verify required fields', () => {
         Object.entries(inputFields).forEach(([inputNameField, inputField]) => {
-            it.only(`Verify ${inputNameField} required field`, () => {
+            it(`Verify ${inputNameField} required field`, () => {
                 myAccountPage.verifyRequiredField(inputField, 'The ' + inputNameField + ' is required');
+            })
+        })
+    })
+
+    describe('Verify title name and place holder of input fields', () => {
+        Object.entries(inputFields).forEach(([titleName, titleSelector]) => {
+            it(`Verify ${titleName} input field title`, () => {
+                myAccountPage.clearInputField(titleSelector);
+                //myAccountPage.verifyTitleField(titleSelector, titleName); //Demo hiện tại không có title
+                myAccountPage.verifyPlaceHolder(titleSelector, titleName);
+            })
+        })
+    })
+
+    describe('Verify all input fields can type', () => {
+        Object.entries(inputFields).forEach(([inputNameField, inputFieldSelector]) => {
+            it.only(`Verify ${inputNameField} input field can type`, () => {
+                myAccountPage.clearInputField(inputFieldSelector);
+                myAccountPage.verifyInputFieldCanType(inputFieldSelector, inputNameField);
             })
         })
     })
