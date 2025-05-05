@@ -2,6 +2,12 @@ import { Form } from '../components/Form';
 import { MyAccountPageSelectors as S, MyAccountPageMessages as M, Email as E } from '../constants/pages/myAccountPageConstants';
 import { BasePage } from './BasePage';
 
+export const inputFields = {
+  'Email': S.emailInput,
+  'First name': S.firstNameInput,
+  'Last name': S.lastNameInput,
+  'Phone number': S.phoneInput,
+}
 
 export class MyAccountPage extends BasePage {
   private form: Form;
@@ -28,22 +34,13 @@ export class MyAccountPage extends BasePage {
 
   verifyEmailWithInvalidFormat(): void {
     this.verifyFieldInvalidFormat(S.emailInput, E.invalidEmail, S.emailMessageValidation, M.invalidEmail);
-  }
+  }  
 
-  verifyRequiredEmail(): void {
-    this.verifyFieldInvalidFormat(S.emailInput, '', S.emailMessageValidation, M.noEmail);
-  }
-
-  verifyRequiredFirstName(): void {
-    this.verifyFieldInvalidFormat(S.firstNameInput, '', S.firstNameErrorMessage, M.noFirstName);
-  }
-
-  verifyRequiredLastName(): void {
-    this.verifyFieldInvalidFormat(S.lastNameInput, '', S.lastNameErrorMessage, M.noLastName);
-  }
-
-  verifyRequiredPhoneNumber(): void {
-    this.verifyFieldInvalidFormat(S.phoneInput, '', S.phoneErrorMessage, M.noPhoneNumber);
+  verifyRequiredField(inputField:string,errorSelector:string): void {
+    this.form.clearInputField(inputField);
+    this.form.fillInputField(inputField, ' ');
+    this.form.verifyValidationErrorMessage(errorSelector);
+    this.form.verifySubmitButtonDisabled(S.submitButton);
   }
 }
 

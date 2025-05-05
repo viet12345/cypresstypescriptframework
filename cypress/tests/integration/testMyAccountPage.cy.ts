@@ -1,6 +1,6 @@
 import { VALID_USER } from '../../fixtures/users';
 import { navigationMenu } from '../../support/components/index.components';
-import { myAccountPage } from '../../support/pages/index.page';
+import { myAccountPage, inputFields } from '../../support/pages/MyAccountPage';
 
 
 describe('Validation input field test', () => {
@@ -14,20 +14,12 @@ describe('Validation input field test', () => {
         myAccountPage.verifyEmailWithInvalidFormat();
     })
 
-    it(`Verify required email fields`, () => {
-        myAccountPage.verifyRequiredEmail();
-    })
-
-    it(`Verify required first name fields`, () => {
-        myAccountPage.verifyRequiredFirstName();
-    })
-
-    it(`Verify required last name fields`, () => {
-        myAccountPage.verifyRequiredLastName();
-    })
-
-    it(`Verify required phone number fields`, () => {
-        myAccountPage.verifyRequiredPhoneNumber();
+    describe('Verify required fields', () => {
+        Object.entries(inputFields).forEach(([inputNameField, inputField]) => {
+            it(`Verify ${inputNameField} required field`, () => {
+                myAccountPage.verifyRequiredField(inputField, 'The ' + inputNameField + ' is required');
+            })
+        })
     })
     
 })
