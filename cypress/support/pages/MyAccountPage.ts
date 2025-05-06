@@ -25,6 +25,7 @@ export class MyAccountPage extends BasePage {
     this.form.clearInputField(inputSelector);
   }
 
+
   // ---------- Verifications ----------
   verifyInputFieldCanType(inputSelector: string, value: string | number): void {
     this.form.verifyInputFieldCanType(inputSelector, value);
@@ -37,11 +38,6 @@ export class MyAccountPage extends BasePage {
   verifyPlaceHolder(inputSelector: string, placeHoderText: string): void {
     this.form.verifyPlaceHolder(inputSelector, placeHoderText);
   }
-
-  // ---------- Actions ----------
-
-
-  // ---------- Verifications ----------
 
   verifyFieldInvalidFormat(fieldSelector: string, invalidValue: string, messageSelector: string, message: string): void {
     this.form.clearInputField(fieldSelector);
