@@ -27,6 +27,10 @@ export class Form {
     this.submitButton(submitSelector).click();
   }
 
+  doubleClickSubmitButton(submitSelector: string) {
+    this.submitButton(submitSelector).dblclick();
+  }
+
   // ---------- Verifications ----------
   verifyInputFieldCanType(inputSelector: string, value: string | number) {
     this.inputField(inputSelector).should('be.visible').type(value.toString()).should('have.value', value.toString());
