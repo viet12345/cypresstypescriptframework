@@ -9,10 +9,10 @@ Cypress.Commands.add('verifyUrl', (expectedPath: string) => {
 Cypress.Commands.add('clearSession', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.log('🧹 Session cleared.');
+    cy.log('Session cleared.');
 });
 
 Cypress.Commands.add('backActionFromBrowser', () => {
     cy.go('back');
-    cy.log('🔙 Navigated back using browser action.');
+    cy.log('Navigated back using browser action.');
 });

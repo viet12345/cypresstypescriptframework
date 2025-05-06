@@ -1,8 +1,9 @@
-import { HOME_PAGE_URLS,PAGE_URLS } from '../../fixtures/urls';
+import { HOME_PAGE_URLS, PAGE_URLS } from '../../fixtures/urls';
 import { VALID_USER } from '../../fixtures/users';
-import { homePage,tabNames } from '../../pages/index.page'
+import { homePage } from '../../support/pages/index.page';
 
 describe('Home Page Test', () => {
+    
     beforeEach('redirect to the login page of demo guru', () => {
         cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
     })
@@ -17,8 +18,8 @@ describe('Home Page Test', () => {
     })
 
     describe('Back action from browser button test', () => {
-        Object.entries(tabNames).forEach(([tab_name, tab]) => {
-            it.only(`Verify back action from ${tab_name}`, () => {
+        Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {
+            it(`Verify back action from ${tab_name} tab`, () => {
                 homePage.switchTab(tab);
                 cy.backActionFromBrowser()
                 cy.verifyUrl(PAGE_URLS.HOMEPAGE);

@@ -15,9 +15,6 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import globalCommands:
-import './globalCommands'
-
 // Import commands.js using ES2015 syntax:
 import './commands'
 
@@ -25,7 +22,7 @@ import './commands'
 import "allure-cypress";
 
 // Import path from utils:
-import * as pathUtils from '../utils/path';
+import * as pathUtils from './utils/path';
 
 (globalThis as any).joinPaths = pathUtils.joinPaths;
 (globalThis as any).buildUrl = pathUtils.buildUrl;

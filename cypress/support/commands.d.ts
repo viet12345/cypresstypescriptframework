@@ -11,14 +11,15 @@ declare namespace Cypress {
     verifyUrl(expectedPath: string): Chainable<Subject>;
 
     /**
-     * Click the button Back from the browser.
-     */
+      * Click the button Back from the browser.
+      */
     backActionFromBrowser(): Chainable<Subject>;
 
     /**
      * Clear cookies and local storage to reset session.
      */
     clearSession(): Chainable<Subject>;
+
 
     // -------- Authentication / Login Page Commands --------
 
@@ -28,6 +29,7 @@ declare namespace Cypress {
      * @param password Password to login.
      */
     loginViaUI(username: string, password: string): Chainable<Subject>;
+
 
     // -------- Modal Component Commands --------
 
@@ -41,6 +43,7 @@ declare namespace Cypress {
      * Close the currently opened modal dialog.
      */
     closeModal(): Chainable<Subject>;
+
 
     // -------- Table Component Commands --------
 
@@ -57,3 +60,4 @@ declare namespace Cypress {
     searchInTable(text: string): Chainable<Subject>;
   }
 }
+

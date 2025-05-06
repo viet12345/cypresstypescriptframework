@@ -9,9 +9,10 @@ export class Form {
     return cy.get(submitSelector);
   }
 
-    errorMessage(errorSelector: string) {
-      return cy.get(errorSelector);
-    }
+  errorMessage(errorSelector: string) {
+    return cy.get(errorSelector);
+  }
+
   // ---------- Actions ----------
 
   fillInputField(inputSelector: string, value: string | number) {
