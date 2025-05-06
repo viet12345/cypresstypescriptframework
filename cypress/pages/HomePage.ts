@@ -1,4 +1,10 @@
+const contactsTab = "[data-test='nav-contacts-tab']";
+const personalTab = "[data-test='nav-personal-tab']";
 
+export const tabNames = {
+  contactsTab: contactsTab,
+  personalTab: personalTab,
+}
 
 export class HomePage {
 
@@ -7,8 +13,8 @@ export class HomePage {
 
   // ---------- Actions ----------
 
-  openUrl(url: string) {
-    cy.visit(url);
+  switchTab(tabName: string) {
+    return cy.get(tabName).click();
   }
 
   // ---------- Verifications ----------

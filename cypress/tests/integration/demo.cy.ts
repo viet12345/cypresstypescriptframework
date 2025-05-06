@@ -1,6 +1,7 @@
 import { PAGE_URLS } from '../../fixtures/urls'
-import { signInPage, homePage } from '../../pages/index.page'
+import { signInPage } from '../../pages/index.page'
 import { VALID_USER, INVALID_USER } from '../../fixtures/users'
+import { homePage } from '../../pages/HomePage'
 
 describe('my first demo', () => {
     beforeEach('redirect to the login page of demo guru', () => {
