@@ -42,3 +42,5 @@ import './commands/globalCommands'
 
 // Import Page Commands:
 import './commands/pageCommands/loginPageCommands'
+
+import './commands/pageCommands/bankAccountsCommands'
