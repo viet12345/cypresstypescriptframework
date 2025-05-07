@@ -1,7 +1,14 @@
 import { SignInPageSelectors as S, SignInPageMessages as M } from '../constants/pages/signInPageConstants';
 import { BasePage } from './BasePage';
+import { Form } from '../components/Form';
 
 export class SignInPage extends BasePage {
+  private form: Form;
+
+  constructor() {
+    super();
+    this.form = new Form();
+  }
 
   // ---------- Element Getters ----------
 
@@ -83,6 +90,14 @@ export class SignInPage extends BasePage {
 
   verifyInvalidCredentialErrorMessage() {
     this.loginErrorMessageAPI().should('be.visible').and('have.text', M.userNamePasswordInvalid);
+  }
+
+  verifyPasswordFieldInvalid() {
+    this.form.verifyPasswordFieldValidation(S.passwordInput, S.loginPasswordErrorMessage);
+  }
+
+  verifyPasswordInputValuesShouldBeHidden() {
+    this.form.verifyPasswordInputValuesShouldBeHidden(S.passwordInput);
   }
 }
 

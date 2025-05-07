@@ -1,6 +1,7 @@
 import { PAGE_URLS } from '../../fixtures/urls'
 import { signInPage, homePage } from '../../support/pages/index.page'
 import { VALID_USER, INVALID_USER } from '../../fixtures/users'
+import { INVALID_PASSWORD } from '../../fixtures/passwords'
 
 describe('my first demo', () => {
     
@@ -32,6 +33,16 @@ describe('my first demo', () => {
             signInPage.clearAllFields();
             signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage();
+        })
+    })
+    
+    describe('Kiểm tra validate password field', () => {
+        Object.entries(INVALID_PASSWORD).forEach(([invalidCase, invalidValue]) => {
+            it.only(`Verify password is ${invalidCase}`, () => {
+                signInPage.passwordInputBox().type(invalidValue).type('{tab}');
+                signInPage.verifyPasswordInputValuesShouldBeHidden();
+                signInPage.verifyPasswordFieldInvalid();
+            })
         })
     })
 }) 

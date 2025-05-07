@@ -58,5 +58,22 @@ export class Form {
   verifySubmitButtonDisabled(submitSelector: string) {
     this.submitButton(submitSelector).should('be.disabled');
   }
+
+  verifyPasswordInputValuesShouldBeHidden(inputSelector: string) {
+    this.inputField(inputSelector).should('have.attr', 'type', 'password');
+  }
+
+  //Password must be at least 8 characters, including letters, numbers and special characters.
+  verifyPasswordFieldValidation(inputSelector: string, errorSelector: string) {
+    this.inputField(inputSelector)
+      .invoke('val')
+      .then((value) => {
+        const password = value?.toString() || '';
+        const isValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/.test(password);
+        if (!isValid) {
+          this.errorMessage(errorSelector).should('be.visible').and('contain', 'Password must be at least 8 characters, including letters, numbers and special characters.');
+        }
+      });
+  }
 }
 export const form = new Form();

@@ -1,0 +1,6 @@
+export const INVALID_PASSWORD = {
+    TOO_SHORT: "a1!",
+    MISSING_NUMBER: "abcdefg!",
+    MISSING_LETTER: "1234567!",
+    MISSING_CHARACTER: "1234567a",
+  };
