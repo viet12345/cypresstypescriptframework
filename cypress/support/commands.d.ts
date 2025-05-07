@@ -31,6 +31,17 @@ declare namespace Cypress {
     loginViaUI(username: string, password: string): Chainable<Subject>;
 
 
+    // -------- Bank Accounts Page Commands --------
+
+    /**
+     * Perform create bank account through UI elements.
+     * @param bankName Bank name to create.
+     * @param routingNumber Routing Number to create.
+     * @param accountNumber Account to create.
+     */
+    createBankAccount(bankName: string, routingNumber: string, accountNumber: string): Chainable<Subject>;
+
+
     // -------- Modal Component Commands --------
 
     /**
