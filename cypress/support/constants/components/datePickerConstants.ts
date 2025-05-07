@@ -1,6 +1,7 @@
 export const DatePickerSelectors = {
     openDatePickerBtn: "[data-test='transaction-list-filter-date-range-button']",
     dateSelectingArea: ".Cal__Header__root",
+    enabledDate: ".Cal__Day__enabled",
 }
 
 export const DateString = {
