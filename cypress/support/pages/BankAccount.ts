@@ -45,12 +45,15 @@ export class BankAccountPage extends BasePage {
     }
 
     verifyDuplicateBankAccountName(): void {
+        //Nhập form
         this.fillInputField(BankAccountsPageSelectors.bankAccountName, BANK_ACC.BANK_NAME);
         this.fillInputField(BankAccountsPageSelectors.routingNumber, BANK_ACC.ROUTING_NUM);
         this.fillInputField(BankAccountsPageSelectors.accountNumber, BANK_ACC.ACC_NUM);
+        //Double click để submit form
         this.doubleClickSubmitButton(BankAccountsPageSelectors.submitCreateButton);
-        this.verifyBankAccountNameNotExist(BANK_ACC.BANK_NAME);
+        //Verify double click không tạo ra bản ghi duplicated
         this.listOfBankAccount().filter(`:contains(${BANK_ACC.BANK_NAME})`).should('have.length', 1);
+        //Dọn data test
         this.deleteBankAccount(BANK_ACC.BANK_NAME);
     }
 }
