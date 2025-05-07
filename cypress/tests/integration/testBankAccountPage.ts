@@ -9,8 +9,9 @@ describe('Validation input field test', () => {
     })
 
     it('Verify double click action is not allowed', () => {
-        bankAccountPage.createNewBankAccountButton();
-        bankAccountPage.verifyBankAccountNameNotExist('[data-test="bankaccount-name"]', 'Test Bank Account');
-        bankAccountPage.verifyDuplicateBankAccountName('Test Bank Account');
+        //Case này demo sẽ fail vì khi xóa, data test không mất mà chỉ có chú thích Deleted, trên thực tế sẽ luôn xóa thành công và data test sẽ không hiển thị.
+        bankAccountPage.openCreateNewBankAccountForm();
+        bankAccountPage.verifyDuplicateBankAccountName();
+
     })
 })

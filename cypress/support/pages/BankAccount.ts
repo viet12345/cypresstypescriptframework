@@ -1,5 +1,7 @@
 import { Form } from '../components/Form';
 import { BasePage } from './BasePage';
+import { BankAccountsPageSelectors } from '../constants/pages/bankAccountsPageConstants';
+import { BANK_ACC } from '../../fixtures/users';
 
 export class BankAccountPage extends BasePage {
     private form: Form;
@@ -11,14 +13,17 @@ export class BankAccountPage extends BasePage {
 
     // ---------- Element Getters ----------
     createNewBankAccountButton() {
-        return cy.get("[data-test='bankaccount-new']");
+        return cy.get(BankAccountsPageSelectors.createButton);
     }
 
     listOfBankAccount(){
-        return cy.get('.bank-account');
+        return cy.get(BankAccountsPageSelectors.accListItem);
     }
 
     // ---------- Actions ----------
+    openCreateNewBankAccountForm(): void {
+        this.createNewBankAccountButton().click();
+    }
 
     fillInputField(inputSelector: string, value: string | number): void {
         this.form.fillInputField(inputSelector, value);
@@ -28,17 +33,25 @@ export class BankAccountPage extends BasePage {
         this.form.doubleClickSubmitButton(submitSelector);
     }
 
-    // ---------- Verifications ----------
-    verifyBankAccountNameNotExist(inputSelector: string, value: string | number): void {
-        this.form.inputField(inputSelector).should('not.exist');
+    deleteBankAccount(bankName:string): void {
+        this.listOfBankAccount().filter(`:contains(${bankName})`).first().find(BankAccountsPageSelectors.deleteButton).click();
     }
 
-    verifyDuplicateBankAccountName(uniqueItemName: string): void {
-        this.fillInputField('[data-test="bankaccount-name"]', uniqueItemName);
-        this.fillInputField('[data-test="bankaccount-name"]', 'Test Bank Account');
-        this.fillInputField('[data-test="bankaccount-name"]', 'Test Bank Account');
-        this.doubleClickSubmitButton('[data-test="bankaccount-submit"]');
-        this.listOfBankAccount().filter(`:contains(${uniqueItemName})`).should('have.length', 1);
+    // ---------- Verifications ----------
+    verifyBankAccountNameNotExist( value: string): void {
+        this.listOfBankAccount()
+            .filter(`:contains(${value})`)
+            .should('have.length', 0)
+    }
+
+    verifyDuplicateBankAccountName(): void {
+        this.fillInputField(BankAccountsPageSelectors.bankAccountName, BANK_ACC.BANK_NAME);
+        this.fillInputField(BankAccountsPageSelectors.routingNumber, BANK_ACC.ROUTING_NUM);
+        this.fillInputField(BankAccountsPageSelectors.accountNumber, BANK_ACC.ACC_NUM);
+        this.doubleClickSubmitButton(BankAccountsPageSelectors.submitCreateButton);
+        this.verifyBankAccountNameNotExist(BANK_ACC.BANK_NAME);
+        this.listOfBankAccount().filter(`:contains(${BANK_ACC.BANK_NAME})`).should('have.length', 1);
+        this.deleteBankAccount(BANK_ACC.BANK_NAME);
     }
 }
 
