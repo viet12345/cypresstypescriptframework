@@ -93,7 +93,7 @@ export class SignInPage extends BasePage {
   }
 
   verifyPasswordFieldInvalid() {
-    this.form.verifyPasswordFieldValidation(S.passwordInput, S.loginPasswordErrorMessage);
+    this.form.verifyPasswordFieldValidation(S.loginPasswordErrorMessage);
   }
 
   verifyPasswordInputValuesShouldBeHidden() {
