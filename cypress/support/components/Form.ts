@@ -65,7 +65,7 @@ export class Form {
 
   //Password must be at least 8 characters, including letters, numbers and special characters.
   verifyPasswordFieldValidation(errorSelector: string) {
-    this.errorMessage(errorSelector).should('be.visible').and('contain', 'Password must be at least 8 characters, including letters, numbers and special characters.');
+    this.errorMessage(errorSelector).should('be.visible').and('have.text', 'Password must be at least 8 characters, including letters, numbers and special characters.');
   }
 }
 export const form = new Form();
