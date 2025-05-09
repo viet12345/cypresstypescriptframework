@@ -1,6 +1,6 @@
 import { Form } from '../components/Form';
 import { BasePage } from './BasePage';
-import { BankAccountsPageSelectors } from '../constants/pages/bankAccountsPageConstants';
+import { BankAccountsPageSelectors as S } from '../constants/pages/bankAccountsPageConstants';
 import { BANK_ACC } from '../../fixtures/users';
 
 export class BankAccountPage extends BasePage {
@@ -13,11 +13,11 @@ export class BankAccountPage extends BasePage {
 
     // ---------- Element Getters ----------
     createNewBankAccountButton() {
-        return cy.get(BankAccountsPageSelectors.createButton);
+        return cy.get(S.createButton);
     }
 
     listOfBankAccount(){
-        return cy.get(BankAccountsPageSelectors.accListItem);
+        return cy.get(S.accListItem);
     }
 
     // ---------- Actions ----------
@@ -34,23 +34,23 @@ export class BankAccountPage extends BasePage {
     }
 
     deleteBankAccount(bankName:string): void {
-        this.listOfBankAccount().filter(`:contains(${bankName})`).first().find(BankAccountsPageSelectors.deleteButton).click();
+        this.listOfBankAccount().filter(`:contains(${bankName})`).first().find(S.deleteButton).click();
     }
 
     // ---------- Verifications ----------
     verifyBankAccountNameNotExist( value: string): void {
         this.listOfBankAccount()
             .filter(`:contains(${value})`)
-            .should('have.length', 0)
+            .should('have.length', 0);
     }
 
     verifyDuplicateBankAccountName(): void {
         //Nhập form
-        this.fillInputField(BankAccountsPageSelectors.bankAccountName, BANK_ACC.BANK_NAME);
-        this.fillInputField(BankAccountsPageSelectors.routingNumber, BANK_ACC.ROUTING_NUM);
-        this.fillInputField(BankAccountsPageSelectors.accountNumber, BANK_ACC.ACC_NUM);
+        this.fillInputField(S.bankAccountName, BANK_ACC.BANK_NAME);
+        this.fillInputField(S.routingNumber, BANK_ACC.ROUTING_NUM);
+        this.fillInputField(S.accountNumber, BANK_ACC.ACC_NUM);
         //Double click để submit form
-        this.doubleClickSubmitButton(BankAccountsPageSelectors.submitCreateButton);
+        this.doubleClickSubmitButton(S.submitCreateButton);
         //Verify double click không tạo ra bản ghi duplicated
         this.listOfBankAccount().filter(`:contains(${BANK_ACC.BANK_NAME})`).should('have.length', 1);
         //Dọn data test
