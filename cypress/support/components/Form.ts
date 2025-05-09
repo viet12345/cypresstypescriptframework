@@ -79,9 +79,9 @@ export class Form {
     this.inputField(inputSelector).should('have.attr', 'type', 'password');
   }
 
-  //Password must be at least 8 characters, including letters, numbers and special characters.
+  //Password must be at least 8 characters, including upper case and lower case letters, numbers and special characters.
   verifyPasswordFieldValidation(errorSelector: string) {
-    this.errorMessage(errorSelector).should('be.visible').and('have.text', 'Password must be at least 8 characters, including letters, numbers and special characters.');
+    this.errorMessage(errorSelector).should('be.visible').and('have.text', 'Password must be at least 8 characters, including upper case and lower case letters, numbers and special characters.');
   }
 
   //Password must be shown when clicking the eye icon

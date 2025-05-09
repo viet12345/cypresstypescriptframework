@@ -1,6 +1,17 @@
 export const INVALID_PASSWORD = {
-    TOO_SHORT: "a1!",
-    MISSING_NUMBER: "abcdefg!",
-    MISSING_LETTER: "1234567!",
-    MISSING_CHARACTER: "1234567a",
-  };
+  TOO_SHORT: "A1!b2",
+  ALL_LETTERS: "Abcdefgh",
+  ALL_NUMBERS: "12345678",
+  MISSING_SPECIAL_CHAR: "abc12345",
+  MISSING_NUMBER: "abc!@#de",
+  MISSING_LETTER: "123!@#45",
+  CONTAINS_WHITESPACE: "Abc 123!",
+  UNICODE_CHAR: "Ábc123!@",
+  EMPTY: "",
+  SHORT_AFTER_DELETE: "Abc12",
+  INVALID_SYMBOL: "Abc123😊",
+};
+export const VALID_PASSWORD = {
+  STANDARD: "Abc123!@",
+  LONG_VALID: "Password1!",
+}
