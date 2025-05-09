@@ -90,5 +90,12 @@ export class Form {
     this.clickShowPasswordButton(showPasswordSelector);
     this.inputField(inputSelector).should('have.attr', 'type', 'text');
   }
+
+  //Email must be valid format
+  verifyInvalidEmailFormat(emailSelector: string, invalidEmail: string, errorMessageSelector: string, errorMessage: string): void {
+    this.clearInputField(emailSelector);
+    if (invalidEmail) this.fillInputField(emailSelector, invalidEmail);
+    this.verifyValidationErrorMessage(errorMessageSelector, errorMessage);
+  }
 }
 export const form = new Form();

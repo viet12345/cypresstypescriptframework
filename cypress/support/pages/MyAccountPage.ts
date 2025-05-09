@@ -39,16 +39,9 @@ export class MyAccountPage extends BasePage {
     this.form.verifyPlaceHolder(inputSelector, placeHoderText);
   }
 
-  verifyFieldInvalidFormat(fieldSelector: string, invalidValue: string, messageSelector: string, message: string): void {
-    this.form.clearInputField(fieldSelector);
-    if (invalidValue) this.form.fillInputField(fieldSelector, invalidValue);
-    this.form.verifyValidationErrorMessage(messageSelector, message);
-    this.form.verifySubmitButtonDisabled(S.submitButton);
+  verifyEmailWithInvalidFormat(invalidEmail:string): void {
+    this.form.verifyInvalidEmailFormat(S.emailInput, invalidEmail, S.emailMessageValidation, M.invalidEmail);
   }
-
-  verifyEmailWithInvalidFormat(): void {
-    this.verifyFieldInvalidFormat(S.emailInput, E.invalidEmail, S.emailMessageValidation, M.invalidEmail);
-  }  
 
   verifyRequiredField(inputField:string,errorSelector:string): void {
     this.form.clearInputField(inputField);
