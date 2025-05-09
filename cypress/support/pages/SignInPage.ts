@@ -99,6 +99,10 @@ export class SignInPage extends BasePage {
   verifyPasswordInputValuesShouldBeHidden() {
     this.form.verifyPasswordInputValuesShouldBeHidden(S.passwordInput);
   }
+
+  verifyButtonShowPassword() {
+    this.form.verifyPasswordInputValuesShouldBeShown(S.showPasswordButton,S.passwordInput);
+  }
 }
 
 export const signInPage = new SignInPage();

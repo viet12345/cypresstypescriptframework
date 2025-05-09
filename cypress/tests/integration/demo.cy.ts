@@ -16,6 +16,10 @@ describe('my first demo', () => {
             signInPage.verifyTitleLoginPage('Sign in');
         })
 
+        it('Kiểm tra password cần hiển thị khi show', () => {
+            signInPage.verifyButtonShowPassword();
+        })
+
         it('Kiểm tra login thành công', () => {
             signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
             homePage.verifyLoginSucessfulWithUser(VALID_USER.USER);
@@ -39,7 +43,7 @@ describe('my first demo', () => {
     //Chỉ áp dụng cho các chức năng tạo mật khẩu mới, không áp dụng cho chức năng login
     describe('Kiểm tra validate password field', () => {
         Object.entries(INVALID_PASSWORD).forEach(([invalidCase, invalidValue]) => {
-            it.only(`Verify password is ${invalidCase}`, () => {
+            it(`Verify password is ${invalidCase}`, () => {
                 signInPage.passwordInputBox().type(invalidValue);
                 signInPage.rememberMeCheckbox().click();
                 signInPage.verifyPasswordInputValuesShouldBeHidden();
