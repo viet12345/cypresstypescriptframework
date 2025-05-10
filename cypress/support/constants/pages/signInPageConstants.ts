@@ -8,6 +8,7 @@ export const SignInPageSelectors = {
     loginUserNameErrorMessage: "[id='username-helper-text']",
     loginPasswordErrorMessage: "[id='password-helper-text']",
     loginErrorMessageAPI: "[data-test='signin-error']",
+    showPasswordButton: "[data-test='signin-show-password']",
 }
 
 export const SignInPageMessages = {
