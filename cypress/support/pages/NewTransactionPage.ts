@@ -1,4 +1,4 @@
-import { DataTable } from '../components/dataTable';
+import { DataTable } from '../components/DataTable';
 import { BasePage } from './BasePage';
 import { TransactionSelector as S } from '../../support/constants/pages/transactionNewPage';
 
