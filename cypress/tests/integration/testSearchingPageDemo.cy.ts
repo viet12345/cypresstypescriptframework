@@ -1,16 +1,19 @@
-import { PAGE_URLS } from '../../fixtures/urls';
 import { VALID_USER } from '../../fixtures/users';
-import { dataTable } from '../../support/components/dataTable';
-import { TransactionSelector as S } from '../../support/constants/pages/transactionNewPage';
+import { navigationMenu } from '../../support/components/NavigationMenu';
+import { newTransactionPage } from '../../support/pages/NewTransactionPage';
 
 describe('Searching Page Demo Tests', () => {
     beforeEach('Navigate to Searching Page', () => {
         cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
         // Điều hướng đến page tìm kiếm
-        cy.visit(PAGE_URLS.SEARCHING_PAGE);
+        navigationMenu.goToNewTransaction();
     });
 
     it('Cần có GUI riêng cho việc hiển thị No data', () => {
-        dataTable.verifySearchNoData(S.searchInput, S.listOfTransaction);
+        newTransactionPage.verifySearchingNoData();
+    });
+
+    it.only('Cần loại bỏ space đầu cuối khi search', () => {
+        newTransactionPage.verifySearchingMustTrimSpace();
     });
 });

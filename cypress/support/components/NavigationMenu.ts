@@ -14,6 +14,10 @@ export class NavigationMenu extends BasePage {
     goToNotificationsSideBarMenu() {
         this.click(S.notifications);
     }
+
+    goToNewTransaction(){
+        this.click(S.newTransaction)
+    }
 }
 
 export const navigationMenu = new NavigationMenu();
