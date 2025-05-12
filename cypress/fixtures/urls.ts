@@ -4,7 +4,7 @@ export const PAGE_URLS = {
   CONTACTS_PAGE: "/contacts",
   PERSONAL_PAGE: "/personal",
   MY_ACCOUNT: "/user/settings",
-  SEARCHING_PAGE: "/search",
+  SEARCHING_PAGE: "/transaction/new",
 };
 
 export const HOME_PAGE_URLS = {

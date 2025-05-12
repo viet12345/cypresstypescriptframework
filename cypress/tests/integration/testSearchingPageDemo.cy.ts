@@ -1,5 +1,7 @@
 import { PAGE_URLS } from '../../fixtures/urls';
 import { VALID_USER } from '../../fixtures/users';
+import { dataTable } from '../../support/components/dataTable';
+import { TransactionSelector as S } from '../../support/constants/pages/transactionNewPage';
 
 
 describe('Searching Page Demo Tests', () => {
@@ -10,7 +12,7 @@ describe('Searching Page Demo Tests', () => {
     cy.visit(PAGE_URLS.SEARCHING_PAGE); //demo hiện tại không có link đến page này
   });
 
-  it('Các page cần có GUI riêng cho việc hiển thị No data', () => {
-    
+  it('Cần có GUI riêng cho việc hiển thị No data', () => {
+    dataTable.verifySearchNoData(S.searchInput,S.listOfTransaction);
   });
 });
