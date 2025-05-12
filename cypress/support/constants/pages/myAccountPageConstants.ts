@@ -19,5 +19,13 @@ export const MyAccountPageMessages = {
 }
 
 export const Email = {
-    invalidEmail: 'email@invalid',
+    NO_LOCAL_PART: 'email@',
+    NO_AT_SYMBOL: 'emailinvalid.com',
+    NO_TLD: 'email@invalid.',
+    NO_DOMAIN: '@invalid.com',
+    NO_SUBDOMAIN: 'email@invalid..com',
+    NO_SUBDOMAIN_2: 'email@.com',
+    CONTAIN_SPACE: 'email@invalid .com',
+    CONTAIN_SPECIAL_CHAR: 'email@invalid!com',
+    CONTAIN_UNICODE: 'đâylàemail@invaliđ.com',
 }
