@@ -26,6 +26,5 @@ export class DataTable extends BasePage {
         //cần tìm cách wait đến khi search result loading xong trước khi assert
         this.getTable(tableSelector).should('contain','No results found')
     }
-
 }
 export const dataTable = new DataTable();
