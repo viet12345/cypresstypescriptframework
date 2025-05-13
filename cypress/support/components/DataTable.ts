@@ -19,23 +19,23 @@ export class DataTable extends Form {
 
     // ---------- Actions ----------
 
-    searchData(inputSelector: string, data: string) {
-        cy.intercept('GET', 'http://localhost:3001/users/search*').as('searchRequest');
+    searchData(inputSelector: string, data: string, apiSearchURL: string) {
+        cy.intercept('GET', apiSearchURL).as('searchRequest');
         this.form.clearInputField(inputSelector);
         this.form.fillInputField(inputSelector, data);
         cy.wait('@searchRequest');
     }
 
     // ---------- Verifications ----------
-    verifySearchingNoData(inputSelector: string, tableSelector: string) {
+    verifySearchingNoData(inputSelector: string, tableSelector: string, apiSearchURL:string) {
         //cần tìm cách wait đến khi search result loading xong trước khi assert
-        this.searchData(inputSelector, I.NO_DATA_FOUND);
+        this.searchData(inputSelector, I.NO_DATA_FOUND, apiSearchURL);
         this.getTable(tableSelector).should('have.text', 'No results found');
     }
 
-    verifySearchingMustTrimSpace(inputSelector: string, tableSelector: string) {
+    verifySearchingMustTrimSpace(inputSelector: string, tableSelector: string, apiSearchURL:string) {
         //cần tìm cách wait đến khi search result loading xong trước khi assert
-        this.searchData(inputSelector, I.WITH_TRIM_SPACE);
+        this.searchData(inputSelector, I.WITH_TRIM_SPACE, apiSearchURL);
         this.getTable(tableSelector).first().should('contain', I.WITH_TRIM_SPACE.trim());
     }
 }

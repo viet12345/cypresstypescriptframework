@@ -1,6 +1,6 @@
 import { DataTable } from '../components/DataTable';
 import { BasePage } from './BasePage';
-import { TransactionSelector as S } from '../../support/constants/pages/transactionNewPage';
+import { TransactionSelector as S , TransactionApiURL as A} from '../../support/constants/pages/transactionNewPage';
 
 
 export class NewTransactionPage extends BasePage {
@@ -18,11 +18,11 @@ export class NewTransactionPage extends BasePage {
 
   // ---------- Verifications ----------
   verifySearchingNoData(){
-    this.dataTable.verifySearchingNoData(S.searchInput, S.listOfTransaction);
+    this.dataTable.verifySearchingNoData(S.searchInput, S.listOfTransaction, A.getSearchListTransaction);
   }
 
   verifySearchingMustTrimSpace(){
-    this.dataTable.verifySearchingMustTrimSpace(S.searchInput,S.listOfTransaction);
+    this.dataTable.verifySearchingMustTrimSpace(S.searchInput,S.listOfTransaction, A.getSearchListTransaction);
   }
 
 }
