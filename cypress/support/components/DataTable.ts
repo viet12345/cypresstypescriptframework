@@ -1,5 +1,5 @@
 import { Form } from '../components/Form';
-import { inputField as I } from '../../fixtures/inputValues';
+import { SEARCH_VALUES as V } from '../../fixtures/searchInput';
 
 export class DataTable extends Form {
     private form: Form;
@@ -29,14 +29,14 @@ export class DataTable extends Form {
     // ---------- Verifications ----------
     verifySearchingNoData(inputSelector: string, tableSelector: string, apiSearchURL:string) {
         //cần tìm cách wait đến khi search result loading xong trước khi assert
-        this.searchData(inputSelector, I.NO_DATA_FOUND, apiSearchURL);
+        this.searchData(inputSelector, V.NO_DATA_FOUND, apiSearchURL);
         this.getTable(tableSelector).should('have.text', 'No results found');
     }
 
     verifySearchingMustTrimSpace(inputSelector: string, tableSelector: string, apiSearchURL:string) {
         //cần tìm cách wait đến khi search result loading xong trước khi assert
-        this.searchData(inputSelector, I.WITH_TRIM_SPACE, apiSearchURL);
-        this.getTable(tableSelector).first().should('contain', I.WITH_TRIM_SPACE.trim());
+        this.searchData(inputSelector, V.WITH_TRIM_SPACE, apiSearchURL);
+        this.getTable(tableSelector).first().should('contain', V.WITH_TRIM_SPACE.trim());
     }
 }
 export const dataTable = new DataTable();
