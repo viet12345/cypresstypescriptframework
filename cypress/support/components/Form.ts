@@ -97,5 +97,10 @@ export class Form {
     if (invalidEmail) this.fillInputField(emailSelector, invalidEmail);
     this.verifyValidationErrorMessage(errorMessageSelector, errorMessage);
   }
+
+  //Verify trim space input at the begin/end of string
+  verifyTrimSpaceInput(inputSelector: string, trimmedValue: string) {
+    this.inputField(inputSelector).should('have.value', trimmedValue);
+  }
 }
 export const form = new Form();

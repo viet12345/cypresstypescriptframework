@@ -1,7 +1,7 @@
 import { VALID_USER } from '../../fixtures/users';
 import { navigationMenu } from '../../support/components/index.components';
 import { myAccountPage, inputFields } from '../../support/pages/MyAccountPage';
-import { Email } from '../../support/constants/pages/myAccountPageConstants';
+import { Email, INPUT_WITH_SPACE } from '../../support/constants/pages/myAccountPageConstants';
 
 describe('Validation input field test', () => {
 
@@ -12,7 +12,7 @@ describe('Validation input field test', () => {
 
     describe('Verify the email must be valid format', () => {
         Object.entries(Email).forEach(([invalidCase, invalidEmail]) => {
-            it.only(`Verify invalid format email ${invalidCase}`, () => {
+            it(`Verify invalid format email ${invalidCase}`, () => {
                 myAccountPage.verifyEmailWithInvalidFormat(invalidEmail);
             });
         });
@@ -41,6 +41,14 @@ describe('Validation input field test', () => {
             it(`Verify ${inputNameField} input field can type`, () => {
                 myAccountPage.clearInputField(inputFieldSelector);
                 myAccountPage.verifyInputFieldCanType(inputFieldSelector, inputNameField);
+            });
+        });
+    });
+
+    describe('Verify all input values must trim space after update', () => {
+        Object.entries(INPUT_WITH_SPACE).forEach(([inputNameField, inputField]) => {
+            it.only(`Verify ${inputNameField} value must trim space`, () => {
+                myAccountPage.verifyTrimSpaceAfterUpdate(inputField.selector, inputField.inputValue);
             });
         });
     });

@@ -29,3 +29,8 @@ export const Email = {
     CONTAIN_SPECIAL_CHAR: 'email@invalid!com',
     CONTAIN_UNICODE: 'đâylàemail@invaliđ.com',
 }
+
+export const INPUT_WITH_SPACE = {
+    firstName: {selector:MyAccountPageSelectors.firstNameInput,inputValue:'  Ted  '},
+    lastName: {selector:MyAccountPageSelectors.lastNameInput,inputValue:'  Parisian  '},
+}
