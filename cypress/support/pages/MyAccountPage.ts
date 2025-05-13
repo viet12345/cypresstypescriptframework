@@ -25,16 +25,6 @@ export class MyAccountPage extends BasePage {
     this.form.clearInputField(inputSelector);
   }
 
-  fillInputField(inputSelector:string,inputValues:string){
-    this.form.fillInputField(inputSelector,inputValues)
-  }
-
-  clickSubmitButton(buttonSelector:string){
-    this.form.clickSubmitButton(buttonSelector)
-  }
-
-
-
   // ---------- Verifications ----------
   verifyInputFieldCanType(inputSelector: string, value: string | number): void {
     this.form.verifyInputFieldCanType(inputSelector, value);
@@ -61,10 +51,10 @@ export class MyAccountPage extends BasePage {
   }
 
   verifyTrimSpaceAfterUpdate(inputFieldSelector:string, valueWithSpaces:string){
-    this.clearInputField(inputFieldSelector)
+    this.form.clearInputField(inputFieldSelector)
     //Update với input values chứa space đầu cuối
-    this.fillInputField(inputFieldSelector,valueWithSpaces)
-    this.clickSubmitButton(S.submitButton)
+    this.form.fillInputField(inputFieldSelector,valueWithSpaces)
+    this.form.clickSubmitButton(S.submitButton)
     //Mở lại detail page (Đa số ở các case update cần có cách redirect về lại page detail của item được update)
     //Ở page demo đang giữ nguyên ở page detail khi update xong.
     cy.reload()
