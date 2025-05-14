@@ -31,6 +31,6 @@ export const Email = {
 }
 
 export const INPUT_WITH_SPACE = {
-    firstName: {selector:MyAccountPageSelectors.firstNameInput,inputValue:'  Ted  '},
-    lastName: {selector:MyAccountPageSelectors.lastNameInput,inputValue:'  Parisian  '},
+    firstName: {selector:MyAccountPageSelectors.firstNameInput,inputValue:'  Tom  '},
+    lastName: {selector:MyAccountPageSelectors.lastNameInput,inputValue:'  New  '},
 }

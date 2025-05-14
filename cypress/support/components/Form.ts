@@ -17,6 +17,10 @@ export class Form {
     return cy.get(hideOrShowSelector);
   }
 
+  getCurrentValue(inputSelector: string){
+    return this.inputField(inputSelector).invoke('attr','value');
+  }
+
   // ---------- Actions ----------
 
   fillInputField(inputSelector: string, value: string | number) {
