@@ -66,7 +66,7 @@ export class MyAccountPage extends BasePage {
     //Ở page demo đang giữ nguyên ở page detail khi update xong.
     this.reloadCurrentPage();
     //Verify updated values không chứa space đầu cuối
-    this.form.verifyTrimSpaceInput(inputFieldSelector, valueWithSpaces.trim());
+    this.form.verifyTrimSpaceInput(inputFieldSelector, valueWithSpaces);
 
     // This step is to revert original value
     cy.then(() => {
