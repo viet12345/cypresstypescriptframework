@@ -17,6 +17,10 @@ export class Form {
     return cy.get(hideOrShowSelector);
   }
 
+  getCurrentValue(inputSelector: string){
+    return this.inputField(inputSelector).invoke('attr','value');
+  }
+
   // ---------- Actions ----------
 
   fillInputField(inputSelector: string, value: string | number) {
@@ -96,6 +100,11 @@ export class Form {
     this.clearInputField(emailSelector);
     if (invalidEmail) this.fillInputField(emailSelector, invalidEmail);
     this.verifyValidationErrorMessage(errorMessageSelector, errorMessage);
+  }
+
+  //Verify trim space input at the begin/end of string
+  verifyTrimSpaceInput(inputSelector: string, valueWithSpaces: string) {
+    this.inputField(inputSelector).should('have.value', valueWithSpaces.trim());
   }
 }
 export const form = new Form();
