@@ -8,6 +8,8 @@ describe('Home Page Test', () => {
         cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
     })
 
+    //Kiểm tra các liên kết nội bộ (Internal Links) có hoạt động đúng không.
+    //Chia ra 2 loại link cần authen và không authen, đảm bảo các link đều hiển thị với nội dung expected
     describe('Navigation test', () => {
         Object.entries(HOME_PAGE_URLS).forEach(([site_name, url]) => {
             it(`Verify url of ${site_name}`, () => {
