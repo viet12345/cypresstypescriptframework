@@ -12,11 +12,12 @@ describe('my first demo', () => {
     describe('login with valid credentials', () => {
 
         it('Kiểm tra các element hiển thị trên page', () => {
+            //Luôn cần case verify việc hiển thị các element trên từng page
             signInPage.verifyLoginElement();
             signInPage.verifyTitleLoginPage('Sign in');
         })
 
-        it('Kiểm tra password cần hiển thị khi show', () => {
+        it('Kiểm tra password cần hiển thị, khi click button show password', () => {
             signInPage.verifyButtonShowPassword();
         })
 
@@ -32,6 +33,7 @@ describe('my first demo', () => {
         });
 
         it('Kiểm tra login invalid user', () => {
+            //Kiểm tra cả 2 case, khi password hoặc username invalid
             signInPage.loginWith(INVALID_USER.USER, VALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage();
             signInPage.clearAllFields();
@@ -40,13 +42,17 @@ describe('my first demo', () => {
         })
     })
     
-    //Chỉ áp dụng cho các chức năng tạo mật khẩu mới, không áp dụng cho chức năng login
-    describe('Kiểm tra validate password field', () => {
+    //Chỉ áp dụng cho các chức năng tạo mật khẩu mới, không nên áp dụng cho chức năng login
+    describe('Kiểm tra khởi tạo password với các giá trị invalid', () => {
         Object.entries(INVALID_PASSWORD).forEach(([invalidCase, invalidValue]) => {
             it(`Verify password is ${invalidCase}`, () => {
+                //Nhập Password invalid
                 signInPage.passwordInputBox().type(invalidValue);
+                //Action (optional) để trigger validation
                 signInPage.rememberMeCheckbox().click();
+                //Kiểm tra password nhập vào phải bị hide
                 signInPage.verifyPasswordInputValuesShouldBeHidden();
+                //Kiểm tra phải có validation message cho password hiển thị
                 signInPage.verifyPasswordFieldInvalid();
             })
         })
