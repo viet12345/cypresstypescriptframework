@@ -26,4 +26,12 @@ export abstract class BasePage {
     protected click(selector: string) {
         return this.get(selector).click({ force: true });
     }
+
+    /**
+     * Reload current page and load
+     */
+    protected reloadCurrentPage() {
+        cy.reload();
+        cy.get('body').should('be.visible');
+    }
 }
