@@ -31,6 +31,14 @@ declare namespace Cypress {
     loginViaUI(username: string, password: string): Chainable<Subject>;
 
 
+    // -------- Authentication / Login Page Commands --------
+
+    /**
+     * Perform login through API.
+     */
+    loginByApi(): Chainable<Subject>;
+
+
     // -------- Bank Accounts Page Commands --------
 
     /**

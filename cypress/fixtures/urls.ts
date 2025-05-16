@@ -8,11 +8,15 @@ export const PAGE_URLS = {
   SEARCHING_PAGE: "/transaction/new",
 };
 
-//Cần bổ sung toàn bộ các page URL có thể truy cập khi chưa cần login
+//URL có thể truy cập khi chưa cần login
+export const GUEST_MODE_URLS = {
+  'Sign in': "/signin",
+  'Sign Up': "/signup",
+}
 
 
-//Data test phục vụ cho demo
-export const HOME_PAGE_URLS = {
+//URL có thể cần login để truy cập
+export const LOGGED_IN_URLS = {
   'MY_ACCOUNT': "/user/settings",
   'BANKS_ACCOUNTS': "/bankaccounts",
   'NOTIFICATONS': "/notifications",
