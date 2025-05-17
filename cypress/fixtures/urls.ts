@@ -14,7 +14,6 @@ export const GUEST_MODE_URLS = {
   'Sign Up': "/signup",
 }
 
-
 //URL có thể cần login để truy cập
 export const LOGGED_IN_URLS = {
   'MY_ACCOUNT': "/user/settings",
@@ -23,4 +22,9 @@ export const LOGGED_IN_URLS = {
   'FRIENDS': "/contacts",
   'MINE': "/personal",
   'NEW_TRANSACTION': "/transaction/new"
+}
+
+//URL không thể truy cập bằng sub-user
+export const ADMIN_URLS = {
+  'ADMIN_SITE': "/admin"
 }

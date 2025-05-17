@@ -8,6 +8,11 @@ export const INVALID_USER = {
   PASSWORD: "s3cret1",
 };
 
+export const SUB_USER = {
+  USER: "sub-user",
+  PASSWORD: "s3cret1",
+};
+
 export const BANK_ACC = {
   BANK_NAME: "Heath931",
   ROUTING_NUM: "s3cret123",
