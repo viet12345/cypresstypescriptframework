@@ -26,11 +26,10 @@ Cypress.Commands.add('loginByApi', (username: string, password: string) => {
         // 3. Lưu authState vào localStorage trước khi app load
         cy.visit('/', {
             onBeforeLoad(win) {
-                // Giả sử response body chính là object cần lưu (nếu server trả thêm token/user)
+                // This will be diffirent in other systems
                 win.localStorage.setItem('authState', JSON.stringify({
                     value: 'authorized',
                     context: { user: res.body.user },
-                    // …bỏ qua phần XState internal nếu app chỉ cần context+value
                     _event: {
                         "name": "done.invoke.authentication.loading:invocation[0]",
                         "data": {
