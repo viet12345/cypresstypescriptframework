@@ -40,6 +40,9 @@
 // Import globalCommands:
 import './commands/globalCommands'
 
+// Import apiCommands:
+import './commands/apiCommands'
+
 // Import Page Commands:
 import './commands/pageCommands/loginPageCommands'
 

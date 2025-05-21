@@ -45,6 +45,7 @@ describe('Validation input field test', () => {
         });
     });
 
+    //Bổ sung thêm 1 test case cho verify trim space khi create data
     describe('Verify all input values must trim space after update', () => {
         Object.entries(INPUT_WITH_SPACE).forEach(([inputNameField, inputField]) => {
             it.only(`Verify ${inputNameField} value must trim space`, () => {
