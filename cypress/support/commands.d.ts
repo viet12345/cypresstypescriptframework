@@ -21,27 +21,27 @@ declare namespace Cypress {
     clearSession(): Chainable<Subject>;
 
 
-    // -------- Authentication / Login Page Commands --------
+    // -------- Authentication / Signin Page Commands --------
 
     /**
-     * Perform login through UI elements.
-     * @param username Username to login.
-     * @param password Password to login.
+     * Perform signin through UI elements.
+     * @param username Username to signin.
+     * @param password Password to signin.
      */
-    loginViaUI(username: string, password: string): Chainable<Subject>;
+    signinViaUI(username: string, password: string): Chainable<Subject>;
 
 
     // -------- API Commands --------
 
     /**
-     * Perform login through API.
-     * @param username Username to login.
-     * @param password Password to login.
+     * Perform signin through API.
+     * @param username Username to signin.
+     * @param password Password to signin.
      */
-    loginByApi(username: string, password: string): Chainable<Subject>;
+    signinByApi(username: string, password: string): Chainable<Subject>;
 
     /**
-     * Perform login through API.
+     * Perform signin through API.
      */
     printLocalStorage(): Chainable<Subject>;
 

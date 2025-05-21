@@ -19,7 +19,7 @@ export class HomePage extends BasePage {
 
   // ---------- Verifications ----------
 
-  verifyLoginSucessfulWithUser(user: string) {
+  verifySigninSucessfulWithUser(user: string) {
     cy.contains(user).should('be.visible');
   }
 }

@@ -29,8 +29,8 @@ describe('Home Page Test', () => {
 
     describe('Verify logged in mode valid urls', () => {
 
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+        beforeEach('redirect to the signin page by api', () => {
+            cy.signinByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
 
         Object.entries(LOGGED_IN_URLS).forEach(([site_name, url]) => {
@@ -41,11 +41,11 @@ describe('Home Page Test', () => {
         })
     })
 
-    // This case is used to verify home page will be opened when navigate to guest mode url after login
+    // This case is used to verify home page will be opened when navigate to guest mode url after signin
     describe('Verify logged in mode invalid urls - guest mode url', () => {
 
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+        beforeEach('redirect to the signin page by api', () => {
+            cy.signinByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
 
 
@@ -60,8 +60,8 @@ describe('Home Page Test', () => {
     // This case is to test if there are site that cannot access by sub-user (system don't have this case)
     describe('Verify logged in mode invalid urls - no permission', () => {
 
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(SUB_USER.USER, SUB_USER.PASSWORD);
+        beforeEach('redirect to the signin page by api', () => {
+            cy.signinByApi(SUB_USER.USER, SUB_USER.PASSWORD);
         })
 
         Object.entries(ADMIN_URLS).forEach(([site_name, url]) => {
@@ -82,8 +82,8 @@ describe('Home Page Test', () => {
 
     describe('Back action from browser button test', () => {
 
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+        beforeEach('redirect to the signin page by api', () => {
+            cy.signinByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
 
         Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {

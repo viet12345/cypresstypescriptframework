@@ -5,44 +5,44 @@ import { INVALID_PASSWORD } from '../../fixtures/passwords'
 
 describe('my first demo', () => {
     
-    beforeEach('redirect to the login page of demo guru', () => {
+    beforeEach('redirect to the signin page of demo guru', () => {
         cy.visit(PAGE_URLS.SIGNIN_PAGE);
     })
 
-    describe('login with valid credentials', () => {
+    describe('signin with valid credentials', () => {
 
         it('Kiểm tra các element hiển thị trên page', () => {
             //Luôn cần case verify việc hiển thị các element trên từng page
-            signInPage.verifyLoginElement();
-            signInPage.verifyTitleLoginPage('Sign in');
+            signInPage.verifySigninElement();
+            signInPage.verifyTitleSigninPage('Sign in');
         })
 
         it('Kiểm tra password cần hiển thị, khi click button show password', () => {
             signInPage.verifyButtonShowPassword();
         })
 
-        it('Kiểm tra login thành công', () => {
-            signInPage.loginWith(VALID_USER.USER, VALID_USER.PASSWORD);
-            homePage.verifyLoginSucessfulWithUser(VALID_USER.USER);
+        it('Kiểm tra signin thành công', () => {
+            signInPage.signinWith(VALID_USER.USER, VALID_USER.PASSWORD);
+            homePage.verifySigninSucessfulWithUser(VALID_USER.USER);
         });
 
         it('Kiểm tra các field không được để trống', () => {
-            signInPage.loginWith('', '');
-            signInPage.verifyLoginUserNameErrorMessage();
+            signInPage.signinWith('', '');
+            signInPage.verifySigninUserNameErrorMessage();
             signInPage.verifySignInBtnDisabled();
         });
 
-        it('Kiểm tra login invalid user', () => {
+        it('Kiểm tra signin invalid user', () => {
             //Kiểm tra cả 2 case, khi password hoặc username invalid
-            signInPage.loginWith(INVALID_USER.USER, VALID_USER.PASSWORD);
+            signInPage.signinWith(INVALID_USER.USER, VALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage();
             signInPage.clearAllFields();
-            signInPage.loginWith(VALID_USER.USER, INVALID_USER.PASSWORD);
+            signInPage.signinWith(VALID_USER.USER, INVALID_USER.PASSWORD);
             signInPage.verifyInvalidCredentialErrorMessage();
         })
     })
     
-    //Chỉ áp dụng cho các chức năng tạo mật khẩu mới, không nên áp dụng cho chức năng login
+    //Chỉ áp dụng cho các chức năng tạo mật khẩu mới, không nên áp dụng cho chức năng signin
     describe('Kiểm tra khởi tạo password với các giá trị invalid', () => {
         Object.entries(INVALID_PASSWORD).forEach(([invalidCase, invalidValue]) => {
             it(`Verify password is ${invalidCase}`, () => {

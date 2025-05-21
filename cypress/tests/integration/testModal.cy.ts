@@ -7,9 +7,9 @@ import { homePage } from '../../support/pages/index.page';
 describe('Delete Confirmation Modal', () => {
     const modal = new Modal();
 
-    beforeEach('Login and redirect to Bank Accounts page', () => {
-        cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
-        homePage.verifyLoginSucessfulWithUser(VALID_USER.USER);
+    beforeEach('Signin and redirect to Bank Accounts page', () => {
+        cy.signinViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
+        homePage.verifySigninSucessfulWithUser(VALID_USER.USER);
         cy.createBankAccount(BANK_ACC.BANK_NAME, BANK_ACC.ROUTING_NUM, BANK_ACC.ACC_NUM);
     })
 

@@ -27,3 +27,6 @@ import * as pathUtils from './utils/path';
 (globalThis as any).joinPaths = pathUtils.joinPaths;
 (globalThis as any).buildUrl = pathUtils.buildUrl;
 (globalThis as any).normalizePath = pathUtils.normalizePath;
+
+// Import setup.ts file
+import './setup';

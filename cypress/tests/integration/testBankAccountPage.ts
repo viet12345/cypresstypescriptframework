@@ -4,8 +4,8 @@ import { bankAccountPage } from '../../support/pages/BankAccount';
 import { BANK_ACC } from '../../fixtures/users';
 
 describe('Validation input field test', () => {
-    beforeEach('Login and redirect to My Account page', () => {
-        cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
+    beforeEach('Signin and redirect to My Account page', () => {
+        cy.signinViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
         navigationMenu.goToBankAccountsSideBarMenu();
     })
 
