@@ -70,7 +70,7 @@ export class Form {
 
   //Input field must be red when the input is invalid
   verifyHighlightInputFieldInvalid(inputSelector: string) {
-    this.inputField(inputSelector).should('have.css', 'color', 'rgb(211, 47, 47)');
+    this.inputField(inputSelector).should('have.css', 'color', 'rgb(211, 47, 47)'); //Đẩy color verify sang parameter
   }
 
   //Submit button must be disabled when the form is invalid

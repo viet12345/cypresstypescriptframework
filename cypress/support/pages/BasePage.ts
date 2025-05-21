@@ -30,8 +30,16 @@ export abstract class BasePage {
     /**
      * Reload current page and load
      */
-    protected reloadCurrentPage() {
+    reloadCurrentPage() {
         cy.reload();
         cy.get('body').should('be.visible');
+    }
+
+    /**
+     * Visit URL and wait until it loaded
+     */
+    visit(url: string) {
+        cy.visit(url);
+        cy.get('main').should('be.visible');
     }
 }
