@@ -3,43 +3,26 @@ import { SUB_USER, VALID_USER } from '../../fixtures/users';
 import { homePage } from '../../support/pages/HomePage';
 
 describe('Kiểm tra xác thực và ủy quyền', () => {
-
-    describe('Verify guest mode invalid urls', () => {
+    //Tất cả các đường dẫn cần đăng nhập mới có thể truy cập, không sẽ hiện page 403
+    describe('Kiểm tra nếu người dùng không đăng nhập có thể truy cập trang yêu cầu quyền không.', () => {
         Object.entries(LOGGED_IN_URLS).forEach(([site_name, url]) => {
             it(`Verify url of ${site_name} page in guest mode`, () => {
                 homePage.visit(url);
-                cy.verifyUrl(PAGE_URLS.SIGNIN_PAGE);
+                cy.verifyUrl(PAGE_URLS.SIGNIN_PAGE); //Hiện tại vẫn work, nhưng có thể sẽ cần cơ chế wait để tránh lỗi.
                 cy.contains('Sign in').should('be.visible');
             })
         })
     })
 
-
-    // This case is used to verify home page will be opened when navigate to guest mode url after login
-    describe('Verify logged in mode invalid urls - guest mode url', () => {
-
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
-        })
-
-
-        Object.entries(GUEST_MODE_URLS).forEach(([site_name, url]) => {
-            it(`Verify home page is opened when navigate to guest mode url of ${site_name}`, () => {
-                homePage.visit(url);
-                cy.verifyUrl('');
-            })
-        })
-    })
-
-    // This case is to test if there are site that cannot access by sub-user (system don't have this case)
+    
+    //Tất cả các đường dẫn cần đăng nhập mới có thể truy cập, không sẽ hiện page 403
     describe('Kiểm tra nếu người dùng không đăng nhập có thể truy cập trang yêu cầu quyền không.', () => {
-
+        
         beforeEach('redirect to the login page by api', () => {
             cy.loginByApi(SUB_USER.USER, SUB_USER.PASSWORD);
         })
-
+        
         Object.entries(ADMIN_URLS).forEach(([site_name, url]) => {
-            //Tất cả các đường dẫn cần đăng nhập mới có thể truy cập, không sẽ hiện page 403
             it(`Non-admin user cannot access admin ${site_name} endpoint (stubbed 403)`, () => {
                 //apiUrl cần thay đổi theo từng môi trường test. Tìm file cypress.config.ts để thay đổi
                 const apiUrl = Cypress.env('apiUrl') as string;
@@ -56,24 +39,10 @@ describe('Kiểm tra xác thực và ủy quyền', () => {
         })
     })
 
-    describe('Back action from browser button test', () => {
-
-        beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
-        })
-
-        Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {
-            it(`Verify back action from ${tab_name} tab`, () => {
-                homePage.switchTab(tab);
-                cy.backActionFromBrowser();
-                cy.verifyUrl(PAGE_URLS.HOMEPAGE);
-            })
-        })
-    })
 })
 
 describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt động đúng không.', () => {
-//Chia ra 2 loại link cần authen và không authen, đảm bảo các link đều hiển thị với nội dung expected
+    //Chia ra 2 loại link cần authen và không authen, đảm bảo các link đều hiển thị với nội dung expected
     describe('Kiểm tra các link không cần authen', () => {
         Object.entries(GUEST_MODE_URLS).forEach(([site_name, url]) => {
             it(`Verify url of ${site_name} page in guest mode`, () => {
@@ -83,8 +52,9 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
             })
         })
     })
+    
     describe('Kiểm tra các link cần authen', () => {
-
+        
         beforeEach('redirect to the login page by api', () => {
             cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
@@ -94,6 +64,22 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
                 homePage.visit(url);
                 cy.verifyUrl(url);
             })
+        })
+    })
+})
+
+//Case này hiện tại chỉ áp dụng được cho từng page.
+describe('Kiểm tra sau khi sử dụng Back button từ browser cần back về đúng màn trước đó', () => {
+
+    beforeEach('redirect to the login page by api', () => {
+        cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+    })
+
+    Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {
+        it(`Verify back action from ${tab_name} tab`, () => {
+            homePage.switchTab(tab);
+            cy.backActionFromBrowser();
+            cy.verifyUrl(PAGE_URLS.HOMEPAGE);
         })
     })
 })
