@@ -16,12 +16,8 @@ export const GUEST_MODE_URLS = {
 
 //URL có thể cần login để truy cập
 export const LOGGED_IN_URLS = {
-  'MY_ACCOUNT': "/user/settings",
-  'BANKS_ACCOUNTS': "/bankaccounts",
-  'NOTIFICATONS': "/notifications",
-  'FRIENDS': "/contacts",
-  'MINE': "/personal",
-  'NEW_TRANSACTION': "/transaction/new"
+  'My Account': "/user/settings",
+  'Bank Accounts': "/bankaccounts",
 }
 
 //URL không thể truy cập bằng sub-user

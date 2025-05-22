@@ -45,7 +45,7 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
     //Chia ra 2 loại link cần authen và không authen, đảm bảo các link đều hiển thị với nội dung expected
     describe('Kiểm tra các link không cần authen', () => {
         Object.entries(GUEST_MODE_URLS).forEach(([site_name, url]) => {
-            it(`Verify url of ${site_name} page in guest mode`, () => {
+            it.only(`Kiểm tra truy cập thành công page ${site_name} in guest mode`, () => {
                 cy.visit(url);
                 cy.verifyUrl(url);
                 cy.contains(site_name).should('be.visible');
@@ -54,15 +54,14 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
     })
     
     describe('Kiểm tra các link cần authen', () => {
-        
         beforeEach('redirect to the login page by api', () => {
             cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
-
         Object.entries(LOGGED_IN_URLS).forEach(([site_name, url]) => {
-            it(`Verify url of ${site_name}`, () => {
-                homePage.visit(url);
+            it.only(`Kiểm tra truy cập thành công page ${site_name}`, () => {
+                cy.visit(url);
                 cy.verifyUrl(url);
+                cy.contains(site_name).should('be.visible');
             })
         })
     })
