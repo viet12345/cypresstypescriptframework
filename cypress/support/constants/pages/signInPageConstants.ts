@@ -3,7 +3,7 @@ export const SignInPageSelectors = {
     passwordInput: "#password",
     signinButton: "[data-test='signin-submit']",
     signinTitle: "h1",
-    buttonSignUp: "[data-test='signup']",
+    signUpTextLink: "[data-test='signup']",
     checkboxRememberMe: "[data-test='signin-remember-me']",
     signinUserNameErrorMessage: "[id='username-helper-text']",
     signinPasswordErrorMessage: "[id='password-helper-text']",

@@ -19,7 +19,7 @@ describe('Kiểm tra xác thực và ủy quyền', () => {
     describe('Kiểm tra nếu người dùng không đăng nhập có thể truy cập trang yêu cầu quyền không.', () => {
         
         beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(SUB_USER.USER, SUB_USER.PASSWORD);
+            cy.signinByApi(SUB_USER.USER, SUB_USER.PASSWORD);
         })
         
         Object.entries(ADMIN_URLS).forEach(([site_name, url]) => {
@@ -32,7 +32,7 @@ describe('Kiểm tra xác thực và ủy quyền', () => {
                     { statusCode: 403, body: { message: 'Forbidden' } }
                 ).as('getAdminData');
 
-                cy.visit(url);
+                homePage.visit(url);
                 cy.wait('@getAdminData');
                 cy.contains('403').should('be.visible');
             });
@@ -46,7 +46,7 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
     describe('Kiểm tra các link không cần authen', () => {
         Object.entries(GUEST_MODE_URLS).forEach(([site_name, url]) => {
             it.only(`Kiểm tra truy cập thành công page ${site_name} in guest mode`, () => {
-                cy.visit(url);
+                homePage.visit(url);
                 cy.verifyUrl(url);
                 cy.contains(site_name).should('be.visible');
             })
@@ -55,13 +55,24 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
     
     describe('Kiểm tra các link cần authen', () => {
         beforeEach('redirect to the login page by api', () => {
-            cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+            cy.signinByApi(VALID_USER.USER, VALID_USER.PASSWORD);
         })
         Object.entries(LOGGED_IN_URLS).forEach(([site_name, url]) => {
             it.only(`Kiểm tra truy cập thành công page ${site_name}`, () => {
-                cy.visit(url);
+                homePage.visit(url);
                 cy.verifyUrl(url);
                 cy.contains(site_name).should('be.visible');
+            })
+        })
+    })
+    
+    describe('Kiểm tra các link cần authen khi chưa đăng nhập', () => {
+        
+        Object.entries(LOGGED_IN_URLS).forEach(([site_name, url]) => {
+            it(`Kiểm tra hệ thống chuyển hướng người dùng đến trang mặc định nếu truy cập ${site_name} khi chưa đăng nhập`, () => {
+                homePage.visit(url);
+                cy.verifyUrl(PAGE_URLS.SIGNIN_PAGE);
+                cy.contains('Sign in').should('be.visible');
             })
         })
     })
@@ -71,7 +82,7 @@ describe('Kiểm tra các liên kết nội bộ (Internal Links) có hoạt đ�
 describe('Kiểm tra sau khi sử dụng Back button từ browser cần back về đúng màn trước đó', () => {
 
     beforeEach('redirect to the login page by api', () => {
-        cy.loginByApi(VALID_USER.USER, VALID_USER.PASSWORD);
+        cy.signinByApi(VALID_USER.USER, VALID_USER.PASSWORD);
     })
 
     Object.entries(homePage.tabNames).forEach(([tab_name, tab]) => {

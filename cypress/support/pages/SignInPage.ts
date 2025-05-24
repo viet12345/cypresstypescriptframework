@@ -24,8 +24,8 @@ export class SignInPage extends BasePage {
     return cy.get(S.signinButton);
   }
 
-  signUpButton() {
-    return cy.get(S.buttonSignUp);
+  signUpTextLink() {
+    return cy.get(S.signUpTextLink);
   }
 
   rememberMeCheckbox() {
@@ -66,7 +66,7 @@ export class SignInPage extends BasePage {
     this.passwordInputBox().should('be.visible');
     this.usernameInputBox().should('be.visible');
     this.signInButton().should('be.visible');
-    this.signUpButton().should('be.visible');
+    this.signUpTextLink().should('be.visible');
     this.rememberMeCheckbox().should('be.visible');
   }
 
