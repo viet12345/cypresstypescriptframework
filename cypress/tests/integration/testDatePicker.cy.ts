@@ -3,8 +3,8 @@ import { datePicker } from "../../support/components/index.components";
 import { DateString as D } from "../../support/constants/components/datePickerConstants";
 
 describe('Test Date Picker', () => {
-    before('login the system', () => {
-        cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
+    before('Signin the system', () => {
+        cy.signinViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
     })
 
     it('Verify Select range date', () => {
