@@ -18,3 +18,11 @@ export const BANK_ACC = {
   ROUTING_NUM: "s3cret123",
   ACC_NUM: "s3cret123",
 };
+
+export const VALID_SIGNUP_USER = {
+  FIRST_NAME: "Tom",
+  LAST_NAME: "Sawyer",
+  USER: "Heath92",
+  PASSWORD: "s3cret",
+  CONFIRM_PASS: "s3cret",
+};

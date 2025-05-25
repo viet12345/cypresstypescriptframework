@@ -16,8 +16,17 @@ export abstract class BasePage {
     /**
      * Clear field
      */
-    protected clear(selector: string) {
+    clear(selector: string) {
         return this.get(selector).clear();
+    }
+
+    /**
+     * Clear all field
+     */
+    protected clearAllFields(S: object) {
+        for (let fieldSelector in S) {
+            this.clear(fieldSelector);
+        }
     }
 
     /**

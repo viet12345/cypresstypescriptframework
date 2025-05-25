@@ -1,6 +1,7 @@
 //Toàn bộ các page URL mà chỉ có thể truy cập sau khi signin
 export const PAGE_URLS = {
   SIGNIN_PAGE: "/signin",
+  SIGNUP_PAGE: "/signup",
   HOMEPAGE: "",
   CONTACTS_PAGE: "/contacts",
   PERSONAL_PAGE: "/personal",
