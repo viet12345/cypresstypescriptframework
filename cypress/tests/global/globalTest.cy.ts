@@ -88,8 +88,9 @@ describe('Kiểm tra sau khi sử dụng Back button từ browser cần back v�
 
     Object.entries(GLOBAL_SELECTOR).forEach(([tab_name, selector]) => {
         it.only(`Verify back action from ${tab_name} tab`, () => {
-            Object.entries(selector).forEach(([value]) => {
-                homePage.switchTab(value);
+            Object.entries(selector).forEach(([key, selectorValues]) => {
+                cy.log(`Switching to ${key} tab`);
+                homePage.switchTab(selectorValues);
                 cy.backActionFromBrowser();
                 cy.verifyUrl(""); //Chỗ này có thể sử dụng url string luôn cho dễ hiểu
             })

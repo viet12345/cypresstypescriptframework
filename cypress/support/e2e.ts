@@ -29,4 +29,4 @@ import * as pathUtils from './utils/path';
 (globalThis as any).normalizePath = pathUtils.normalizePath;
 
 // Import setup.ts file
-import './setup';
+// import './setup';
