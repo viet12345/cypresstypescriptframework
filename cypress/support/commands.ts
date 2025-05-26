@@ -44,6 +44,6 @@ import './commands/globalCommands'
 import './commands/apiCommands'
 
 // Import Page Commands:
-import './commands/pageCommands/loginPageCommands'
+import './commands/pageCommands/signinPageCommands'
 
 import './commands/pageCommands/bankAccountsCommands'

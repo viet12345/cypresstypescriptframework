@@ -1,7 +1,7 @@
 
 
 
-  Cypress.Commands.add('loginViaUI', (user?: string, password?: string) => {
+  Cypress.Commands.add('signinViaUI', (user?: string, password?: string) => {
     cy.visit('/signin')
     if (user && password) {
       cy.get('#username').type(user)

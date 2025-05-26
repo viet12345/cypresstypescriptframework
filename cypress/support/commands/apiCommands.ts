@@ -1,6 +1,6 @@
 import { AUTH_OTHER_PARTS } from "../../fixtures/apiParts";
 
-Cypress.Commands.add('loginByApi', (username: string, password: string) => {
+Cypress.Commands.add('signinByApi', (username: string, password: string) => {
     const url = buildUrl(Cypress.env('apiUrl')!, '/login');
     cy.request({
         method: 'POST',
@@ -10,7 +10,7 @@ Cypress.Commands.add('loginByApi', (username: string, password: string) => {
             password
         }
     }).then((res) => {
-        // 1. Xác nhận login thành công
+        // 1. Xác nhận signin thành công
         expect(res.status).to.eq(200);
 
         // 2. Thiết lập cookies từ server (nếu có)
