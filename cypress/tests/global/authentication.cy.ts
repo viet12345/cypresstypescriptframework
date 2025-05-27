@@ -55,7 +55,7 @@ describe('Authentication Test', () => {
     })
   })
 
-  describe.only('Sign Up authentication', () => {
+  describe('Sign Up authentication', () => {
 
     beforeEach('', () => {
       homePage.visit(PAGE_URLS.SIGNUP_PAGE);
@@ -118,11 +118,20 @@ describe('Authentication Test', () => {
           }
         })
       });
+    })
+
+    describe('Kiểm tra hiển thị của password', () => {
+      
+      it(`Kiểm tra password nhập vào phải bị hide`, () => {
+        //Nhập Password invalid
+        signUpPage.passwordInputBox().type('anyValue');
+        //Kiểm tra password nhập vào phải bị hide
+        signUpPage.verifyPasswordInputValuesShouldBeHidden();
+      })
 
       it('Kiểm tra password cần hiển thị, khi click button show password', () => {
         signUpPage.verifyButtonShowPassword();
       })
-
     })
 
     describe('Kiểm tra khởi tạo password với các giá trị invalid', () => {
@@ -130,8 +139,6 @@ describe('Authentication Test', () => {
         it(`Verify password is ${invalidCase}`, () => {
           //Nhập Password invalid
           signUpPage.passwordInputBox().type(invalidValue);
-          //Kiểm tra password nhập vào phải bị hide
-          signUpPage.verifyPasswordInputValuesShouldBeHidden();
           //Kiểm tra phải có validation message cho password hiển thị
           signUpPage.verifyPasswordFieldInvalid();
         })
