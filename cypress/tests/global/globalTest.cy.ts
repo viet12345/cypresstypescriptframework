@@ -104,7 +104,7 @@ describe('Kiểm tra với truy vấn không hợp lệ hoặc không có kết 
         Object.entries(SEARCH_SELECTOR).forEach(([pageName, selector]) => {
             it.only(`Searching ${pageName} cần có GUI riêng cho việc hiển thị No data`, () => {
                 // Điều hướng/Mở page có chứa chức năng tìm kiếm
-                cy.visit(PAGE_URLS.SEARCHING_PAGE);
+                cy.visit(selector.url);
                 dataTable.verifySearchingNoData(selector.searchInput, selector.listOfSearchingData, selector.apiGetSearchingData);
             });
         });
@@ -113,7 +113,7 @@ describe('Kiểm tra với truy vấn không hợp lệ hoặc không có kết 
     describe('Cần loại bỏ space đầu cuối khi search', () => {
         Object.entries(SEARCH_SELECTOR).forEach(([pageName, selector]) => {
             it.only(`Cần loại bỏ space đầu cuối khi search ở page ${pageName}`, () => {
-                cy.visit(PAGE_URLS.SEARCHING_PAGE);
+                cy.visit(selector.url);
                 dataTable.verifySearchingMustTrimSpace(selector.searchInput, selector.listOfSearchingData, selector.apiGetSearchingData);
             });
         });

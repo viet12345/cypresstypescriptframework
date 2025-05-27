@@ -11,13 +11,15 @@ export const GLOBAL_SELECTOR = {
 
 export const SEARCH_SELECTOR = {
     'Transactions': {
+        url: '/transaction/new',
         searchInput:"[data-test='user-list-search-input']",
         listOfSearchingData:"[data-test^='user-list-item']",
         apiGetSearchingData: '',
     },
     'Transactions 2': {
-        searchInput:"[data-test='user-list-search-input']",
-        listOfSearchingData:"[data-test^='user-list-item']",
+        url: '/transaction/new',
+        searchInput:"[data-test='user-list-search-input1']",
+        listOfSearchingData:"[data-test^='user-list-item1']",
         apiGetSearchingData: '',
     }
 }
