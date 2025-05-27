@@ -8,3 +8,16 @@ export const GLOBAL_SELECTOR = {
         newTransaction:"[data-test='nav-top-new-transaction']",
     }
 }
+
+export const SEARCH_SELECTOR = {
+    'Transactions': {
+        searchInput:"[data-test='user-list-search-input']",
+        listOfSearchingData:"[data-test^='user-list-item']",
+        apiGetSearchingData: '',
+    },
+    'Transactions 2': {
+        searchInput:"[data-test='user-list-search-input']",
+        listOfSearchingData:"[data-test^='user-list-item']",
+        apiGetSearchingData: '',
+    }
+}
