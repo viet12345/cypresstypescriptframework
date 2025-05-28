@@ -4,7 +4,7 @@ import { newTransactionPage } from '../../support/pages/NewTransactionPage';
 
 describe('Searching Page Demo Tests', () => {
     beforeEach('Navigate to Searching Page', () => {
-        cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
+        cy.signinViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
         // Điều hướng đến page tìm kiếm
         navigationMenu.goToNewTransaction();
     });

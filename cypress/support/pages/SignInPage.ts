@@ -21,37 +21,37 @@ export class SignInPage extends BasePage {
   }
 
   signInButton() {
-    return cy.get(S.loginButton);
+    return cy.get(S.signinButton);
   }
 
-  signUpButton() {
-    return cy.get(S.buttonSignUp);
+  signUpTextLink() {
+    return cy.get(S.signUpTextLink);
   }
 
   rememberMeCheckbox() {
     return cy.get(S.checkboxRememberMe);
   }
 
-  loginUserNameErrorMessage() {
-    return cy.get(S.loginUserNameErrorMessage);
+  signinUserNameErrorMessage() {
+    return cy.get(S.signinUserNameErrorMessage);
   }
 
-  loginPasswordErrorMessage() {
-    return cy.get(S.loginPasswordErrorMessage);
+  signinPasswordErrorMessage() {
+    return cy.get(S.signinPasswordErrorMessage);
   }
 
-  loginErrorMessageAPI() {
-    return cy.get(S.loginErrorMessageAPI);
+  signinErrorMessageAPI() {
+    return cy.get(S.signinErrorMessageAPI);
   }
 
   // ---------- Actions ----------
 
-  loginWith(userName: string, password: string) {
+  signinWith(userName: string, password: string) {
     this.clearAllFields();
     if (userName) this.type(S.usernameInput, userName);
     if (password) this.type(S.passwordInput, password);
     if (userName && password) {
-      this.click(S.loginButton);
+      this.click(S.signinButton);
     }
   }
 
@@ -62,38 +62,38 @@ export class SignInPage extends BasePage {
 
   // ---------- Verifications ----------
 
-  verifyLoginElement() {
+  verifySigninElement() {
     this.passwordInputBox().should('be.visible');
     this.usernameInputBox().should('be.visible');
     this.signInButton().should('be.visible');
-    this.signUpButton().should('be.visible');
+    this.signUpTextLink().should('be.visible');
     this.rememberMeCheckbox().should('be.visible');
   }
 
-  verifyTitleLoginPage(loginTitleContent: string) {
-    cy.get(S.loginTitle).should('have.text', loginTitleContent);
+  verifyTitleSigninPage(loginTitleContent: string) {
+    cy.get(S.signinTitle).should('have.text', loginTitleContent);
   }
 
   verifySignInBtnDisabled() {
     this.signInButton().should('be.disabled');
   }
 
-  verifyLoginUserNameErrorMessage() {
+  verifySigninUserNameErrorMessage() {
     this.signInButton().should('be.disabled');
-    this.loginUserNameErrorMessage().should('be.visible').and('have.text', M.usernameIsRequired);
+    this.signinUserNameErrorMessage().should('be.visible').and('have.text', M.usernameIsRequired);
   }
 
-  verifyLoginPasswordErrorMessage() {
+  verifySigninPasswordErrorMessage() {
     this.signInButton().should('be.disabled');
-    this.loginPasswordErrorMessage().should('be.visible').and('have.text', M.userNamePasswordInvalid);
+    this.signinPasswordErrorMessage().should('be.visible').and('have.text', M.userNamePasswordInvalid);
   }
 
   verifyInvalidCredentialErrorMessage() {
-    this.loginErrorMessageAPI().should('be.visible').and('have.text', M.userNamePasswordInvalid);
+    this.signinErrorMessageAPI().should('be.visible').and('have.text', M.userNamePasswordInvalid);
   }
 
   verifyPasswordFieldInvalid() {
-    this.form.verifyPasswordFieldValidation(S.loginPasswordErrorMessage);
+    this.form.verifyPasswordFieldValidation(S.signinPasswordErrorMessage);
   }
 
   verifyPasswordInputValuesShouldBeHidden() {

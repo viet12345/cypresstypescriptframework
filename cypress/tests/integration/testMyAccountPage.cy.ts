@@ -5,8 +5,8 @@ import { Email, INPUT_WITH_SPACE } from '../../support/constants/pages/myAccount
 
 describe('Validation input field test', () => {
 
-    beforeEach('Login and redirect to My Account page', () => {
-        cy.loginViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
+    beforeEach('Signin and redirect to My Account page', () => {
+        cy.signinViaUI(VALID_USER.USER, VALID_USER.PASSWORD);
         navigationMenu.goToMyAccountSideBarMenu();
     });
 
