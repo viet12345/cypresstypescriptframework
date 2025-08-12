@@ -14,7 +14,7 @@ export default defineConfig({
       return config;
     },
     specPattern: ['cypress/tests/**/*.{js,jsx,ts,tsx}', 'cypress/e2e/**/*.{js,jsx,ts,tsx}'],
-    baseUrl: 'http://localhost:3000/',
+    baseUrl: 'https://sales-crm-dev.adamo.tech/',
     env: {
       apiUrl: 'http://localhost:3001/'
     }

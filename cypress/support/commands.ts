@@ -47,3 +47,6 @@ import './commands/apiCommands'
 import './commands/pageCommands/signinPageCommands'
 
 import './commands/pageCommands/bankAccountsCommands'
+
+// Import file upload commands:
+import 'cypress-file-upload';
