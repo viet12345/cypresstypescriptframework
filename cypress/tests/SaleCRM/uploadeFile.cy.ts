@@ -2,8 +2,7 @@ describe('my first demo', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('redirect to the signin page have upload function', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
-        cy.setCookie('XSRF-TOKEN', 'eyJpdiI6IndDZkd0VnlzRjhsdVBPbjQvc043WlE9PSIsInZhbHVlIjoiTXRCako1VHQ2NGVVbFJpMTlGZUgvZ21mUkFieVZsR0lBUWdTMzBlY2ViTSt5bm1Oa0Z1RElOVUMySVo4aFZoVDhKVHFvL2Q0cTIvVWVWKzk4cm9wZHBkK0Fvb3JZY2ZnZmEwR0paSXlMRy80alFHNzh6YTJXS2h6aDFyWmdWSUoiLCJtYWMiOiIzNWE4NzI1YTYyYTM1ZmFhNzI1ZjQ5MWZiOGViNGZhNTFjYWQ5ZWI0NTU0MjA2YTM5YzhkODQxZjcwODlmN2QwIiwidGFnIjoiIn0%3D');
-        cy.setCookie('adamo_sales_crm_session', 'eyJpdiI6Ik5GbjhlekVWeDhyc1VEUkkyaGhVVGc9PSIsInZhbHVlIjoiNHVLMmMzVEEvZTZiSU9yeklsaFVmVUgvOGhqaE5zYTNwRWpBWG9Hc0F3SjlEY1FnR2NCMHJiTS9ZSDdETDE4K09yYnpiQVprU3BHRE9oZURKMzFwV1I2QnNBb1ZpRXB2VHdDMVp6T0w0OW41Y0lrd1lsR0pTZnBNaTE4SnIrWnYiLCJtYWMiOiJkNzZmOWNiNGFiN2UyMDE4YTUyZTM0ZDQ5MDkyNDU0MWQ2NGJjMGQxMmI2ZjVkNTM1NjhjYjBhZWJkZTY3ZGY2IiwidGFnIjoiIn0%3D');
+        cy.saveLoginSession();
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
     })
 

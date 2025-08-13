@@ -20,6 +20,11 @@ declare namespace Cypress {
      */
     clearSession(): Chainable<Subject>;
 
+    /**
+     * Save the current login session.
+     */
+    saveLoginSession(): Chainable<Subject>;
+
 
     // -------- Authentication / Signin Page Commands --------
 
