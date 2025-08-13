@@ -1,6 +1,6 @@
-describe('my first demo', () => {
+describe('uploadeFile', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-    beforeEach('redirect to the signin page have upload function', () => {
+    beforeEach('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
         cy.saveLoginSession();
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.

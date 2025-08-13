@@ -17,6 +17,9 @@ export default defineConfig({
     baseUrl: 'https://sales-crm-dev.adamo.tech/',
     env: {
       apiUrl: 'http://localhost:3001/'
-    }
+    },
+    viewportWidth: 1440, // Đặt chiều rộng mặc định
+    viewportHeight: 1080  // Đặt chiều cao mặc định
+
   },  
 });
