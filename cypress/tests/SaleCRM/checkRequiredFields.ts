@@ -24,7 +24,7 @@ describe('checkRequiredFields', () => {
             cy.get('#industry_id-error').should('contain', 'Industry is required');
         });
 
-        it.only(`Kiểm tra Edit a contact`, () => {
+        it(`Kiểm tra Edit a contact`, () => {
             // Mở form edit contact
             cy.visit('contacts/49787'); // Cập nhật đường dẫn nếu cần
             cy.get('.button-edit').should('be.visible').click();
