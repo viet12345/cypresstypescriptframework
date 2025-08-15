@@ -1,21 +1,9 @@
-describe('uploadeFile', () => {
-    //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-    beforeEach('Authentication steps', () => {
-        // Cách 1: Thiết lập giá trị cookie trực tiếp
-        cy.saveLoginSession();
-        // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-    })
-
-    describe('Check upload with multi file type', () => {
-        const files = [
-            'download.jpeg',
-            'download.png',
-            'download.jfif',
-            'download.jpg',
-        ];
-        files.forEach((fileName) => {
-            it(`Kiểm tra upload file: ${fileName}`, () => {
-                //Mở form có upload function
+describe.only('Lấy danh sách file trong folder', () => {
+        it('Kiểm tra upload tất cả file từ folder DataTestingFiles', () => {
+            const folderPath = 'cypress/fixtures/DataTestingFiles';
+            cy.task('listFiles', folderPath).then((fileList) => {
+                (fileList as string[]).forEach((fileName) => {
+                cy.saveLoginSession(); // Lưu session đăng nhập trước khi thực hiện các thao tác khác
                 cy.visit('contacts/49787'); // Cập nhật đường dẫn nếu cần
 
                 // Tìm button/input để upload file
@@ -32,7 +20,7 @@ describe('uploadeFile', () => {
 
                 // Kiểm tra file đã được upload thành công
                 cy.contains(fileName).should('exist');
+                });
             });
         });
-    })  
-})
+});
