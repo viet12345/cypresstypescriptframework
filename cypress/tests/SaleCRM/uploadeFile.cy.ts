@@ -1,5 +1,5 @@
-describe.only('Lấy danh sách file trong folder', () => {
-        it('Kiểm tra upload tất cả file từ folder DataTestingFiles', () => {
+describe.only('Kiểm tra upload tất cả file từ folder DataTestingFiles.', () => {
+        it('Kiểm tra upload trong tạo Note từ Contact detail.', () => {
             const folderPath = 'cypress/fixtures/DataTestingFiles';
             cy.task('listFiles', folderPath).then((fileList) => {
                 (fileList as string[]).forEach((fileName) => {
