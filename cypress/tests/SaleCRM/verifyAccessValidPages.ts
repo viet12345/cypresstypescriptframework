@@ -84,14 +84,47 @@ describe('Access success the valid pages', () => {
     });
 
     it.only('Kiểm tra Contact exchange page', () => {
+        // Đăng ký intercept trước khi visit để đảm bảo bắt được request
+        cy.intercept('/contact-exchange/**').as('getContactExchange');
+        cy.intercept('/contact-exchange/receive/**').as('chooseContactExchange');
+
         // Mở trang Contact exchange
         cy.visit('contact-exchange'); // Cập nhật đường dẫn nếu cần
 
         // Xác minh URL
         cy.verifyUrl('/contact-exchange');
 
+        // Kiểm tra flag có hiển thị (vi dụ: tiêu đề page,... bất cứ thành phần nào có thể xác minh trang đã load thành công)
+        cy.get('.header__title').should('be.visible').should('contain', 'Contact exchange');
+
+
         //Xác minh button "Notification" có hiển thị và không bị vô hiệu hóa
         cy.get('#listNotificationDropdown').should('be.visible').click();
         cy.get('.dropdown-menu').should('be.visible').find('.notification__menu--footer > .button__close-menu').click({scrollBehavior: false});
+        
+        //Xác minh button "Choose" có hiển thị và không bị vô hiệu hóa.
+        cy.get('tbody > tr').first().find('.table__contact--stage').then(($stage) => {
+            const stageText = $stage.text().trim();
+            if (stageText === 'Sales Qualified') {
+                cy.get(':nth-child(1) > [width="15%"] > .action > .choose-btn').should('be.visible').click();
+                cy.get('.swal2-popup').should('be.visible').type('{esc}');
+            } else {
+                cy.get(':nth-child(1) > [width="15%"] > .action > .choose-btn').should('be.visible').click();
+                cy.get('.swal2-popup').should('be.visible');
+                cy.get('.swal2-confirm').should('be.visible').click();
+                cy.wait('@chooseContactExchange', {timeout: 30000});
+            }
+        });
+        //Xác minh button "View detail" có hiển thị và không bị vô hiệu hóa
+        cy.get(':nth-child(1) > [width="15%"] > .action > .preview-contact').should('be.visible').click();
+        cy.wait('@getContactExchange', {timeout:30000}).get('#preview-contact').should('be.visible').type('{esc}');
+
+        //Xác minh button Next/Previous page có hiển thị và không bị vô hiệu hóa
+        cy.get('.pagination-next').should('be.visible').click();
+        cy.get('.pagination-prev').as('btnPrev').click();
+
+        //Kiểm tra button "Page number" có hiển thị và không bị vô hiệu hóa
+        cy.get(':nth-child(2) > .page').click();
+        cy.get(':nth-child(1) > .page').click();
     });
 })
