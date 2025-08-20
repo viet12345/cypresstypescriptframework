@@ -89,6 +89,17 @@ declare namespace Cypress {
      * @param text Text to search.
      */
     searchInTable(text: string): Chainable<Subject>;
+
+    
+    // -------- Actions --------
+    /**
+     * Perform drag and drop action.
+     * @param sourceSelector Selector for the source element to drag.
+     * @param targetSelector Selector for the target element to drop.
+     * @param modalSelector Optional selector for a modal dialog to interact with after the drop.
+     * @param options Additional options for the drag and drop action.
+     */
+    dragAndDrop(sourceSelector: string, targetSelector: string, modalSelector?: string, options?: Partial<Cypress.Loggable>): Chainable<Subject>;
   }
 }
 
