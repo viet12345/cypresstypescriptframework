@@ -15,5 +15,14 @@ describe('Check drag drop action', () => {
 
         // 2. Verify modal xuất hiện
         cy.get('#popupConfirmMovingDealToNewStage > .modal-dialog > .modal-content').should('be.visible');
+        cy.get('#buttonAcceptMovingDeal').click();
+
+        // 3. Verify deal đã được chuyển sang stage mới
+        cy.get('iframe[id="content_ifr"]').first().then($iframe => {
+            const body = $iframe.contents().find('body');
+            cy.wrap(body).type('First Meeting (Approach -> Engaged)');
+        });
+        cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
+        cy.get('button[class="milestone__button--cancel"]').contains('Cancel').click({ force: true });
     });
 })
