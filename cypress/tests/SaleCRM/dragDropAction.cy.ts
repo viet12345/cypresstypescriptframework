@@ -1,3 +1,37 @@
+import { getToday } from "../../support/utils/DateHelper";
+
+function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean) {
+    cy.visit('deals'); // Mở trang deals để thực hiện drag and drop
+    cy.get(sourceSelector).then($dealItem => {
+            cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
+                const expectedDealName = $dealName.trim();
+                // 1. Drag task sang Done (có xử lý animation delay)
+                cy.dragAndDrop(sourceSelector, targetSelector)
+        
+                // 2. Verify modal xuất hiện
+                cy.get('#popupConfirmMovingDealToNewStage > .modal-dialog > .modal-content').should('be.visible');
+                cy.get('#buttonAcceptMovingDeal').click();
+
+                if (needShowForm) {
+                // 3. Nhập thông tin note và đính kèm file.
+                cy.get('iframe[id="content_ifr"]').first().then($iframe => {
+                    const body = $iframe.contents().find('body');
+                    const currentTime = new Date().toLocaleTimeString();
+                    cy.wrap(body).type('This is auto test for drag and drop action ' +  ' ' + getToday() + ' ' + currentTime);
+                });
+                cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
+                cy.get('button[class="milestone__button--save"]').contains('Save').click({ force: true });
+                }
+                
+                // 4. Verify deal đã được cập nhật stage
+                cy.reload();
+                cy.get(targetSelector, {timeout:5000}).then($target => {
+                    cy.wrap($target).find('.item__name').first().should('contain.text', expectedDealName);
+                });
+            });
+        })
+}
+
 describe('Check drag drop action', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('Authentication steps', () => {
@@ -10,69 +44,56 @@ describe('Check drag drop action', () => {
         const dealSourceSelector = '[data-stage-id="1"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_2';
 
-        //Mở page có chứa search function
-        cy.visit('deals'); // Cập nhật đường dẫn nếu cần
-
-        //Lấy deal name để sử dụng verify move stage thành công sau khi drag and drop
-        cy.get(dealSourceSelector).then($dealItem => {
-            cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
-                const expectedDealName = $dealName.trim();
-                // 1. Drag task sang Done (có xử lý animation delay)
-                cy.dragAndDrop(dealSourceSelector, dealTargetSelector)
-        
-                // 2. Verify modal xuất hiện
-                cy.get('#popupConfirmMovingDealToNewStage > .modal-dialog > .modal-content').should('be.visible');
-                cy.get('#buttonAcceptMovingDeal').click();
-        
-                // 3. Nhập thông tin note và đính kèm file.
-                cy.get('iframe[id="content_ifr"]').first().then($iframe => {
-                    const body = $iframe.contents().find('body');
-                    cy.wrap(body).type('First Meeting (Approach -> Engaged)');
-                });
-                cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
-                cy.get('button[class="milestone__button--save"]').contains('Save').click({ force: true });
-                cy.reload();
-        
-                // 4. Verify deal đã được cập nhật stage
-                cy.get(dealTargetSelector, {timeout:5000}).then($target => {
-                    cy.wrap($target).find('.item__name').first().should('contain.text', expectedDealName);
-                });
-            });
-        })
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true);     
     });
 
-    it.only(`Update deal Engaged -> Opportunity`, () => {
+    it(`Update deal Engaged -> Opportunity`, () => {
         const dealSourceSelector = '[data-stage-id="2"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_3';
 
-        //Mở page có chứa search function
-        cy.visit('deals'); // Cập nhật đường dẫn nếu cần
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true);  
+    });
 
-        //Lấy deal name để sử dụng verify move stage thành công sau khi drag and drop
-        cy.get(dealSourceSelector).then($dealItem => {
-            cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
-                const expectedDealName = $dealName.trim();
-                // 1. Drag task sang Done (có xử lý animation delay)
-                cy.dragAndDrop(dealSourceSelector, dealTargetSelector)
-        
-                // 2. Verify modal xuất hiện
-                cy.get('#popupConfirmMovingDealToNewStage > .modal-dialog > .modal-content').should('be.visible');
-                cy.get('#buttonAcceptMovingDeal').click();
-        
-                // 3. Nhập thông tin note và đính kèm file.
-                cy.get('iframe[id="content_ifr"]').first().then($iframe => {
-                    const body = $iframe.contents().find('body');
-                    cy.wrap(body).type('First Meeting (Engaged -> Opportunity)');
-                });
-                cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
-                cy.get('button[class="milestone__button--save"]').contains('Save').click({ force: true });
-                cy.reload();
-        
-                // 4. Verify deal đã được cập nhật stage
-                cy.get(dealTargetSelector, {timeout:5000}).then($target => {
-                    cy.wrap($target).find('.item__name').first().should('contain.text', expectedDealName);
-                });
-            });
-        })
+    it(`Update deal Opportunity -> Proposal`, () => {
+        const dealSourceSelector = '[data-stage-id="3"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_4';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true);  
+    });
+
+    it(`Update deal Proposal -> Negotiation`, () => {
+        const dealSourceSelector = '[data-stage-id="4"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_5';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);  
+
+    });
+
+    it(`Update deal Negotiation -> Contracting`, () => {
+        const dealSourceSelector = '[data-stage-id="5"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_6';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);   
+    });
+
+    it(`Update deal Contracting -> Closed Won`, () => {
+        const dealSourceSelector = '[data-stage-id="6"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_7';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true);
+    });
+
+    it(`Update deal Closed Won -> Closed Lost`, () => {
+        const dealSourceSelector = '[data-stage-id="7"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_8';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);
+    });
+
+    it(`Update deal Contracting -> Closed Lost`, () => {
+        const dealSourceSelector = '[data-stage-id="6"] > .deal__item--container:first';
+        const dealTargetSelector = '#dealItemGridArea_8';
+
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);
     });
 })
