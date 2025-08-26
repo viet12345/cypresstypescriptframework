@@ -14,20 +14,8 @@ export default defineConfig({
         resultsDir: "cypress/reports/allure-results",
       });
 
-      //Add the custom task to get file names in a folder.
-      on('task', {
-        listFiles(folderPath) {
-          return new Promise((resolve, reject) => {
-            fs.readdir(folderPath, (err, files) => {
-              if (err) {
-                return reject(err);
-              }
-              // Trả về danh sách file (chỉ tên file, không có đường dẫn đầy đủ)
-              resolve(files);
-            });
-          });
-        }
-      });
+      config.env.fileList = fs.readdirSync('cypress/fixtures/DataTestingFiles');
+
       
       return config;
     },
