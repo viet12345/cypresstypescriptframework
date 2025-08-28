@@ -1,15 +1,23 @@
-name: Cypress Tests
+name: Cypress E2E
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "**" ] # chạy cho mọi branch
   pull_request:
+    branches: [ "main" ] # check khi có PR vào main
+
+# đảm bảo mỗi PR có workflow riêng biệt, không ảnh hưởng nhau
+concurrency:
+  group: cypress-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]   # có thể thêm edge nếu muốn
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,10 +25,35 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
 
-      - name: Run Cypress tests
-        run: yarn run cypress run --spec "cypress/tests/SaleCRM/**/*.cy.ts"
+      # build + start app (tùy project, có thể thay bằng yarn hoặc pnpm)
+      # - name: Build app
+      #   run: npm run build
+      # - name: Start app
+      #   run: npm start &
+      # - name: Wait on app
+      #   run: npx wait-on http://localhost:3000
+      # chạy Cypress headless với test cụ thể trong folder
+      - name: Run Cypress on ${{ matrix.browser }} (specific folder)
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          browser: ${{ matrix.browser }}
+          headless: true
+          spec: cypress/tests/SaleCRM/*.cy.ts
+
+      # upload logs, screenshots, videos khi fail
+      - name: Upload Cypress Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts-${{ matrix.browser }}
+          path: |
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore
