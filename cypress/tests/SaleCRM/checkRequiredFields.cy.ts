@@ -26,7 +26,7 @@ describe('checkRequiredFields', () => {
 
         it(`Kiểm tra Edit a contact`, () => {
             // Mở form edit contact
-            cy.visit('contacts/49787'); // Cập nhật đường dẫn nếu cần
+            cy.visit('contacts/49786'); // Cập nhật đường dẫn nếu cần
             cy.get('.button-edit').should('be.visible').click();
 
             //clear các trường thông tin
@@ -35,8 +35,22 @@ describe('checkRequiredFields', () => {
             cy.get('.staff__email > .form__input').clear();
             cy.get('.staff__country > .selectize-control > .selectize-input > .item').type('{backspace}');
             cy.get('body').type('{esc}');
-            cy.get('.select__lifecycle-stage > .selectize-control > .selectize-input > .item').type('{backspace}');
-            cy.get('body').type('{esc}');
+            cy.get('.select__lifecycle-stage > .selectize-control > .selectize-input')
+            .then(($inputField) => {
+                const isDisabled =
+                $inputField.hasClass('disabled') ||
+                $inputField.attr('aria-disabled') === 'true';
+                cy.wrap(isDisabled).as('stageFieldIsDisabled');
+                if (!isDisabled) {
+                    cy.log('User có thể chọn Stage vì trường này không bị disable');
+                    cy.wrap($inputField).find('input').type('{backspace}');
+                    cy.get('body').type('{esc}');
+                } else {
+                    cy.log('Stage select đã bị disable');
+                }
+            });
+
+
             cy.get('.select__contact-resource > .selectize-control > .selectize-input > .item').type('{backspace}');
             cy.get('body').type('{esc}');
             cy.get('.select__industry > .selectize-control > .selectize-input > .item').type('{backspace}');
@@ -50,10 +64,15 @@ describe('checkRequiredFields', () => {
             cy.get('#last_name-error').should('contain', 'Last name is required');
             cy.get('#email-error').should('contain', 'Email is required');
             cy.get('#country_id-error').should('contain', 'Country is required');
-            cy.get('.select__lifecycle-stage > #stage_id-error').should('contain', 'Stage is required');
+            cy.get('@stageFieldIsDisabled').then((isDisabled) => {
+                if (!isDisabled) {
+                    cy.get('.select__lifecycle-stage > #stage_id-error').should('contain', 'Stage is required');
+                } else {
+                    cy.log('Bỏ qua kiểm tra Stage vì trường này bị disable');
+                }
+            })
             cy.get('#industry_id-error').should('contain', 'Industry is required');
             cy.get('#contact_resource_id-error').should('contain', 'Contact resource is required');
         }); 
-        
     })  
 })

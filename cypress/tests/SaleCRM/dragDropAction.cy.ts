@@ -65,7 +65,7 @@ describe('Check drag drop action', () => {
         const dealSourceSelector = '[data-stage-id="4"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_5';
 
-        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);  
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true);  
 
     });
 
