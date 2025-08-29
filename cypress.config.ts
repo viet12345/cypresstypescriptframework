@@ -25,7 +25,7 @@ export default defineConfig({
       apiUrl: 'http://localhost:3001/'
     },
     viewportWidth: 1440, // Đặt chiều rộng mặc định
-    viewportHeight: 1080  // Đặt chiều cao mặc định
-
+    viewportHeight: 1080,  // Đặt chiều cao mặc định
+    defaultCommandTimeout: 20000
   },  
 });

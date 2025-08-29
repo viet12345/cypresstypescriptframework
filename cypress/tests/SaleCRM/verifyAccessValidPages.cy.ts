@@ -46,7 +46,7 @@ describe('Access success the valid pages', () => {
         //Kiểm tra button "Export" có hiển thị và không bị vô hiệu hóa
         cy.get('#buttonExportContact').should('be.visible').click();
         cy.get('#modalExportContact > .modal-dialog > .modal-content').should('be.visible');
-        cy.get('#modalExportContact > .modal-dialog > .modal-content > .modal-header > .modal-title',{timeout: 30000})
+        cy.get('#modalExportContact > .modal-dialog > .modal-content > .modal-header > .modal-title')
             .should('contain', 'Ready to download!')
             .then(() => {
             cy.get('#modalExportContact > .modal-dialog > .modal-content').type('{esc}');
@@ -112,12 +112,12 @@ describe('Access success the valid pages', () => {
                 cy.get(':nth-child(1) > [width="15%"] > .action > .choose-btn').should('be.visible').click();
                 cy.get('.swal2-popup').should('be.visible');
                 cy.get('.swal2-confirm').should('be.visible').click();
-                cy.wait('@chooseContactExchange', {timeout: 30000});
+                cy.wait('@chooseContactExchange');
             }
         });
         //Xác minh button "View detail" có hiển thị và không bị vô hiệu hóa
         cy.get(':nth-child(1) > [width="15%"] > .action > .preview-contact').should('be.visible').click();
-        cy.wait('@getContactExchange', {timeout:30000}).get('#preview-contact').should('be.visible').type('{esc}');
+        cy.wait('@getContactExchange').get('#preview-contact').should('be.visible').type('{esc}');
 
         //Xác minh button Next/Previous page có hiển thị và không bị vô hiệu hóa
         cy.get('.pagination-next').should('be.visible').click();

@@ -13,8 +13,8 @@ function uploadFileAndVerify(fileName: any) {
     cy.get('.form__note--add-new > .form__box--button > .button--save').click();
 
     // Kiểm tra file đã được upload thành công
-    cy.get('.body__file-attachment--list > a', {timeout:10000}).should('have.attr', 'href');
-    cy.get('.box__header', {timeout: 10000}).first().then($firstNote => {
+    cy.get('.body__file-attachment--list > a').should('have.attr', 'href');
+    cy.get('.box__header').first().then($firstNote => {
         cy.wrap($firstNote).find('button[class="dropdown-toggle"]').click();
         cy.get('button[class="dropdown-item button--delete-note"]').click();
     })

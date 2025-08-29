@@ -25,7 +25,7 @@ function updateStateByDragDrop(sourceSelector:string, targetSelector:string, nee
                 
                 // 4. Verify deal đã được cập nhật stage
                 cy.reload();
-                cy.get(targetSelector, {timeout:5000}).then($target => {
+                cy.get(targetSelector).then($target => {
                     cy.wrap($target).find('.item__name').first().should('contain.text', expectedDealName);
                 });
             });
