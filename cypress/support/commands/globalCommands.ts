@@ -18,8 +18,8 @@ Cypress.Commands.add('backActionFromBrowser', () => {
 });
 
 Cypress.Commands.add('saveLoginSession', () => {
-    cy.setCookie('XSRF-TOKEN', 'eyJpdiI6IkZvT1JnSGlhTk5iSUFhWTg1OCtZNHc9PSIsInZhbHVlIjoiUnVLblBtQ3RjYVhNWGMzQ0hzcGhQRlJVa1g1MWJvaGg2Q1VuRlNiVTBSMk40VkxjUnhRalorU0ovUTgyZVRCQ2FJRVJRTzh6TDlhQ3NLRmdkYUR0YmFEalZVUHdNSGlneFhWUFhzQ1E2WTZkQVdBbEtEZzdEbFdCTnRnRG50UW4iLCJtYWMiOiI5M2ZjNTIzZDY4NGI0ZGQ0ODczZjU3YThhZmIyNmIyYWQwZWU5MGY1NjlkMjViNWRmNTY3YTQwM2U3MjJkZDE1IiwidGFnIjoiIn0%3D');
-    cy.setCookie('adamo_sales_crm_session', 'eyJpdiI6Inc1bFR1a3JDMWlGN3FDMDNQTHhrU0E9PSIsInZhbHVlIjoid1I2akR1NkJYV2E2cW8yVU8rdWhOYlFJekFzSlVhMUI5Z080SGRTZExvZncveGlkS0g3eDNGRFA3M05DMjcxdkR3dXJicHRZWW8rRlRVcHJ5ckZ2c2Z3ckxMd3o5Ri91NjNoZVVDNWxabGR1RGVHS0h5ZXQ4eExDUDJza0JUdksiLCJtYWMiOiJlNmFhNzkzMGNmNzZhNWEyZjIyMzg4NjQxNWVjYWNkMjBlMjI4OGNiZWVkODEyMWRjM2UyZTZiNzg2YjYyNmYzIiwidGFnIjoiIn0%3D');
+    cy.setCookie('XSRF-TOKEN', 'eyJpdiI6IlA2Q1YxWU0yVmo5am1pcHIzcjIwR0E9PSIsInZhbHVlIjoidjdjUDJuSkF2QmFDV3p2V0ZOQ20wUFlhL3IrblpwdldGMyt6ZDlnRlFyTVRaazREQ1ZjdC9RUy9SdEpMcG15cWY1TE1UNDVzOXJaanBoVkQwam9Kb2tUTUFsKzhNSG1QbXpzYTVxVnFBL3hQNDNvQk02elhYWGRKNHRIYUZNY1YiLCJtYWMiOiI2ODgzZmZiMjU2MjllYjI3MjU2ZWI2MjA1NGZkYmJhODY0YTg2ODk0MWFkNTgzMmMwZmVkYjMzZTExNWNlMjJlIiwidGFnIjoiIn0%3D');
+    cy.setCookie('adamo_sales_crm_session', 'eyJpdiI6ImFhRmcxcEY4Y3ZXNnk2Tkk2VlYydVE9PSIsInZhbHVlIjoiTUNjSlEycEZiT2tZcy85cXdGYnpXUkFXQU4zbzhVaVljMnluZmVVQ3cyNFoxQUhFU2gzcXNjK0ZCOXBzV0lGL0t3MUZpWFQzelB4WVBXQ21hR1VnNDlENXhvZGVRdFQvRktpYUcrUkxZRFRZVVhlWjBxVTJNTUlLM2JYQmNmWmsiLCJtYWMiOiIwMjgwYzUzMmI1NzNmMjQxZGUwMmNkNDk4MzlhNWM4NTVkNzY5M2MwN2EzNWI4YmNmOTQ2ZDYyYWUxNTU0Y2UwIiwidGFnIjoiIn0%3D');
 });
 
 Cypress.Commands.add('dragAndDrop', (sourceSelector, targetSelector) => {
@@ -42,7 +42,7 @@ Cypress.Commands.add('dragAndDrop', (sourceSelector, targetSelector) => {
     // Drop + dragend
     cy.get(targetSelector).then($target => {
       cy.wrap($target)
-        .trigger('pointerup')
+        .trigger('pointerup', { force: true })
     });
   });
 });
