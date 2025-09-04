@@ -1,0 +1,483 @@
+{
+    "data": {
+        "data": {
+            "current_page": 1,
+            "data": [
+                {
+                    "id": 49782,
+                    "owner_id": 91,
+                    "email": "vic@doshii.io349",
+                    "first_name": "Vic",
+                    "last_name": "Main 349",
+                    "phone_code": "+=+374",
+                    "phone": "",
+                    "title": null,
+                    "job_title": "CEO",
+                    "company": null,
+                    "linked_in": "",
+                    "address": null,
+                    "stage_id": 101,
+                    "industry_id": 95,
+                    "country_id": 231,
+                    "city_id": null,
+                    "contact_resource_id": 7,
+                    "message": null,
+                    "date_of_birth": null,
+                    "hobbies": null,
+                    "is_import": 1,
+                    "created_at": "2025-08-05T07:53:56.000000Z",
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "contact_full_name": "Vic Main 349",
+                    "contact_status_name": "-",
+                    "contact_full_phone": "+=+374",
+                        "staff": {
+                            "id": 9,
+                            "staff_id": 91,
+                            "team_id": 1,
+                            "role_id": 3,
+                            "created_at": "2025-03-24T19:12:59.000000Z",
+                            "updated_at": "2025-03-24T19:12:59.000000Z",
+                            "deleted_at": null,
+                            "last_seen_notifications_at": null,
+                            "user": {
+                                "id": 91,
+                                "firstname": "Vi\u1ec7t",
+                                "lastname": "\u0110\u1ed7 Ho\u00e0ng",
+                                "login": "viet.do@adamosoft.com",
+                                "full_name": "\u0110\u1ed7 Ho\u00e0ng Vi\u1ec7t"
+                            }
+                        },
+                        "stage": {
+                            "id": 101,
+                            "name": "Marketing Qualified"
+                        },
+                        "industry": {
+                            "id": 95,
+                            "name": "Hospitality"
+                        },
+                        "tags": [
+                            {
+                                "id": 71,
+                                "name": "v_vip",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 71
+                                }
+                            },
+                            {
+                                "id": 69,
+                                "name": "12334",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 69
+                                }
+                            },
+                            {
+                                "id": 68,
+                                "name": "23322",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 68
+                                }
+                            },
+                            {
+                                "id": 62,
+                                "name": "tag 1",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 62
+                                }
+                            },
+                            {
+                                "id": 61,
+                                "name": "tag 21",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 61
+                                }
+                            },
+                            {
+                                "id": 70,
+                                "name": "tag name",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 70
+                                }
+                            },
+                            {
+                                "id": 60,
+                                "name": "tag 2",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 60
+                                }
+                            },
+                            {
+                                "id": 59,
+                                "name": "VIP",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 59
+                                }
+                            },
+                            {
+                                "id": 58,
+                                "name": "_tag",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 58
+                                }
+                            },
+                            {
+                                "id": 57,
+                                "name": "tag_",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 57
+                                }
+                            },
+                            {
+                                "id": 56,
+                                "name": "tag",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 56
+                                }
+                            },
+                            {
+                                "id": 55,
+                                "name": "my test",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 55
+                                }
+                            },
+                            {
+                                "id": 48,
+                                "name": "hello everyone",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 48
+                                }
+                            },
+                            {
+                                "id": 49,
+                                "name": "hhgdhgddf\u0111",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 49
+                                }
+                            },
+                            {
+                                "id": 47,
+                                "name": "Hisie was here :P",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 47
+                                }
+                            },
+                            {
+                                "id": 54,
+                                "name": "test test",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 54
+                                }
+                            },
+                            {
+                                "id": 45,
+                                "name": "VIPp",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 45
+                                }
+                            },
+                            {
+                                "id": 44,
+                                "name": "VVIP",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 44
+                                }
+                            },
+                            {
+                                "id": 42,
+                                "name": "Loyal Customer",
+                                "pivot": {
+                                    "taggable_type": "App\\Models\\Contact",
+                                    "taggable_id": 49788,
+                                    "tag_id": 42
+                                }
+                            }
+                        ],
+                        "city": null,
+                        "contact_resource": {
+                            "id": 3,
+                            "name": "Referral"
+                        },
+                        "country": {
+                            "id": 4,
+                            "name": "Algeria",
+                            "iso2": "DZ"
+                        }
+                },
+                {
+                    "id": 49786,
+                    "owner_id": 91,
+                    "email": "vic@doshii.io355",
+                    "first_name": "Vic",
+                    "last_name": "Main 355",
+                    "phone_code": "+=+1-684",
+                    "phone": "",
+                    "title": null,
+                    "job_title": "Chief Technology Officer (CTO)",
+                    "company": null,
+                    "linked_in": "",
+                    "address": null,
+                    "stage_id": 103,
+                    "industry_id": 91,
+                    "country_id": 8,
+                    "city_id": null,
+                    "contact_resource_id": null,
+                    "message": null,
+                    "date_of_birth": null,
+                    "hobbies": null,
+                    "is_import": 1,
+                    "created_at": "2025-08-05T07:53:56.000000Z",
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "contact_full_name": "Vic Main 355",
+                    "contact_status_name": "-",
+                    "contact_full_phone": "+=+1-684",
+                    "staff": {
+                        "id": 9,
+                        "staff_id": 91,
+                        "team_id": 1,
+                        "role_id": 3,
+                        "created_at": "2025-03-24T19:12:59.000000Z",
+                        "updated_at": "2025-03-24T19:12:59.000000Z",
+                        "deleted_at": null,
+                        "last_seen_notifications_at": null,
+                        "user": {
+                            "id": 91,
+                            "firstname": "Vi\u1ec7t",
+                            "lastname": "\u0110\u1ed7 Ho\u00e0ng",
+                            "login": "viet.do@adamosoft.com",
+                            "full_name": "\u0110\u1ed7 Ho\u00e0ng Vi\u1ec7t"
+                        }
+                    },
+                    "stage": {
+                        "id": 103,
+                        "name": "Customer"
+                    },
+                    "industry": {
+                        "id": 91,
+                        "name": "Financial"
+                    },
+                    "tags": [],
+                    "city": null,
+                    "contact_resource": null,
+                    "country": {
+                        "id": 8,
+                        "name": "Anguilla",
+                        "iso2": "AI"
+                    }
+                },
+                {
+                    "id": 49784,
+                    "owner_id": 91,
+                    "email": "vic@doshii.io351",
+                    "first_name": "Vic",
+                    "last_name": "Main 351",
+                    "phone_code": "+=+43",
+                    "phone": "+61 4 7901 0808",
+                    "title": null,
+                    "job_title": "Chief Technology Officer",
+                    "company": null,
+                    "linked_in": "",
+                    "address": null,
+                    "stage_id": 100,
+                    "industry_id": 101,
+                    "country_id": 12,
+                    "city_id": null,
+                    "contact_resource_id": 9,
+                    "message": null,
+                    "date_of_birth": null,
+                    "hobbies": null,
+                    "is_import": 1,
+                    "created_at": "2025-08-05T07:53:56.000000Z",
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "contact_full_name": "Vic Main 351",
+                    "contact_status_name": "-",
+                    "contact_full_phone": "+=+43+61 4 7901 0808",
+                    "staff": {
+                        "id": 9,
+                        "staff_id": 91,
+                        "team_id": 1,
+                        "role_id": 3,
+                        "created_at": "2025-03-24T19:12:59.000000Z",
+                        "updated_at": "2025-03-24T19:12:59.000000Z",
+                        "deleted_at": null,
+                        "last_seen_notifications_at": null,
+                        "user": {
+                            "id": 91,
+                            "firstname": "Vi\u1ec7t",
+                            "lastname": "\u0110\u1ed7 Ho\u00e0ng",
+                            "login": "viet.do@adamosoft.com",
+                            "full_name": "\u0110\u1ed7 Ho\u00e0ng Vi\u1ec7t"
+                        }
+                    },
+                    "stage": {
+                        "id": 100,
+                        "name": "Lead"
+                    },
+                    "industry": {
+                        "id": 101,
+                        "name": "Media and Entertainment"
+                    },
+                    "tags": [],
+                    "city": null,
+                    "contact_resource": {
+                        "id": 9,
+                        "name": "Phone (SMS\/WhatsApp)"
+                    },
+                    "country": {
+                        "id": 12,
+                        "name": "Armenia",
+                        "iso2": "AM"
+                    }
+                },
+                {
+                    "id": 49780,
+                    "owner_id": 91,
+                    "email": "vic@doshii.io347",
+                    "first_name": "Vic",
+                    "last_name": "Main 347",
+                    "phone_code": "+=+244",
+                    "phone": "",
+                    "title": null,
+                    "job_title": "CEO",
+                    "company": null,
+                    "linked_in": "",
+                    "address": null,
+                    "stage_id": 102,
+                    "industry_id": 92,
+                    "country_id": 3,
+                    "city_id": null,
+                    "contact_resource_id": 4,
+                    "message": null,
+                    "date_of_birth": null,
+                    "hobbies": null,
+                    "is_import": 1,
+                    "created_at": "2025-08-05T07:53:56.000000Z",
+                    "updated_at": null,
+                    "deleted_at": null,
+                    "contact_full_name": "Vic Main 347",
+                    "contact_status_name": "-",
+                    "contact_full_phone": "+=+244",
+                    "staff": {
+                        "id": 9,
+                        "staff_id": 91,
+                        "team_id": 1,
+                        "role_id": 3,
+                        "created_at": "2025-03-24T19:12:59.000000Z",
+                        "updated_at": "2025-03-24T19:12:59.000000Z",
+                        "deleted_at": null,
+                        "last_seen_notifications_at": null,
+                        "user": {
+                            "id": 91,
+                            "firstname": "Vi\u1ec7t",
+                            "lastname": "\u0110\u1ed7 Ho\u00e0ng",
+                            "login": "viet.do@adamosoft.com",
+                            "full_name": "\u0110\u1ed7 Ho\u00e0ng Vi\u1ec7t"
+                        }
+                    },
+                    "stage": {
+                        "id": 102,
+                        "name": "Sales Qualified"
+                    },
+                    "industry": {
+                        "id": 92,
+                        "name": "Food and Beverage"
+                    },
+                    "tags": [],
+                    "city": null,
+                    "contact_resource": {
+                        "id": 4,
+                        "name": "Conference"
+                    },
+                    "country": {
+                        "id": 3,
+                        "name": "Albania",
+                        "iso2": "AL"
+                    }
+                }
+            ],
+            "first_page_url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=1",
+            "from": 1,
+            "last_page": 1,
+            "last_page_url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=1",
+            "links": [
+                {
+                    "url": null,
+                    "label": "&laquo; Previous",
+                    "active": false
+                },
+                {
+                    "url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=1",
+                    "label": "1",
+                    "active": true
+                },
+                {
+                    "url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=2",
+                    "label": "2",
+                    "active": false
+                },
+                {
+                    "url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=3",
+                    "label": "3",
+                    "active": false
+                },
+                {
+                    "url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=4",
+                    "label": "4",
+                    "active": false
+                },
+                {
+                    "url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=2",
+                    "label": "Next &raquo;",
+                    "active": false
+                }
+            ],
+            "next_page_url": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=",
+            "path": "https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role",
+            "per_page": 50,
+            "prev_page_url": null,
+            "to": 50,
+            "total": 4
+        },
+        "pagination": "<div class=\"d-flex justify-content-center pagination-page mt-3\">\n    <div class=\"pagination-wrap hstack gap-2\" style=\"display: flex;\">\n        <a class=\"page-item pagination-prev disabled\"\n           href=\"\">\n            <svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n                <path d=\"M15.8333 10H4.16666M4.16666 10L10 15.8334M4.16666 10L10 4.16669\" stroke=\"#1A1A1A\"\n                      stroke-width=\"1.67\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n            <\/svg>\n            Previous        <\/a>\n\n        <ul class=\"pagination listjs-pagination mb-0\">\n                                        \n                                    <li class=\"active\">\n                        <a class=\"page\" href=\"javascript:void(0)\">1<\/a>\n                    <\/li>\n                \n                                            \n                                    <li class=\"\">\n                        <a class=\"page\" href=\"https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=2\">2<\/a>\n                    <\/li>\n                \n                                            \n                                    <li class=\"\">\n                        <a class=\"page\" href=\"https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=3\">3<\/a>\n                    <\/li>\n                \n                                            \n                                    <li class=\"\">\n                        <a class=\"page\" href=\"https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=4\">4<\/a>\n                    <\/li>\n                \n                                    <\/ul>\n\n        <a class=\"page-item pagination-next \"\n           href=\"https:\/\/sales-crm-dev.adamo.tech\/contacts\/get-all-contact-by-current-role?page=2\">\n            Next            <svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n                <path d=\"M4.16669 10H15.8334M15.8334 10L10 4.16669M15.8334 10L10 15.8334\" stroke=\"#1A1A1A\"\n                      stroke-width=\"1.67\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n            <\/svg>\n        <\/a>\n    <\/div>\n<\/div>\n"
+    },
+    "message": "OK",
+    "status": 200
+}
