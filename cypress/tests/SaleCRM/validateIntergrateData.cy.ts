@@ -11,15 +11,15 @@ describe('Kiểm tra intergrated data', () => {
         it(`Kiểm tra data Contact`, () => {
             const CONTACT_LIST_API_ENDPOINT:string = 'https://sales-crm-dev.adamo.tech/contacts/get-all-contact-by-current-role';
             const MOCK_DATA_CONTACT_LIST:any = require('../../fixtures/SaleCRM/contactList.json');
-
-            //Mở page list contact
-            cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
-
+            
             //Intercept API để chờ dữ liệu load xong (có thể mock dữ liệu nếu cần)
             cy.intercept('GET', CONTACT_LIST_API_ENDPOINT, {
                 statusCode: 200,
                 body: MOCK_DATA_CONTACT_LIST,
             }).as('getContacts');
+            
+            //Mở page list contact
+            cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
 
             //Lấy dữ liệu từ API
             cy.wait('@getContacts').then((interception) => {

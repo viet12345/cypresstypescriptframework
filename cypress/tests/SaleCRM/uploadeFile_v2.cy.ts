@@ -32,7 +32,7 @@ describe('Kiểm tra upload tất cả file từ folder DataTestingFiles.', () =
         cy.saveLoginSession(); // Lưu session đăng nhập trước khi thực hiện các thao tác khác
     });
 
-    describe.only('Upload file từ Contact detail.', () => {
+    describe('Upload file từ Contact detail.', () => {
     Object.entries(Cypress.env('fileList')).forEach(([index,fileName]) => {
             it(`Kiểm tra upload file ${fileName} trong tạo Note từ Contact detail.`, () => {
                 cy.visit('contacts/49786'); // Cập nhật đường dẫn nếu cần
