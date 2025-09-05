@@ -1,8 +1,7 @@
-import { get } from "http";
-
 describe('Access success the valid pages', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('Authentication steps', () => {
+        cy.clearSession();
         // Cách 1: Thiết lập giá trị cookie trực tiếp
         cy.saveLoginSession();
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
@@ -83,7 +82,7 @@ describe('Access success the valid pages', () => {
         cy.get('.selectize__filter--contact-owner.selectize-control > .selectize-input').should('have.class', 'disabled');
     });
 
-    it.only('Kiểm tra Contact exchange page', () => {
+    it('Kiểm tra Contact exchange page', () => {
         // Đăng ký intercept trước khi visit để đảm bảo bắt được request
         cy.intercept('/contact-exchange/**').as('getContactExchange');
         cy.intercept('/contact-exchange/receive/**').as('chooseContactExchange');
