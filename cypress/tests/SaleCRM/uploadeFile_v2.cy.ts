@@ -21,7 +21,7 @@ function uploadFileAndVerify(fileName: any) {
 
     // Submit form nếu cần
     cy.get('.form__note--add-new > .form__box--button > .button--save').click();
-    
+
     // Kiểm tra file đã được upload thành công
     cy.wait('@uploadFileSuccess').then(() => {
         cy.get('.body__file-attachment--list > a').should('have.attr', 'href');
@@ -44,7 +44,7 @@ describe('Kiểm tra upload tất cả file từ folder DataTestingFiles.', () =
         cy.saveLoginSession(); // Lưu session đăng nhập trước khi thực hiện các thao tác khác
     });
 
-    describe.only('Upload file từ Contact detail.', () => {
+    describe('Upload file từ Contact detail.', () => {
     Object.entries(Cypress.env('fileList')).forEach(([index,fileName]) => {
             it(`Kiểm tra upload file ${fileName} trong tạo Note từ Contact detail.`, () => {
                 cy.visit('contacts/49786'); // Cập nhật đường dẫn nếu cần
