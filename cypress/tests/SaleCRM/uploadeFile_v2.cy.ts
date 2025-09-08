@@ -1,6 +1,6 @@
 function uploadFileAndVerify(fileName: any) {
 
-    cy.intercept('POST', 'https://sales-crm-dev.adamo.tech/contacts/notes/store').as('uploadFileSuccess'); // Thay đổi URL nếu cần
+    cy.intercept('POST', '**/notes/store').as('uploadFileSuccess'); // Thay đổi URL nếu cần
     // Tìm button/input để upload file
     cy.get('#show-notes').should('be.visible').click();
     cy.get('.button--add-note').should('be.visible').click();
