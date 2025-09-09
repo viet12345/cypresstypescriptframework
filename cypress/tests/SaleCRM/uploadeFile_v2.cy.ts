@@ -1,6 +1,8 @@
 function uploadFileAndVerify(fileName: any) {
 
     cy.intercept('POST', '**/notes/store').as('uploadFileSuccess'); // Thay đổi URL nếu cần
+    cy.intercept('GET', /\/notes\/get-all-note-by.*/).as('getListNoteSuccess');
+
     // Tìm button/input để upload file
     cy.get('#show-notes').should('be.visible').click();
     cy.get('.button--add-note').should('be.visible').click();
@@ -23,13 +25,14 @@ function uploadFileAndVerify(fileName: any) {
     cy.get('.form__note--add-new > .form__box--button > .button--save').click();
 
     // Kiểm tra file đã được upload thành công
-    cy.wait('@uploadFileSuccess').then(() => {
-        cy.get('.body__file-attachment--list > a').should('have.attr', 'href');
-        cy.get('.box__header').first().then($firstNote => {
-            cy.wrap($firstNote).find('button[class="dropdown-toggle"]').click();
-            cy.get('button[class="dropdown-item button--delete-note"]').click();
-        })
-    });
+
+    cy.wait('@uploadFileSuccess');
+    cy.wait('@getListNoteSuccess');
+    cy.get('.body__file-attachment--list > a').should('have.attr', 'href');
+    cy.get('.box__header').first().then($firstNote => {
+        cy.wrap($firstNote).find('button[class="dropdown-toggle"]').click();
+        cy.wrap($firstNote).find('button[class="dropdown-item button--delete-note"]').click();
+    })
 }
 
 describe('Kiểm tra upload tất cả file từ folder DataTestingFiles.', () => {
