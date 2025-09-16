@@ -29,9 +29,9 @@ function uploadFileAndVerify(fileName: any) {
     cy.wait('@uploadFileSuccess');
     cy.wait('@getListNoteSuccess');
     cy.get('.body__file-attachment--list > a').should('have.attr', 'href');
-    cy.get('.box__header').first().then($firstNote => {
-        cy.wrap($firstNote).find('button[class="dropdown-toggle"]').click();
-        cy.wrap($firstNote).find('button[class="dropdown-item button--delete-note"]').click();
+    cy.get('.box__header').first().within(() => {
+        cy.get('button[class="dropdown-toggle"]').click();
+        cy.get('button[class="dropdown-item button--delete-note"]').click();
     })
 }
 
