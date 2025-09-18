@@ -67,6 +67,45 @@ describe('Kiểm tra intergrated data', () => {
         })
     })
 
+    describe.only('Kiểm tra data Destinations có tồn tại và trạng thái checkbox hiển thị chính xác.', () => {
+        DESTINATIONS.forEach(($destination:any) => {
+            it(`Kiểm tra data Gateways ${$destination.code}.`, () => {
+                cy.get('[pc89=""] > .p-datatable-column-header-content > .p-datatable-filter > .p-button').click({ force: true });
+                cy.get('input[placeholder="SV Dest ID"]').type($destination.code);
+                cy.get('button[aria-label="Apply"]').click({ force: true });
+                cy.wait(2000); // Chờ dữ liệu load xong
+                
+                //Kiểm tra dữ liệu data tồn tại trên GUI
+                //Kiểm tra trạng thái check-box Package
+                cy.get('div[class="city-table"]').should('be.visible').within(() => {
+                    cy.contains('td', $destination.airportCode).closest('tr').then(($row) => {
+                        cy.wrap($row).find('td').eq(9).should('have.text', $destination.code);
+                        cy.wrap($row).find('div[id="Package"]').eq(1).then(($checkbox) => {
+                            if ($destination.status === 'OPEN') {
+                                expect($checkbox.attr('data-p-checked')).to.equal('true');
+                            }
+                            else
+                                expect($checkbox.attr('data-p-checked')).to.equal('false');
+                        });
+                        cy.wrap($row).find('div[id="Hotel"]').eq(1).then(($checkbox) => {
+                            if ($destination.status === 'OPEN') {
+                                expect($checkbox.attr('data-p-checked')).to.equal('true');
+                            }
+                            else
+                                expect($checkbox.attr('data-p-checked')).to.equal('false');
+                        });
+                    });
+                });
+
+                // //Clear data
+                // cy.get('[pc53=""] > .p-datatable-column-header-content > .p-datatable-filter > .p-button').click({ force: true });
+                // cy.get('input[placeholder="Airport Code"]').clear();
+                // cy.get('button[aria-label="Apply"]').click({ force: true });
+                // cy.wait(2000); // Chờ dữ liệu load xong
+            });
+        })
+    })
+
     it(`Kiểm tra data Gateways có tồn tại và trạng thái checkbox hiển thị chính xác.`, () => {
 
         //Lấy dữ liệu từ JSON
