@@ -72,8 +72,8 @@ describe('Kiểm tra intergrated data', () => {
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
         cy.visit("https://qalogin-gqt-spa.vacv-nonprod.click/qa-hxjhdknbdklnbklnbkjkld.html#/pages/empty");
         cy.get('.ml-2').should('be.visible').click();
-        cy.get("#username").type("GQTProject");
-        cy.get("#password").type("QAT2024_lh0sXpVyy0yq");
+        cy.get("#username").type(Cypress.env("username"));
+        cy.get("#password").type(Cypress.env("password"));
         cy.get("#submit-user").click();
         cy.get('.p-select-label').click();
         cy.get('.p-select-list-container').should('be.visible').within(() => {
