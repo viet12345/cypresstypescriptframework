@@ -14,7 +14,13 @@ export default defineConfig({
         resultsDir: "cypress/reports/allure-results",
       });
 
+      //Biến môi trường không public ra ngoài
+      //SaleCRM
       config.env.fileList = fs.readdirSync('cypress/fixtures/DataTestingFiles');
+
+      //GQT
+      config.env.username = 'GQTProject';
+      config.env.password = 'QAT2024_lh0sXpVyy0yq';
 
       
       return config;
