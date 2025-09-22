@@ -17,8 +17,8 @@ function checkIntegrationPackageData_v2(
         //Bắt gateway lỗi và lưu vào mảng
         //Check nếu codeInput đã tồn tại trong mảng thì không push nữa
         if (!errorCode.includes(codeInput)){
-          errorCode.push(codeInput); // Lưu mã bị lỗi
           console.log(`Code bị sai status: ${codeInput}`);
+          errorCode.push(codeInput); // Lưu mã bị lỗi
         }
       }
     });
@@ -38,13 +38,10 @@ function checkIntegrationPackageData_v2(
           try {
             expect($code.trim()).to.equal(codeInput.trim());
           } catch (err: any) {
-            //Bắt gateway lỗi và lưu vào mảng
-            //Check nếu codeInput đã tồn tại trong mảng thì không push nữa
-            if (!errorCode.includes(codeInput)){
-              errorCode.push(codeInput); // Lưu mã bị lỗi
-              console.log(`Code không tìm thấy: ${codeInput}`);
-              return; // Dừng không chạy tiếp lệnh cy.contains
-            }
+            //Bắt data lỗi và lưu vào mảng
+            console.log(`Code gateway không tìm thấy: ${codeInput}`);
+            errorCode.push(codeInput); // Lưu mã bị lỗi
+            return; // Dừng không chạy tiếp lệnh cy.contains
           }
           checkCheckbox($row, 'Package', 0);
         })
@@ -53,33 +50,31 @@ function checkIntegrationPackageData_v2(
   }
 
   if (typeOfData === 'Destinations') {
-    console.log(airportCodeInputString);
-    if (airportCodeInputString === "null" || "undefined") {
-      console.log(`⛔ Bỏ qua data lỗi do không có airportCode: ${codeInput}`);
-      errorCode.push(codeInput);
-      return; // Dừng không chạy tiếp lệnh cy.contains
-    }
-
     cy.get('[pc89=""] > .p-datatable-column-header-content > .p-datatable-filter > .p-button').click({ force: true });
-
     cy.get('input[placeholder="SV Dest ID"]').type(codeInput, {force:true});
     cy.get('button[aria-label="Apply"]').click({ force: true });
     cy.wait(2000);
-
     cy.get('div[class="city-table"]').should('be.visible').within(() => {
+      try {
+        if (airportCodeInput != null && airportCodeInput !== '') {
+        }
+      } catch (err: any) {
+        //Bắt data lỗi và lưu vào mảng
+        console.log(`Code destination có giá trị airportCodeInput invalid: ${codeInput}`);
+        errorCode.push(codeInput); // Lưu mã bị lỗi
+        return; // Dừng không chạy tiếp lệnh cy.contains        
+      }
       cy.contains('td', airportCodeInputString).closest('tr').then(($row) => {
-        // try {
-        //     expect($code.trim()).to.equal(codeInput.trim());
-        // } catch (err: any) {
-        //   //Bắt gateway lỗi và lưu vào mảng
-        //   //Check nếu codeInput đã tồn tại trong mảng thì không push nữa
-        //   if (!errorCode.includes(codeInput)){
-        //     errorCode.push(codeInput); // Lưu mã bị lỗi
-        //     console.log(`Code không tìm thấy: ${codeInput}`);
-        //     return; // Dừng không chạy tiếp lệnh cy.contains
-        //   }
-        // }
-        cy.wrap($row).find('td').eq(9).should('have.text', codeInput);
+        cy.wrap($row).find('td').eq(9).invoke('text').then(($code) => {
+          try {
+            expect($code.trim()).to.equal(codeInput.trim());
+          } catch (error) {
+            //Bắt data lỗi và lưu vào mảng
+            console.log(`Code destination không tìm thấy: ${codeInput}`);
+            errorCode.push(codeInput); // Lưu mã bị lỗi
+            return; // Dừng không chạy tiếp lệnh cy.contains 
+          }
+        });
         checkCheckbox($row, 'Package', 1);
         checkCheckbox($row, 'Hotel', 1);
       });
@@ -132,7 +127,7 @@ describe('Kiểm tra intergrated data', () => {
         GATEWAYS.forEach(($gateway:any) => {
         checkIntegrationPackageData_v2('Gateways',$gateway.code, $gateway.status, errorGateways);
       });
-      cy.log('Lỗi Gateways: ',errorGateways);
+      cy.log('Danh sách Gateways có lỗi: ',errorGateways);
     });
     
     it.only(`Kiểm tra data Destinations`, () => {
@@ -140,6 +135,6 @@ describe('Kiểm tra intergrated data', () => {
       DESTINATIONS.forEach(($destination:any) => {
         checkIntegrationPackageData_v2('Destinations', $destination.code, $destination.status, errorDestinations, $destination.airportCode);
       });
-      cy.log('Lỗi Destinations: ',errorDestinations);
+      cy.log('Danh sách Destinations có lỗi: ',errorDestinations);
     });
 })
