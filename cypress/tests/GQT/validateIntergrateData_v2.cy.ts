@@ -3,10 +3,11 @@ function checkIntegrationPackageData_v2(
   codeInput: string,
   statusInput: 'OPEN' | 'CLOSED',
   errorCode: string[],
-  airportCodeInput?: string | null, // optional vì chỉ cần cho Destinations
+  airportCodeInput?: string, // optional vì chỉ cần cho Destinations
 ) {
   const expectedChecked = statusInput === 'OPEN' ? 'true' : 'false';
   const airportCodeInputString = String(airportCodeInput);
+  const codeInputString = String(codeInput);
   
   // Hàm phụ để kiểm tra checkbox
   function checkCheckbox($row: JQuery<HTMLElement>, id: string, index: number) {
@@ -24,7 +25,7 @@ function checkIntegrationPackageData_v2(
     });
   }
 
-  if (typeOfData === 'Gateways') {
+  if (typeOfData === 'Gateways' && codeInputString !== 'null') {
     cy.get('[pc53=""] > .p-datatable-column-header-content > .p-datatable-filter > .p-button')
       .click({ force: true });
 
@@ -49,36 +50,41 @@ function checkIntegrationPackageData_v2(
     });
   }
 
-  if (typeOfData === 'Destinations') {
+  if (typeOfData === 'Destinations' && airportCodeInputString !== 'null' && codeInputString !== 'null') {
     cy.get('[pc89=""] > .p-datatable-column-header-content > .p-datatable-filter > .p-button').click({ force: true });
     cy.get('input[placeholder="SV Dest ID"]').type(codeInput, {force:true});
     cy.get('button[aria-label="Apply"]').click({ force: true });
     cy.wait(2000);
-    cy.get('div[class="city-table"]').should('be.visible').within(() => {
-      try {
-        if (airportCodeInput != null && airportCodeInput !== '') {
-        }
-      } catch (err: any) {
-        //Bắt data lỗi và lưu vào mảng
-        console.log(`Code destination có giá trị airportCodeInput invalid: ${codeInput}`);
-        errorCode.push(codeInput); // Lưu mã bị lỗi
-        return; // Dừng không chạy tiếp lệnh cy.contains        
+    cy.get('div.city-table').should('be.visible').within(() => {
+      cy.get('tr').then(($rows) => {
+        // Tìm row nào chứa airportCodeInputString
+        const matchedRow = [...$rows].find(row => 
+        row.innerText.includes(airportCodeInputString)
+      );
+
+      if (!matchedRow) {
+        console.log(`Không tìm thấy row với airportCodeInputString: ${airportCodeInputString}`);
+        errorCode.push(codeInput);
+        return;
       }
-      cy.contains('td', airportCodeInputString).closest('tr').then(($row) => {
-        cy.wrap($row).find('td').eq(9).invoke('text').then(($code) => {
-          try {
-            expect($code.trim()).to.equal(codeInput.trim());
-          } catch (error) {
-            //Bắt data lỗi và lưu vào mảng
-            console.log(`Code destination không tìm thấy: ${codeInput}`);
-            errorCode.push(codeInput); // Lưu mã bị lỗi
-            return; // Dừng không chạy tiếp lệnh cy.contains 
-          }
-        });
-        checkCheckbox($row, 'Package', 1);
-        checkCheckbox($row, 'Hotel', 1);
-      });
-    });
+
+      const $row = Cypress.$(matchedRow);
+
+      // Lấy text từ cột thứ 9
+      const codeText = $row.find('td').eq(9).text().trim();
+
+      if (codeText !== codeInput.trim()) {
+        console.log(`Code destination không tìm thấy: ${codeInput}`);
+        errorCode.push(codeInput);
+        return;
+      }
+
+    // Nếu khớp thì check checkbox
+    checkCheckbox($row, 'Package', 1);
+    checkCheckbox($row, 'Hotel', 1);
+  });
+});
+
   }
 
   //Clear data
