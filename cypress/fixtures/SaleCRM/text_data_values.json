@@ -1,0 +1,38 @@
+{
+  "text_input": {
+  "valid": { "value": "Test input text", "valid": true },
+  "empty": { "value": "", "valid": false, "error_mes": "First name is required." },
+  "specialChars": { "value": "!@#$%^&*()_+", "valid": true },
+  "long": { "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "valid": true },
+  "unicode": { "value": "Đặng Văn Sỹ – 東京 – Москва", "valid": true },
+  "tab": { "value": "Test\tTab", "valid": true },
+  "newline": { "value": "Test\nNewline", "valid": true },
+  "html": { "value": "<div>Test</div>", "valid": true },
+  "script": { "value": "<script>alert('xss')</script>", "valid": true },
+  "emoji": { "value": "😀😃😄😁😆", "valid": true },
+  "vietnamese": { "value": "Xin chào, tôi là người Việt!", "valid": true },
+  "whitespace": { "value": "     ", "valid": false, "error_mes": "First name is required." },
+  "veryLong": { "value": "Đây là một chuỗi văn bản rất dài dùng để kiểm thử trường hợp nhập liệu với số lượng ký tự lớn. Chuỗi này chứa các khoảng trắng, dấu câu và ký tự tiếng Việt để đảm bảo kiểm tra được tính đa dạng của dữ liệu đầu vào. Hãy chắc chắn rằng hệ thống xử lý tốt khi nhận được chuỗi này mà không bị lỗi hoặc cắt bớt dữ liệu. Đây là đoạn kết thúc chuỗi kiểm thử dài.", "valid": true },
+  "numberString": { "value": "1234567890", "valid": true },
+  "repeat": { "value": "abcabcabcabcabc", "valid": true },
+  "quote": { "value": "He said, 'hello' and \"goodbye\".", "valid": true }
+  },
+  "email_input": {
+  "valid": { "value": "test@example.com", "valid": true },
+  "invalid": { "value": "test@.com", "valid": false, "error_mes": "Email không đúng định dạng." },
+  "empty": { "value": "", "valid": false, "error_mes": "Email không được để trống." },
+  "noDomain": { "value": "test@", "valid": false, "error_mes": "Email thiếu tên miền." },
+  "specialChars": { "value": "test+filter@example.com", "valid": true },
+  "long": { "value": "verylongemailaddress1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@exampledomain.com", "valid": true },
+  "vietnamese": { "value": "tênđẹp@vídụ.com", "valid": true },
+  "space": { "value": "test email@example.com", "valid": false, "error_mes": "Email không được chứa khoảng trắng." },
+  "specialCharLocal": { "value": "test!#$%&'*+/=?^_`{|}~@example.com", "valid": true },
+  "subdomain": { "value": "user@mail.sub.example.com", "valid": true },
+  "noAt": { "value": "testexample.com", "valid": false, "error_mes": "Email phải chứa ký tự @." },
+  "noTLD": { "value": "test@example", "valid": false, "error_mes": "Email thiếu phần mở rộng tên miền (VD: .com, .vn)." },
+  "quote": { "value": "'quoted'@example.com", "valid": false, "error_mes": "Email không được chứa ký tự đặc biệt không hợp lệ." },
+  "dotStart": { "value": ".test@example.com", "valid": false, "error_mes": "Email không được bắt đầu bằng dấu chấm." },
+  "dotEnd": { "value": "test.@example.com", "valid": false, "error_mes": "Email không được kết thúc bằng dấu chấm." },
+  "multiDot": { "value": "test..dot@example.com", "valid": false, "error_mes": "Email không được chứa nhiều dấu chấm liên tiếp." }
+  }
+}
