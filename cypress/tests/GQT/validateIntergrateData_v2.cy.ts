@@ -18,8 +18,7 @@ function checkIntegrationPackageData_v2(
         //Bắt gateway lỗi và lưu vào mảng
         //Check nếu codeInput đã tồn tại trong mảng thì không push nữa
         if (!errorCode.includes(codeInput)){
-          console.log(`Code bị sai status: ${codeInput}`);
-          errorCode.push(codeInput + ' ' + 'status lỗi'); // Lưu mã bị lỗi
+          errorCode.push(`${codeInput} status lỗi`); // Lưu mã bị lỗi
         }
       }
     });
@@ -40,7 +39,7 @@ function checkIntegrationPackageData_v2(
             expect($code.trim()).to.equal(codeInput.trim());
           } catch (err: any) {
             //Bắt data lỗi và lưu vào mảng
-            errorCode.push(codeInput + ' ' + 'gateway code không tìm thấy'); // Lưu mã bị lỗi
+            errorCode.push(`${codeInput} gateway code không tìm thấy`); // Lưu mã bị lỗi
             return; // Dừng không chạy tiếp lệnh cy.contains
           }
           checkCheckbox($row, 'Package', 0);
@@ -61,7 +60,7 @@ function checkIntegrationPackageData_v2(
         row.innerText.includes(airportCodeInputString));
 
       if (!matchedRow) {
-        errorCode.push(codeInput + ' ' + 'airportCode không tìm thấy'); // Lưu mã bị lỗi
+        errorCode.push(`${codeInput}airportCode không tìm thấy`); // Lưu mã bị lỗi
         return;
       }
 
@@ -71,7 +70,7 @@ function checkIntegrationPackageData_v2(
       const codeText = $row.find('td').eq(9).text().trim();
 
       if (codeText !== codeInput.trim()) {
-        errorCode.push(codeInput + ' ' + 'Code destination không tìm thấy'); // Lưu mã bị lỗi
+        errorCode.push(`${codeInput} code destination không tìm thấy`); // Lưu mã bị lỗi
         return;
       }
 
