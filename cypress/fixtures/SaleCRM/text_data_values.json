@@ -1,7 +1,26 @@
 {
-  "text_input": {
+  "first_name_input": {
+    "valid": { "value": "Test input text", "valid": true },
+    "empty": { "value": "", "valid": false, "error_mes": "First name is required." },
+    "specialChars": { "value": "!@#$%^&*()_+", "valid": true },
+    "long": { "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "valid": true },
+    "unicode": { "value": "Đặng Văn Sỹ – 東京 – Москва", "valid": true },
+    "tab": { "value": "Test\tTab", "valid": true },
+    "newline": { "value": "Test\nNewline", "valid": true },
+    "html": { "value": "<div>Test</div>", "valid": true },
+    "script": { "value": "<script>alert('xss')</script>", "valid": true },
+    "emoji": { "value": "😀😃😄😁😆", "valid": true },
+    "vietnamese": { "value": "Xin chào, tôi là người Việt!", "valid": true },
+    "whitespace": { "value": "     ", "valid": false, "error_mes": "First name is required." },
+    "veryLong": { "value": "Đây là một chuỗi văn bản rất dài dùng để kiểm thử trường hợp nhập liệu với số lượng ký tự lớn. Chuỗi này chứa các khoảng trắng, dấu câu và ký tự tiếng Việt để đảm bảo kiểm tra được tính đa dạng của dữ liệu đầu vào. Hãy chắc chắn rằng hệ thống xử lý tốt khi nhận được chuỗi này mà không bị lỗi hoặc cắt bớt dữ liệu. Đây là đoạn kết thúc chuỗi kiểm thử dài.", "valid": true },
+    "numberString": { "value": "1234567890", "valid": true },
+    "repeat": { "value": "abcabcabcabcabc", "valid": true },
+    "quote": { "value": "He said, 'hello' and \"goodbye\".", "valid": true }
+  },
+
+  "last_name_input": {
   "valid": { "value": "Test input text", "valid": true },
-  "empty": { "value": "", "valid": false, "error_mes": "First name is required." },
+  "empty": { "value": "", "valid": false, "error_mes": "Last name is required." },
   "specialChars": { "value": "!@#$%^&*()_+", "valid": true },
   "long": { "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "valid": true },
   "unicode": { "value": "Đặng Văn Sỹ – 東京 – Москва", "valid": true },
@@ -11,28 +30,66 @@
   "script": { "value": "<script>alert('xss')</script>", "valid": true },
   "emoji": { "value": "😀😃😄😁😆", "valid": true },
   "vietnamese": { "value": "Xin chào, tôi là người Việt!", "valid": true },
-  "whitespace": { "value": "     ", "valid": false, "error_mes": "First name is required." },
+  "whitespace": { "value": "     ", "valid": false, "error_mes": "Last name is required." },
   "veryLong": { "value": "Đây là một chuỗi văn bản rất dài dùng để kiểm thử trường hợp nhập liệu với số lượng ký tự lớn. Chuỗi này chứa các khoảng trắng, dấu câu và ký tự tiếng Việt để đảm bảo kiểm tra được tính đa dạng của dữ liệu đầu vào. Hãy chắc chắn rằng hệ thống xử lý tốt khi nhận được chuỗi này mà không bị lỗi hoặc cắt bớt dữ liệu. Đây là đoạn kết thúc chuỗi kiểm thử dài.", "valid": true },
   "numberString": { "value": "1234567890", "valid": true },
   "repeat": { "value": "abcabcabcabcabc", "valid": true },
   "quote": { "value": "He said, 'hello' and \"goodbye\".", "valid": true }
   },
+
+
   "email_input": {
   "valid": { "value": "test@example.com", "valid": true },
-  "invalid": { "value": "test@.com", "valid": false, "error_mes": "Email không đúng định dạng." },
-  "empty": { "value": "", "valid": false, "error_mes": "Email không được để trống." },
-  "noDomain": { "value": "test@", "valid": false, "error_mes": "Email thiếu tên miền." },
+  "invalid": { "value": "test@.com", "valid": false, "error_mes": "Invalid email format." },
+  "empty": { "value": "", "valid": false, "error_mes": "Email is required." },
+  "noDomain": { "value": "test@", "valid": false, "error_mes": "Invalid email format." },
   "specialChars": { "value": "test+filter@example.com", "valid": true },
   "long": { "value": "verylongemailaddress1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@exampledomain.com", "valid": true },
   "vietnamese": { "value": "tênđẹp@vídụ.com", "valid": true },
-  "space": { "value": "test email@example.com", "valid": false, "error_mes": "Email không được chứa khoảng trắng." },
+  "space": { "value": "test email@example.com", "valid": false, "error_mes": "Invalid email format." },
   "specialCharLocal": { "value": "test!#$%&'*+/=?^_`{|}~@example.com", "valid": true },
   "subdomain": { "value": "user@mail.sub.example.com", "valid": true },
-  "noAt": { "value": "testexample.com", "valid": false, "error_mes": "Email phải chứa ký tự @." },
-  "noTLD": { "value": "test@example", "valid": false, "error_mes": "Email thiếu phần mở rộng tên miền (VD: .com, .vn)." },
-  "quote": { "value": "'quoted'@example.com", "valid": false, "error_mes": "Email không được chứa ký tự đặc biệt không hợp lệ." },
-  "dotStart": { "value": ".test@example.com", "valid": false, "error_mes": "Email không được bắt đầu bằng dấu chấm." },
-  "dotEnd": { "value": "test.@example.com", "valid": false, "error_mes": "Email không được kết thúc bằng dấu chấm." },
-  "multiDot": { "value": "test..dot@example.com", "valid": false, "error_mes": "Email không được chứa nhiều dấu chấm liên tiếp." }
+  "noAt": { "value": "testexample.com", "valid": false, "error_mes": "Invalid email format." },
+  "noTLD": { "value": "test@example", "valid": false, "error_mes": "Invalid email format." },
+  "quote": { "value": "'quoted'@example.com", "valid": false, "error_mes": "Invalid email format." },
+  "dotStart": { "value": ".test@example.com", "valid": false, "error_mes": "Invalid email format." },
+  "dotEnd": { "value": "test.@example.com", "valid": false, "error_mes": "Invalid email format." },
+  "multiDot": { "value": "test..dot@example.com", "valid": false, "error_mes": "Invalid email format." }
+  },
+
+  "phone_without_code_input": {
+    "valid": { "value": "912345678", "valid": true },
+    "empty": { "value": "", "valid": false, "error_mes": "Phone number is required." },
+    "short": { "value": "12345", "valid": false, "error_mes": "Invalid phone number format." },
+    "long": { "value": "123456789012345", "valid": false, "error_mes": "Invalid phone number format." },
+    "letters": { "value": "abcdefghi", "valid": false, "error_mes": "Invalid phone number format." },
+    "specialChars": { "value": "!@#$%^&*", "valid": false, "error_mes": "Invalid phone number format." },
+    "space": { "value": "9123 45678", "valid": false, "error_mes": "Invalid phone number format." },
+    "leadingZero": { "value": "0912345678", "valid": true },
+    "unicode": { "value": "９１２３４５６７８", "valid": false, "error_mes": "Invalid phone number format." },
+    "withDash": { "value": "912-345-678", "valid": false, "error_mes": "Invalid phone number format." },
+    "withPlus": { "value": "+84912345678", "valid": false, "error_mes": "Phone number should not include country code." },
+    "repeat": { "value": "111111111", "valid": true },
+    "allZero": { "value": "000000000", "valid": false, "error_mes": "Invalid phone number format." },
+    "whitespace": { "value": "         ", "valid": false, "error_mes": "Phone number is required." }
+  },
+
+  "dynamic_link_input": {
+    "valid": { "value": "https://example.com", "valid": true },
+    "empty": { "value": "", "valid": false, "error_mes": "Link is required." },
+    "noProtocol": { "value": "www.example.com", "valid": false, "error_mes": "The linked in field must be a valid URL." },
+    "invalid": { "value": "htp:/invalid", "valid": false, "error_mes": "The linked in field must be a valid URL." },
+    "specialChars": { "value": "https://exa!@#$.com", "valid": false, "error_mes": "The linked in field must be a valid URL." },
+    "long": { "value": "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "valid": true },
+    "unicode": { "value": "https://tên-miền-đẹp.vn", "valid": true },
+    "withQuery": { "value": "https://example.com/page?param=value", "valid": true },
+    "withFragment": { "value": "https://example.com/page#section", "valid": true },
+    "ipAddress": { "value": "http://192.168.1.1", "valid": true },
+    "localhost": { "value": "http://localhost:3000", "valid": true },
+    "ftp": { "value": "ftp://example.com/resource", "valid": true },
+    "whitespace": { "value": "    ", "valid": false, "error_mes": "Link is required." },
+    "javascript": { "value": "javascript:alert('xss')", "valid": false, "error_mes": "The linked in field must be a valid URL." },
+    "noTLD": { "value": "https://example", "valid": false, "error_mes": "The linked in field must be a valid URL." },
+    "repeat": { "value": "https://repeat.com/repeat/repeat", "valid": true }
   }
 }
