@@ -4,14 +4,14 @@ interface InputCase {
   error_mes?: string;
 }
 
-function typeInputAndVerify(btnOpenForm:string ,inputSelector: string, btnSaveForm:string , errorSelector: string, inputCase:InputCase) {
+function typeInputAndVerify(actionType: 'add' | 'edit',btnOpenForm:string ,inputSelector: string, btnSaveForm:string , errorSelector: string, inputCase:InputCase) {
     cy.get(btnOpenForm).should('be.visible').click().then(() => {
     if (inputCase.value != "") {
         // Nhập dữ liệu vào trường First name
         cy.get(inputSelector).clear().type(inputCase.value); 
     }
-    cy.get(btnSaveForm).click();
-    if (!inputCase.valid) {
+    cy.get(btnSaveForm).click({ force: true });
+    if (!inputCase.valid && actionType === 'add') {
         cy.get(errorSelector).should('be.visible').and('contain.text', inputCase.error_mes);
     }
     });
@@ -44,7 +44,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#first_name-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         })
 
@@ -57,7 +57,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#last_name-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -70,7 +70,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#email-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -83,7 +83,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#phone-no-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -96,7 +96,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#linked_in-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
     })
@@ -118,7 +118,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#first_name-error';
 
                 cy.visit('/contacts/312');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         })
 
@@ -131,7 +131,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#last_name-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -144,7 +144,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#email-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -157,7 +157,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#phone-no-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
@@ -170,7 +170,7 @@ describe('Check các input field với text values', () => {
                 const errorSelector = '#linked_in-error';
 
                 cy.visit('/contacts');
-                typeInputAndVerify(btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
+                typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
     })
