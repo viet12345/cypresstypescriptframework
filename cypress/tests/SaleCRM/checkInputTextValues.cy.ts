@@ -14,6 +14,9 @@ function typeInputAndVerify(actionType: 'add' | 'edit',btnOpenForm:string ,input
     if (!inputCase.valid && actionType === 'add') {
         cy.get(errorSelector).should('be.visible').and('contain.text', inputCase.error_mes);
     }
+    if (inputCase.valid && actionType === 'edit' && inputCase.value != "") {
+        cy.get('body').contains(String(inputCase.value));
+    }
     });
 }
 
