@@ -37,7 +37,6 @@
   "quote": { "value": "He said, 'hello' and \"goodbye\".", "valid": true }
   },
 
-
   "email_input": {
   "valid": { "value": "test@example.com", "valid": true },
   "invalid": { "value": "test@.com", "valid": false, "error_mes": "Invalid email format." },
@@ -91,5 +90,11 @@
     "javascript": { "value": "javascript:alert('xss')", "valid": false, "error_mes": "The linked in field must be a valid URL." },
     "noTLD": { "value": "https://example", "valid": false, "error_mes": "The linked in field must be a valid URL." },
     "repeat": { "value": "https://repeat.com/repeat/repeat", "valid": true }
+  },
+
+  "resource_input": {
+    "marketing": { "value": "Marketing", "valid": true },
+    "referral": { "value": "Referral", "valid": true }
   }
+
 }

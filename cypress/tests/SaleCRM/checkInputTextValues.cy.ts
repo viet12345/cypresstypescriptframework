@@ -6,18 +6,33 @@ interface InputCase {
 
 function typeInputAndVerify(actionType: 'add' | 'edit',btnOpenForm:string ,inputSelector: string, btnSaveForm:string , errorSelector: string, inputCase:InputCase) {
     cy.get(btnOpenForm).should('be.visible').click().then(() => {
-    if (inputCase.value != "") {
-        // Nhập dữ liệu vào trường First name
-        cy.get(inputSelector).clear().type(inputCase.value); 
-    }
-    cy.get(btnSaveForm).click({ force: true });
-    if (!inputCase.valid && actionType === 'add') {
-        cy.get(errorSelector).should('be.visible').and('contain.text', inputCase.error_mes);
-    }
-    if (inputCase.valid && actionType === 'edit' && inputCase.value != "") {
-        cy.get('body').contains(String(inputCase.value));
-    }
+        if (inputCase.value != "") {
+            // Nhập dữ liệu vào trường First name
+            cy.get(inputSelector).clear().type(inputCase.value); 
+        }
+        cy.get(btnSaveForm).click({ force: true });
+        if (!inputCase.valid && actionType === 'add') {
+            cy.get(errorSelector).should('be.visible').and('contain.text', inputCase.error_mes);
+        }
+        if (inputCase.valid && actionType === 'edit' && inputCase.value != "") {
+            cy.get('body').contains(String(inputCase.value));
+        }
     });
+}
+
+function selectOptionAndVerify(btnOpenForm:string ,inputSelector: string, inputCase:InputCase) {
+    // Mở form
+    cy.get(btnOpenForm).should('be.visible').click().then(() => {
+        // Chọn giá trị từ dropdown.
+        // Kiểm tra nếu không có giá trị để chọn thì bỏ qua.
+        if (inputCase.value != "") {
+            cy.get(inputSelector).click();
+            cy.get(`.optgroup .option`).contains(inputCase.value).click();
+        }
+        // Kiểm tra giá trị chọn thành công.
+        cy.get(`.selectize-input .item`).contains(inputCase.value);
+    });
+    
 }
 
 describe('Check các input field với text values', () => {
@@ -37,6 +52,7 @@ describe('Check các input field với text values', () => {
         const EMAIL_INPUT = TEXT_DATA_INPUT.email_input;
         const PHONE_NUMBER_INPUT = TEXT_DATA_INPUT.phone_without_code_input;
         const LINK_INPUT = TEXT_DATA_INPUT.dynamic_link_input;
+        const RESOURCE_INPUT = TEXT_DATA_INPUT.resource_input;
         
         Object.entries(FIRST_NAME_INPUT).forEach(([$case, $valueObj]) => {
             it(`Kiểm tra nhập First name với input ${$case}`, () => {
@@ -102,6 +118,17 @@ describe('Check các input field với text values', () => {
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
+
+        Object.entries(RESOURCE_INPUT).forEach(([$case, $valueObj]) => {
+            it.only(`Kiểm tra nhập Resource với input ${$case}`, () => {
+                const inputCase = $valueObj as InputCase; // Ép kiểu tại đây
+                const btnOpenForm = '#btn-add-contact';
+                const inputSelector = '#formAddContactSelectResource-selectized';
+    
+                cy.visit('/contacts');
+                selectOptionAndVerify(btnOpenForm, inputSelector, inputCase);
+            });
+        });
     })
 
     describe('Check trong form Edit a contact', () => {
@@ -113,7 +140,7 @@ describe('Check các input field với text values', () => {
         const LINK_INPUT = TEXT_DATA_INPUT.dynamic_link_input;
         
         Object.entries(FIRST_NAME_INPUT).forEach(([$case, $valueObj]) => {
-            it.only(`Kiểm tra nhập First name với input ${$case}`, () => {
+            it(`Kiểm tra nhập First name với input ${$case}`, () => {
                 const inputCase = $valueObj as InputCase; // Ép kiểu tại đây
                 const btnOpenForm = '.button-edit';
                 const inputSelector = '[name="first_name"]';
@@ -177,4 +204,5 @@ describe('Check các input field với text values', () => {
             });
         });
     })
+
 })
