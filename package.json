@@ -7,7 +7,8 @@
   "scripts": {
     "test": "cypress run",
     "lint": "eslint . --ext .ts,.js",
-    "cy:run:chrome:GQT": "cypress run --spec 'cypress/tests/GQT/validateIntergrateData_v2.cy.ts' --browser chrome --headless",
+    "cy:run:chrome:GQT": "cypress run --spec 'cypress/tests/GQT' --browser chrome --headless",
+    "cy:run:chrome:SaleCRM": "cypress run --spec 'cypress/tests/SaleCRM' --browser chrome --headless",
     "open": "yarn cypress open",
     "reset_frw": "rm -rf node_modules yarn.lock && yarn install",
     "delete:reports": "rm -r cypress/reports/* || true",

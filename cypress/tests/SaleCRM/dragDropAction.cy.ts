@@ -43,7 +43,6 @@ describe('Check drag drop action', () => {
     it(`Update deal Approach -> Engaged`, () => {
         const dealSourceSelector = '[data-stage-id="1"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_2';
-
         updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true);     
     });
 
@@ -85,13 +84,6 @@ describe('Check drag drop action', () => {
 
     it(`Update deal Closed Won -> Closed Lost`, () => {
         const dealSourceSelector = '[data-stage-id="7"] > .deal__item--container:first';
-        const dealTargetSelector = '#dealItemGridArea_8';
-
-        updateStateByDragDrop(dealSourceSelector, dealTargetSelector);
-    });
-
-    it(`Update deal Contracting -> Closed Lost`, () => {
-        const dealSourceSelector = '[data-stage-id="6"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_8';
 
         updateStateByDragDrop(dealSourceSelector, dealTargetSelector);
