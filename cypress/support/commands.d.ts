@@ -91,7 +91,18 @@ declare namespace Cypress {
     searchInTable(text: string): Chainable<Subject>;
 
     
-    // -------- Actions --------
+    // -------- Actions by using trigger() event, do not use the package --------
+    /**
+     * Perform drag and drop action.
+     * @param sourceSelector Selector for the source element to drag.
+     * @param targetSelector Selector for the target element to drop.
+     * @param modalSelector Optional selector for a modal dialog to interact with after the drop.
+     * @param options Additional options for the drag and drop action.
+     */
+    dragAndDropManual(sourceSelector: string, targetSelector: string, modalSelector?: string, options?: Partial<Cypress.Loggable>): Chainable<Subject>;
+
+
+    // -------- Actions by using package @4tw/cypress-drag-drop--------
     /**
      * Perform drag and drop action.
      * @param sourceSelector Selector for the source element to drag.

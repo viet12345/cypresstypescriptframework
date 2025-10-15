@@ -50,3 +50,6 @@ import './commands/pageCommands/bankAccountsCommands'
 
 // Import file upload commands:
 import 'cypress-file-upload';
+
+//Import cypress-drag-drop
+import '@4tw/cypress-drag-drop';

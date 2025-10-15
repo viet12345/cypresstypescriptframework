@@ -1,4 +1,5 @@
 import { getToday } from "../../support/utils/DateHelper";
+import {DragSimulator} from "../../support/custom-drag-drop"
 
 function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean) {
     cy.visit('deals'); // Mở trang deals để thực hiện drag and drop
@@ -7,6 +8,11 @@ function updateStateByDragDrop(sourceSelector:string, targetSelector:string, nee
                 const expectedDealName = $dealName.trim();
                 // 1. Drag task sang Done (có xử lý animation delay)
                 cy.dragAndDrop(sourceSelector, targetSelector)
+
+                // cy.get(sourceSelector).then(($source) => {
+                //     DragSimulator.drag($source,targetSelector);
+                // });
+
         
                 // 2. Verify modal xuất hiện
                 cy.get('#popupConfirmMovingDealToNewStage > .modal-dialog > .modal-content').should('be.visible');

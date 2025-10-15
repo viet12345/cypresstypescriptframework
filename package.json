@@ -20,6 +20,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.3.1",
     "@types/cypress": "^1.1.6",
     "@types/node": "^22.14.1",
     "@typescript-eslint/eslint-plugin": "^8.30.1",

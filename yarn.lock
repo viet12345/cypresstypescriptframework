@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@4tw/cypress-drag-drop@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/@4tw/cypress-drag-drop/-/cypress-drag-drop-2.3.1.tgz"
+  integrity sha512-ht9Mx0eK+j4UO7fZvHNyCGOQEIj4d5+CZDYdxUCHGL4yvEhdDBH6PT4Lt12Ct+O+8qK8K1K31p7iiOghA8ewxQ==
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
@@ -642,7 +647,7 @@ cypress-file-upload@^5.0.8:
   resolved "https://registry.npmjs.org/cypress-file-upload/-/cypress-file-upload-5.0.8.tgz"
   integrity sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==
 
-cypress@*, cypress@^14.3.1, cypress@>=12.17.4, cypress@>3.0.0:
+cypress@*, cypress@^14.3.1, cypress@>=12.17.4, cypress@>=2, cypress@>3.0.0:
   version "14.3.2"
   dependencies:
     "@cypress/request" "^3.0.8"

@@ -22,7 +22,7 @@ Cypress.Commands.add('saveLoginSession', () => {
     cy.setCookie('adamo_sales_crm_session', Cypress.env('SESSION'));
 });
 
-Cypress.Commands.add('dragAndDrop', (sourceSelector, targetSelector) => {
+Cypress.Commands.add('dragAndDropManual', (sourceSelector, targetSelector) => {
 
   cy.get(sourceSelector).then($source => {
     const dataTransfer = new DataTransfer();
@@ -46,4 +46,10 @@ Cypress.Commands.add('dragAndDrop', (sourceSelector, targetSelector) => {
     });
   });
 });
+
+//Drag drop sử dụng package @4tw/cypress-drag-drop.
+Cypress.Commands.add('dragAndDrop', (sourceSelector:string, targetSelector:string) => {
+  cy.get(sourceSelector).drag(targetSelector, { target: {position: 'top'} })
+});
+
 
