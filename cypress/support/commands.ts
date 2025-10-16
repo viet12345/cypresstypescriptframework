@@ -48,6 +48,9 @@ import './commands/pageCommands/signinPageCommands'
 
 import './commands/pageCommands/bankAccountsCommands'
 
+// Import drag-drop Commands:
+import './commands/drag-drop';
+
 // Import file upload commands:
 import 'cypress-file-upload';
 
