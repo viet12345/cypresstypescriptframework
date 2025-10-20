@@ -13,18 +13,21 @@ describe('Trim space in search', () => {
             cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
 
             // Nhập giá trị tìm kiếm với khoảng trắng ở đầu và cuối
-            cy.intercept('GET', 'https://sales-crm-dev.adamo.tech/contacts/*').as('searchRequest');
-            cy.get('#searchInput').clear().type('   Vic Main 355   ');
+            cy.intercept('GET', 'https://sales-crm.adamo.tech/contacts/*').as('searchRequest');
+            cy.get('#searchInput').clear().type('   Chris T   ');
+            cy.wait('@searchRequest');
             cy.wait('@searchRequest');
             // Click button search (nếu có)
 
             // Kiểm tra search thành công
-            cy.get('#contactTable_wrapper').then($tableList => {
-                if ($tableList.find('.no-data').length = 0) {
+            cy.get('#contactTable_wrapper').then(($tableList) => {
+                let noDataRow = $tableList.find('.no-data').length;
+                console.log(noDataRow);
+                if (noDataRow === 0) {
                     cy.log('Tìm thấy contact(s) phù hợp.');
                     cy.get('.contact__name').first().then($el => {
                         const text = $el.text().trim();
-                        expect(text).to.contain('Vic Main 356');
+                        expect(text).to.contain('Chris T');
                     });
                 }
                 else {

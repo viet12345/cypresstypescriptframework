@@ -9,7 +9,7 @@ function updateStateByDragDrop(sourceSelector:string, targetSelector:string, nee
                 //Drag drop sử dụng package @4tw/cypress-drag-drop.
                 // cy.get(sourceSelector).drag(targetSelector, { target: {position: 'top'} })
 
-                //Đang cố gắng sử dụng package tự custom từ @4tw/cypress-drag-drop.(chưa work)
+                //Sử dụng package tự custom từ @4tw/cypress-drag-drop.
                 cy.get(sourceSelector).dragAndDrop(targetSelector, { target: {position: 'top'} });
 
         

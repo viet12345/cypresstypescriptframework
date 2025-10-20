@@ -129,18 +129,13 @@ describe('Flight Booking Flow', () => {
     bookFlightAndVerify('Return');
   });
 
-  it.only('should filter flights by price < 100$', () => {
+  it.only('Check the drag drop action on slider', () => {
     cy.visit('https://phptravels.net/flights');
     // Input search criteria
     inputSearch('One way');
 
-    // Apply price filter < 100$
-    cy.get('.irs-handle').should('be.visible');
-    // cy.get('input[type="range"]').then($range => {
-    //   const maxPrice = 100;
-    //   // Giả sử giá tối đa của range là 500, điều chỉnh giá trị range để lọc
-    //   const rangeValue = (maxPrice / 500) * 100;
-    //   cy.wrap($range).invoke('val', rangeValue).trigger('input');
-    // });
-  });
+    // Drag drop slider to adjust price range
+    cy.get('.irs-handle').eq(0).move({ deltaX: 50, deltaY: 0 });
+    cy.get('.irs-handle').eq(1).move({ deltaX: -50, deltaY: 0 });
+    });
 });
