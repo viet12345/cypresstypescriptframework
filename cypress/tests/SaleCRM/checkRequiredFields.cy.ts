@@ -9,7 +9,7 @@ describe('checkRequiredFields', () => {
     describe('Check Contact page', () => {
         it(`Kiểm tra Add a new contact`, () => {
             // Mở form tạo mới contact
-            cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
+            cy.visit(Cypress.env('SaleCRM_URL')+'contacts'); // Cập nhật đường dẫn nếu cần
             cy.get('#btn-add-contact').should('be.visible').click();
 
             // Click submit mà không điền thông tin
@@ -26,7 +26,7 @@ describe('checkRequiredFields', () => {
 
         it(`Kiểm tra Edit a contact`, () => {
             // Mở form edit contact
-            cy.visit('contacts/49786'); // Cập nhật đường dẫn nếu cần
+            cy.visit(Cypress.env('SaleCRM_URL')+'contacts/49786'); // Cập nhật đường dẫn nếu cần
             cy.get('.button-edit').should('be.visible').click();
 
             //clear các trường thông tin

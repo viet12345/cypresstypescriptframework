@@ -10,10 +10,10 @@ describe('Trim space in search', () => {
 
         it(`Kiểm tra search Contact`, () => {
             //Mở page có chứa search function
-            cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
+            cy.visit(Cypress.env('SaleCRM_URL')+'contacts'); // Cập nhật đường dẫn nếu cần
 
             // Nhập giá trị tìm kiếm với khoảng trắng ở đầu và cuối
-            cy.intercept('GET', 'https://sales-crm.adamo.tech/contacts/*').as('searchRequest');
+            cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/contacts/*').as('searchRequest');
             cy.get('#searchInput').clear().type('   Chris T   ');
             cy.wait('@searchRequest');
             cy.wait('@searchRequest');

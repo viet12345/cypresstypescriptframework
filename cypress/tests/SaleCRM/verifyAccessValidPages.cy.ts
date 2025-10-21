@@ -9,10 +9,10 @@ describe('Access success the valid pages', () => {
 
     it(`Kiểm tra Home page`, () => {
         // Mở trang Home
-        cy.visit('home'); // Cập nhật đường dẫn nếu cần
+        cy.visit(Cypress.env('SaleCRM_URL')+'home'); // Cập nhật đường dẫn nếu cần
 
         // Xác minh URL
-        cy.verifyUrl('/home');
+        cy.verifyUrl(Cypress.env('SaleCRM_URL')+'/home');
 
         // Kiểm tra flag có hiển thị (vi dụ: tiêu đề page,... bất cứ thành phần nào có thể xác minh trang đã load thành công)
         cy.get('.home__title').should('be.visible');
@@ -21,7 +21,7 @@ describe('Access success the valid pages', () => {
 
     it(`Kiểm tra Contact page`, () => {
         // Mở trang Contact
-        cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
+        cy.visit(Cypress.env('SaleCRM_URL')+'contacts'); // Cập nhật đường dẫn nếu cần
 
         // Xác minh URL
         cy.verifyUrl('/contacts');
@@ -84,11 +84,11 @@ describe('Access success the valid pages', () => {
 
     it('Kiểm tra Contact exchange page', () => {
         // Đăng ký intercept trước khi visit để đảm bảo bắt được request
-        cy.intercept('/contact-exchange/**').as('getContactExchange');
-        cy.intercept('/contact-exchange/receive/**').as('chooseContactExchange');
+        cy.intercept(Cypress.env('SaleCRM_URL')+'/contact-exchange/**').as('getContactExchange');
+        cy.intercept(Cypress.env('SaleCRM_URL')+'/contact-exchange/receive/**').as('chooseContactExchange');
 
         // Mở trang Contact exchange
-        cy.visit('contact-exchange'); // Cập nhật đường dẫn nếu cần
+        cy.visit(Cypress.env('SaleCRM_URL')+'contact-exchange'); // Cập nhật đường dẫn nếu cần
 
         // Xác minh URL
         cy.verifyUrl('/contact-exchange');

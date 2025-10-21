@@ -62,7 +62,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#first_name-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         })
@@ -75,7 +75,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#last_name-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -88,7 +88,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#email-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -101,7 +101,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#phone-no-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -114,18 +114,18 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#linked_in-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('add',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
 
         Object.entries(RESOURCE_INPUT).forEach(([$case, $valueObj]) => {
-            it.only(`Kiểm tra nhập Resource với input ${$case}`, () => {
+            it(`Kiểm tra nhập Resource với input ${$case}`, () => {
                 const inputCase = $valueObj as InputCase; // Ép kiểu tại đây
                 const btnOpenForm = '#btn-add-contact';
                 const inputSelector = '#formAddContactSelectResource-selectized';
     
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 selectOptionAndVerify(btnOpenForm, inputSelector, inputCase);
             });
         });
@@ -147,7 +147,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#btnSaveEditContact';
                 const errorSelector = '#first_name-error';
 
-                cy.visit('/contacts/312');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts/312');
                 typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         })
@@ -160,7 +160,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#last_name-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -173,7 +173,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#email-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -186,7 +186,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#phone-no-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });
@@ -199,7 +199,7 @@ describe('Check các input field với text values', () => {
                 const btnSaveForm = '#formContact > .form-contact__button > #save-contact';
                 const errorSelector = '#linked_in-error';
 
-                cy.visit('/contacts');
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
                 typeInputAndVerify('edit',btnOpenForm, inputSelector, btnSaveForm, errorSelector, inputCase);
             });
         });

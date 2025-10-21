@@ -1,7 +1,7 @@
 import { getToday } from "../../support/utils/DateHelper";
 
 function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean) {
-    cy.visit('deals'); // Mở trang deals để thực hiện drag and drop
+    cy.visit(Cypress.env('SaleCRM_URL')+'deals'); // Mở trang deals để thực hiện drag and drop
     cy.get(sourceSelector).then($dealItem => {
             cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
                 const expectedDealName = $dealName.trim();

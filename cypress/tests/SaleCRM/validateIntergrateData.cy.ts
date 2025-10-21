@@ -9,7 +9,7 @@ describe('Kiểm tra intergrated data', () => {
 
     describe('Kiểm tra data list', () => {
         it(`Kiểm tra data Contact`, () => {
-            const CONTACT_LIST_API_ENDPOINT:string = 'https://sales-crm-dev.adamo.tech/contacts/get-all-contact-by-current-role';
+            const CONTACT_LIST_API_ENDPOINT:string = Cypress.env('SaleCRM_URL') + 'contacts/get-all-contact-by-current-role';
             const MOCK_DATA_CONTACT_LIST:any = require('../../fixtures/SaleCRM/contactList.json');
             
             //Intercept API để chờ dữ liệu load xong (có thể mock dữ liệu nếu cần)
@@ -19,7 +19,7 @@ describe('Kiểm tra intergrated data', () => {
             }).as('getContacts');
             
             //Mở page list contact
-            cy.visit('contacts'); // Cập nhật đường dẫn nếu cần
+            cy.visit(Cypress.env('SaleCRM_URL')+'contacts'); // Cập nhật đường dẫn nếu cần
 
             //Lấy dữ liệu từ API
             cy.wait('@getContacts').then((interception) => {

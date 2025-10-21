@@ -1,7 +1,7 @@
 function filterWithStage(stageCheckboxElement: string, expectedStageText: string) {
     // Chọn điều kiện filter
-    cy.intercept('GET', 'https://sales-crm.adamo.tech/contacts/*').as('getContacts');
-    cy.visit('contacts');
+    cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/contacts/*').as('getContacts');
+    cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
     cy.wait('@getContacts');
     cy.get('.btn-more-filter').click();
     cy.get(stageCheckboxElement).check();

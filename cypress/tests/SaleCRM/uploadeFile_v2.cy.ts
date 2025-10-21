@@ -50,7 +50,7 @@ describe('Kiểm tra upload tất cả file từ folder DataTestingFiles.', () =
     describe('Upload file từ Contact detail.', () => {
     Object.entries(Cypress.env('fileList')).forEach(([index,fileName]) => {
             it(`Kiểm tra upload file ${fileName} trong tạo Note từ Contact detail.`, () => {
-                cy.visit('contacts/49786'); // Cập nhật đường dẫn nếu cần
+                cy.visit(Cypress.env('SaleCRM_URL')+'contacts/49786'); // Cập nhật đường dẫn nếu cần
                 uploadFileAndVerify(fileName);
             });
         });
