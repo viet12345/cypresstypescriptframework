@@ -379,7 +379,7 @@
             "fandf": null,
             "unknow": null
         },
-        "CONFIG.view_manage_my_booking_OFF":{
+        "CONFIG_view_manage_my_booking_OFF":{
             "admin": {
                 "travel_home": {
                     "menu_option_view": true,
