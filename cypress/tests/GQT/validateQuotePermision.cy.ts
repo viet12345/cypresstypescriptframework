@@ -39,6 +39,7 @@ function checkBtnManageMyBookingVisibilityByQuoteType(MY_QUOTES_RESPONSE:string,
 //Mock data files
 const ROLE_PERMISSIONS = require('../../fixtures/GQT/getRolePermission.json');
 const MY_QUOTES = require('../../fixtures/GQT/getQuotes.json');
+const ROLE = require('../../fixtures/GQT/testRole.json');
 
 const GET_ROLE_PERMISSION_API_ENDPOINT:string = Cypress.env('GQT_API_dev') + 'gqt-admin/api/decentralization/role-permission/*';
 const GET_MY_QUOTES_API_ENDPOINT:string = Cypress.env('GQT_API_dev') + 'gqt-quote/api/quotes/my-quotes?*';
@@ -220,6 +221,50 @@ describe('Kiểm tra không hiển thị MANAGE MY BOOKING button khi config OFF
             it(`Check với quoteType ${quoteType}`, () => {
                 checkBtnManageMyBookingVisibilityByQuoteType(value, false);
             });
+        });
+    });
+});
+
+
+//Đang test không dùng
+describe.only('ON', () => {
+    Object.entries(ROLE.CONFIG_view_manage_my_booking_ON).forEach(([roleName, { USER, RESPONSE }]: [string, any]) => {
+        describe(`Kiểm tra với ${roleName} và user ${USER} `, () => {
+        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
+        beforeEach('Authentication steps' , () => {
+            console.log(RESPONSE);
+            cy.clearSession();
+            // Cách 1: Thiết lập giá trị cookie trực tiếp
+            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
+            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
+        });
+        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
+            it(`Check với quoteType ${quoteType}`, () => {
+                checkBtnManageMyBookingVisibilityByQuoteType(value);
+            });
+        });
+        });
+    });
+});
+
+
+
+describe.only('OFF', () => {
+    Object.entries(ROLE.CONFIG_view_manage_my_booking_OFF).forEach(([roleName, { USER, RESPONSE }]: [string, any]) => {
+        describe(`Kiểm tra với ${roleName} và user ${USER} `, () => {
+        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
+        beforeEach('Authentication steps' , () => {
+            console.log(RESPONSE);
+            cy.clearSession();
+            // Cách 1: Thiết lập giá trị cookie trực tiếp
+            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
+            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
+        });
+        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
+            it(`Check với quoteType ${quoteType}`, () => {
+                checkBtnManageMyBookingVisibilityByQuoteType(value);
+            });
+        });
         });
     });
 });
