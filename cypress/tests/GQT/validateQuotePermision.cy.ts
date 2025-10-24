@@ -47,91 +47,24 @@ const GET_MY_QUOTES_API_ENDPOINT:string = Cypress.env('GQT_API_dev') + 'gqt-quot
 
 describe('Kiểm tra hiển thị MANAGE MY BOOKING button khi config ON', () => {
 
-    describe('Kiểm tra với ADMIN role => Check quote_type và quote_status để show MANAGE MY BOOKING button', () => {
-        
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Lorelei', ROLE_PERMISSIONS.ADMIN_ROLE.CONFIG_view_manage_my_booking_ON);
-        });
-
-        //Test cases
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
+    Object.entries(ROLE.CONFIG_view_manage_my_booking_ON).forEach(([roleName, { USER, RESPONSE }]: [string, any]) => {
+        describe(`Kiểm tra với ${roleName} và user ${USER} `, () => {
+            //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
+            beforeEach('Authentication steps' , () => {
+                cy.clearSession();
+                // Cách 1: Thiết lập giá trị cookie trực tiếp
+                // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
+                loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
             });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
+            Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
+                it(`Check với quoteType ${quoteType}`, () => {
+                    checkBtnManageMyBookingVisibilityByQuoteType(value);
+                });
             });
-        });
-    });
-
-    describe('Kiểm tra với SUPERVISOR role => Check quote_type và quote_status để show MANAGE MY BOOKING button', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Giovanna', ROLE_PERMISSIONS.SUP_ROLE.CONFIG_view_manage_my_booking_ON);
-        });
-
-        //Test cases
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-
-    describe('Kiểm tra với SUPPORT role => Check quote_type và quote_status để show MANAGE MY BOOKING button', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Angelique', ROLE_PERMISSIONS.SUPPORT_ROLE.CONFIG_view_manage_my_booking_ON);
-        });
-
-        //Test cases
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-
-    describe('Kiểm tra với REVENUE role => Check quote_type và quote_status để show MANAGE MY BOOKING button', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Pina', ROLE_PERMISSIONS.REVENUE.CONFIG_view_manage_my_booking_ON);
-        });
-
-        //Test cases
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
+            Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
+                it(`Check với quoteType ${quoteType}`, () => {
+                    checkBtnManageMyBookingVisibilityByQuoteType(value,false);
+                });
             });
         });
     });
@@ -140,131 +73,25 @@ describe('Kiểm tra hiển thị MANAGE MY BOOKING button khi config ON', () =>
 
 
 describe('Kiểm tra không hiển thị MANAGE MY BOOKING button khi config OFF', () => {
-    describe('Kiểm tra với ADMIN role', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Lorelei', ROLE_PERMISSIONS.ADMIN_ROLE.CONFIG_view_manage_my_booking_OFF);
-        });
-        //Test case
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-
-    describe('Kiểm tra với SUPERVISOR role', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Giovanna', ROLE_PERMISSIONS.SUP_ROLE.CONFIG_view_manage_my_booking_OFF);
-        });
-        //Test case
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-
-    describe('Kiểm tra với SUPPORT role', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Angelique', ROLE_PERMISSIONS.SUPPORT_ROLE.CONFIG_view_manage_my_booking_OFF);
-        });
-        //Test case
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-
-    describe('Kiểm tra với REVENUE role', () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), 'Pina', ROLE_PERMISSIONS.REVENUE.CONFIG_view_manage_my_booking_OFF);
-        });
-        //Test case
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-        Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value, false);
-            });
-        });
-    });
-});
-
-
-//Đang test không dùng
-describe.only('ON', () => {
-    Object.entries(ROLE.CONFIG_view_manage_my_booking_ON).forEach(([roleName, { USER, RESPONSE }]: [string, any]) => {
-        describe(`Kiểm tra với ${roleName} và user ${USER} `, () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            console.log(RESPONSE);
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
-        });
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
-            });
-        });
-        });
-    });
-});
-
-
-
-describe.only('OFF', () => {
     Object.entries(ROLE.CONFIG_view_manage_my_booking_OFF).forEach(([roleName, { USER, RESPONSE }]: [string, any]) => {
         describe(`Kiểm tra với ${roleName} và user ${USER} `, () => {
-        //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-        beforeEach('Authentication steps' , () => {
-            console.log(RESPONSE);
-            cy.clearSession();
-            // Cách 1: Thiết lập giá trị cookie trực tiếp
-            // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
-            loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
-        });
-        Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
-            it(`Check với quoteType ${quoteType}`, () => {
-                checkBtnManageMyBookingVisibilityByQuoteType(value);
+            //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
+            beforeEach('Authentication steps' , () => {
+                cy.clearSession();
+                // Cách 1: Thiết lập giá trị cookie trực tiếp
+                // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
+                loginByRole(Cypress.env('username_dev'), Cypress.env('password_dev'), USER, RESPONSE);
             });
-        });
+            Object.entries(MY_QUOTES.validQuotes).forEach(([quoteType, value]:any) => {
+                it(`Check với quoteType ${quoteType}`, () => {
+                    checkBtnManageMyBookingVisibilityByQuoteType(value,false);
+                });
+            });
+            Object.entries(MY_QUOTES.invalidQuotes).forEach(([quoteType, value]:any) => {
+                it(`Check với quoteType ${quoteType}`, () => {
+                    checkBtnManageMyBookingVisibilityByQuoteType(value,false);
+                });
+            });
         });
     });
 });
