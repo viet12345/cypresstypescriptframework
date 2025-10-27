@@ -37,7 +37,6 @@ function checkBtnManageMyBookingVisibilityByQuoteType(MY_QUOTES_RESPONSE:string,
 
 
 //Mock data files
-const ROLE_PERMISSIONS = require('../../fixtures/GQT/getRolePermission.json');
 const MY_QUOTES = require('../../fixtures/GQT/getQuotes.json');
 const ROLE = require('../../fixtures/GQT/testRole.json');
 
