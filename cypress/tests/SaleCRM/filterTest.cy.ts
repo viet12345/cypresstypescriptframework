@@ -1,85 +1,114 @@
+import dayjs from 'dayjs';
 
-function filterWithStage(filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry',
+function filterWithStage(filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry' | 'Created Date',
     filterInputElement: string,
-    expectedText: string) {
+    expectedText: string | [startDate:string, endDate:string]) {
     // Chọn điều kiện filter
     cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/contacts/*').as('getContacts');
     cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
     cy.wait('@getContacts');
-    cy.get('.btn-more-filter').click();
-    if (filterBy === 'Lifecycle stage') {
-        cy.get(filterInputElement).check();
-    }
-    if (filterBy === 'Tag') {
-        cy.get(filterInputElement).then($tags => {
-            cy.wrap($tags).find('.selectize-input').click().type(expectedText).type('{enter}');
+    if (filterBy === 'Created Date'){
+        const [startDate, endDate] = expectedText;
+        const start = startDate;
+        const end = endDate;
+        cy.get(filterInputElement).click();
+        cy.get('.flatpickr-days').first().then($calendar => {
+            cy.wrap($calendar).get(`span[aria-label="${start}"]`).first().click();
+            cy.wrap($calendar).get(`span[aria-label="${end}"]`).first().click();
         });
     }
-    if (filterBy === 'Country') {
-        cy.get(filterInputElement).then($country => {
-            cy.wrap($country).find('.selectize-input').click().type(expectedText).type('{enter}');
-        });
+    else {
+        cy.get('.btn-more-filter').click();
+        if (filterBy === 'Lifecycle stage') {
+            cy.get(filterInputElement).check();
+        }
+        if (filterBy === 'Tag') {
+            cy.get(filterInputElement).then($tags => {
+                cy.wrap($tags).find('.selectize-input').click().type(expectedText).type('{enter}');
+            });
+        }
+        if (filterBy === 'Country') {
+            cy.get(filterInputElement).then($country => {
+                cy.wrap($country).find('.selectize-input').click().type(expectedText).type('{enter}');
+            });
+        }
+        if (filterBy === 'Industry') {
+            cy.get(filterInputElement).then($industry => {
+                cy.wrap($industry).find('.selectize-input').click().type(expectedText).type('{enter}');
+            });
+        }
+        cy.get('.btn-apply').click({force: true});
     }
-    if (filterBy === 'Industry') {
-        cy.get(filterInputElement).then($industry => {
-            cy.wrap($industry).find('.selectize-input').click().type(expectedText).type('{enter}');
-        });
-    }
-    cy.get('.btn-apply').click({force: true});
     cy.wait('@getContacts', {timeout: 10000});
     
     //Xác thực kết quả filter
     verifyTableDataWithFilter(filterBy,expectedText);
 }
 
-function verifyTableDataWithFilter(filterBy:string,expectedText: string) {
+function verifyTableDataWithFilter(filterBy:string,expectedText: string | [startDate:string, endDate:string]) {
       cy.get('#dataContactBind').then(($tableList) => {
         let noDataRow = $tableList.find('.no-data').length;
         console.log(noDataRow);
         if (noDataRow === 0) {
             cy.log('Tìm thấy contact(s) phù hợp.');
-            if (filterBy === 'Lifecycle stage'){
-                cy.wrap($tableList).find('tr').each($row => {
-                    cy.wrap($row).find('.table__contact--stage').then($stageCell => {
-                        const stageText = $stageCell.text().trim();
-                        expect(stageText).to.contain(expectedText);
+            if (Array.isArray(expectedText)) {
+                const [startDate, endDate] = expectedText;
+                const start = dayjs(startDate).format("DD/MM/YYYY");
+                const end = dayjs(endDate).format("DD/MM/YYYY");
+        
+                cy.wrap($tableList).find('tr').then(($row) => {
+                    cy.wrap($row).find('.table__contact--created-date').invoke('text').then((text) => {
+                        // So sánh cellDate nằm trong khoảng
+                        expect(text >= start).to.be.true;
+                        expect(text <= end).to.be.true;
                     });
                 });
             }
-            if (filterBy === 'Tag'){
-                cy.wrap($tableList).find('tr').each($row => {
-                    cy.wrap($row).find('.table__contact--tag').then($tagCell => {
-                        cy.wrap($tagCell).get('.contact__tag').then($tags => {
-                            const tags = Array.from($tags).some(tag => tag.innerText.trim() === expectedText);
-                            if (tags) {
-                                cy.log(`Found '${expectedText}' in visible tags`);
-                                expect(tags).to.be.true;
-                            }
-                            else {
-                                cy.get('.number_more_tag').trigger('mouseover');
-                                cy.get('.tooltip-inner').then(($tooltipHtml) => {
-                                    expect($tooltipHtml).to.contain(expectedText);
-                                });
-                            }
+            else {
+                if (filterBy === 'Lifecycle stage'){
+                    cy.wrap($tableList).find('tr').each($row => {
+                        cy.wrap($row).find('.table__contact--stage').then($stageCell => {
+                            const stageText = $stageCell.text().trim();
+                            expect(stageText).to.contain(expectedText);
                         });
                     });
-                });
-            }
-            if (filterBy === 'Country'){
-                cy.wrap($tableList).find('tr').each($row => {
-                    cy.wrap($row).find('.table__contact--address').then($cell => {
-                        const text = $cell.text().trim();
-                        expect(text).to.contain(expectedText);
+                }
+                if (filterBy === 'Tag'){
+                    cy.wrap($tableList).find('tr').each($row => {
+                        cy.wrap($row).find('.table__contact--tag').then($tagCell => {
+                            cy.wrap($tagCell).get('.contact__tag').then($tags => {
+                                const tags = Array.from($tags).some(tag => tag.innerText.trim() === expectedText);
+                                if (tags) {
+                                    cy.log(`Found '${expectedText}' in visible tags`);
+                                    expect(tags).to.be.true;
+                                }
+                                else {
+                                    cy.get('.number_more_tag').trigger('mouseover');
+                                    cy.get('.tooltip-inner').then(($tooltipHtml) => {
+                                        expect($tooltipHtml).to.contain(expectedText);
+                                    });
+                                }
+                            });
+                        });
                     });
-                });
-            }
-            if (filterBy === 'Industry'){
-                cy.wrap($tableList).find('tr').each($row => {
-                    cy.wrap($row).find('.table__contact--industry').then($stageCell => {
-                        const stageText = $stageCell.text().trim();
-                        expect(stageText).to.contain(expectedText);
+                }
+                if (filterBy === 'Country'){
+                    cy.wait(2000);
+                    cy.wrap($tableList).find('tr').each($row => {
+                        cy.wrap($row).find('.table__contact--address').then($cell => {
+                            const text = $cell.text().trim();
+                            expect(text).to.contain(expectedText);
+                        });
                     });
-                });
+                }
+                if (filterBy === 'Industry'){
+                    cy.wrap($tableList).find('tr').each($row => {
+                        cy.wrap($row).find('.table__contact--industry').then($stageCell => {
+                            const stageText = $stageCell.text().trim();
+                            expect(stageText).to.contain(expectedText);
+                        });
+                    });
+                }
             }
         }
         else {
@@ -87,6 +116,7 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string) {
         }
     });  
 }
+
 
 const CONTACT_FILTER_OPTIONS_STAGE = [
     { checkboxSelector: '#checkbox0', expectedStage: 'Lead' },
@@ -96,7 +126,7 @@ const CONTACT_FILTER_OPTIONS_STAGE = [
 ]
 
 
-describe('Kiểm tra chức năng filter', () => {
+describe('Kiểm tra chức năng more filters', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
@@ -104,7 +134,7 @@ describe('Kiểm tra chức năng filter', () => {
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
     })
 
-    describe.only('Filter theo Lifecycle stage', () => {
+    describe('Filter theo Lifecycle stages', () => {
         Object.values(CONTACT_FILTER_OPTIONS_STAGE).forEach(({ checkboxSelector, expectedStage }) => {
             it(`Kiểm tra filter ${expectedStage} Contact`, () => {
                 //Mở page có chứa filter function
@@ -121,7 +151,11 @@ describe('Kiểm tra chức năng filter', () => {
         filterWithStage('Country','div[class="country"]', 'India');
     });
 
-    it('Filter theo Industry', () => {
+    it.only('Filter theo Industry', () => {
         filterWithStage('Industry','div[class="industry"]', 'Healthcare');
+    });
+
+    it('Filter theo Created date', () => {
+        filterWithStage('Created Date','#createdDateFilter', ['October 29, 2025','October 29, 2025']);
     });
 })
