@@ -1,48 +1,91 @@
 import dayjs from 'dayjs';
 
-function filterWithStage(filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry' | 'Created Date',
+function filterByCondition(filterInPage: 'Contacts' | 'Deals',
+    filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry' | 'Created Date' | 'Close Date',
     filterInputElement: string,
     expectedText: string | [startDate:string, endDate:string]) {
     // Chọn điều kiện filter
-    cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/contacts/*').as('getContacts');
-    cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
-    cy.wait('@getContacts');
-    if (filterBy === 'Created Date'){
-        const [startDate, endDate] = expectedText;
-        const start = startDate;
-        const end = endDate;
-        cy.get(filterInputElement).click();
-        cy.get('.flatpickr-days').first().then($calendar => {
-            cy.wrap($calendar).get(`span[aria-label="${start}"]`).first().click();
-            cy.wrap($calendar).get(`span[aria-label="${end}"]`).first().click();
-        });
+    if (filterInPage === 'Contacts'){
+        cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/contacts/*').as('getContacts');
+        cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
+        cy.wait('@getContacts');
+        if (filterBy === 'Created Date'){
+            const [startDate, endDate] = expectedText;
+            const start = startDate;
+            const end = endDate;
+            cy.get(filterInputElement).click();
+            cy.get('.flatpickr-days').first().then($calendar => {
+                cy.wrap($calendar).find(`span[aria-label="${start}"]`).first().click();
+                cy.wrap($calendar).find(`span[aria-label="${end}"]`).first().click();
+            });
+        }
+        else {
+            cy.get('.btn-more-filter').click();
+            if (filterBy === 'Lifecycle stage') {
+                cy.get(filterInputElement).check();
+            }
+            if (filterBy === 'Tag') {
+                cy.get(filterInputElement).then($tags => {
+                    cy.wrap($tags).find('.selectize-input').click().type(expectedText).type('{enter}');
+                });
+            }
+            if (filterBy === 'Country') {
+                cy.get(filterInputElement).then($country => {
+                    cy.wrap($country).find('.selectize-input').click().type(expectedText).type('{enter}');
+                });
+            }
+            if (filterBy === 'Industry') {
+                cy.get(filterInputElement).then($industry => {
+                    cy.wrap($industry).find('.selectize-input').click().type(expectedText).type('{enter}');
+                });
+            }
+            cy.get('.btn-apply').click({force: true});
+        }
+        cy.wait('@getContacts', {timeout: 10000});
+        //Xác thực kết quả filter
+        verifyTableDataWithFilter(filterBy,expectedText);
     }
-    else {
-        cy.get('.btn-more-filter').click();
-        if (filterBy === 'Lifecycle stage') {
-            cy.get(filterInputElement).check();
+
+    if (filterInPage === 'Deals'){
+        // Chọn điều kiện filter
+        cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/deals/*').as('getDeals');
+        cy.visit(Cypress.env('SaleCRM_URL')+'deals');
+        cy.wait('@getDeals');
+        if (filterBy === 'Close Date'){
+           const [startDate, endDate] = expectedText;
+            const start = startDate;
+            const end = endDate;
+            cy.get(filterInputElement).click();
+            cy.get('.flatpickr-days').eq(2).then($calendar => {
+                cy.wrap($calendar).find(`span[aria-label="${start}"]`).first().click();
+                cy.wrap($calendar).find(`span[aria-label="${end}"]`).first().click();
+            }); 
         }
-        if (filterBy === 'Tag') {
-            cy.get(filterInputElement).then($tags => {
-                cy.wrap($tags).find('.selectize-input').click().type(expectedText).type('{enter}');
-            });
-        }
-        if (filterBy === 'Country') {
-            cy.get(filterInputElement).then($country => {
-                cy.wrap($country).find('.selectize-input').click().type(expectedText).type('{enter}');
-            });
-        }
-        if (filterBy === 'Industry') {
-            cy.get(filterInputElement).then($industry => {
-                cy.wrap($industry).find('.selectize-input').click().type(expectedText).type('{enter}');
-            });
-        }
-        cy.get('.btn-apply').click({force: true});
+        cy.wait('@getDeals', {timeout: 10000});
+        //Xác thực kết quả filter
+        verifyKanbanDataWithFilter(filterBy,expectedText);
     }
-    cy.wait('@getContacts', {timeout: 10000});
-    
-    //Xác thực kết quả filter
-    verifyTableDataWithFilter(filterBy,expectedText);
+}
+
+function verifyKanbanDataWithFilter(filterBy:string, expectedText: string | [startDate:string, endDate:string]) {
+    if (filterBy === 'Close Date'){
+        cy.get('#quantityActiveDeal').first().then($numberOfDeal => {
+            if ($numberOfDeal.text().trim() === '0 Active Deals'){
+                cy.log('Không có kết quả.')
+            }
+            else{
+                const [startDate, endDate] = expectedText;
+                const start = dayjs(startDate).format("DD/MM/YYYY");
+                const end = dayjs(endDate).format("DD/MM/YYYY");
+                cy.get('.deal__item--detail').each(($deal) => {
+                    cy.wrap($deal).find('.item__close-date .value').invoke('text').then((text) => {
+                        expect(text >= start).to.be.true;
+                        expect(text <= end).to.be.true;
+                    })
+                })
+            }
+        })
+    }
 }
 
 function verifyTableDataWithFilter(filterBy:string,expectedText: string | [startDate:string, endDate:string]) {
@@ -117,6 +160,22 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
     });  
 }
 
+function addTestDeal() {
+    cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/deals/*').as('getDeals');
+    cy.visit(Cypress.env('SaleCRM_URL')+'deals');
+    cy.wait('@getDeals');
+    cy.get('#btn-create-deal').first().click();
+    cy.get('.offcanvas-body').first().then( $form => {
+        cy.wrap($form).find('#name').type('Test deal auto cypress');
+        cy.wrap($form).find('#formAddDealSelectContact-selectized').click();
+        cy.get(`.selectize-dropdown-content .option`).contains('Vic Main 21').click();
+        cy.wrap($form).find('#formAddDealSelectWorkingModel-selectized').click();
+        cy.get(`.selectize-dropdown-content .option`).contains('Project Based').click();
+        cy.wrap($form).find('#closed_date').click();
+        cy.wrap($form).find(' .flatpickr-days > .dayContainer > .today').click();
+    })
+}
+
 
 const CONTACT_FILTER_OPTIONS_STAGE = [
     { checkboxSelector: '#checkbox0', expectedStage: 'Lead' },
@@ -126,7 +185,7 @@ const CONTACT_FILTER_OPTIONS_STAGE = [
 ]
 
 
-describe('Kiểm tra chức năng more filters', () => {
+describe('Kiểm tra chức năng filters', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
@@ -134,28 +193,38 @@ describe('Kiểm tra chức năng more filters', () => {
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
     })
 
-    describe('Filter theo Lifecycle stages', () => {
-        Object.values(CONTACT_FILTER_OPTIONS_STAGE).forEach(({ checkboxSelector, expectedStage }) => {
-            it(`Kiểm tra filter ${expectedStage} Contact`, () => {
-                //Mở page có chứa filter function
-                filterWithStage('Lifecycle stage',checkboxSelector, expectedStage);
+    describe('Kiểm tra chức năng filter Contact page', () => {
+        describe('Filter theo Lifecycle stages', () => {
+            Object.values(CONTACT_FILTER_OPTIONS_STAGE).forEach(({ checkboxSelector, expectedStage }) => {
+                it(`Kiểm tra filter ${expectedStage} Contact`, () => {
+                    //Mở page có chứa filter function
+                    filterByCondition('Contacts','Lifecycle stage',checkboxSelector, expectedStage);
+                });
             });
         });
-    });
+    
+        it('Filter theo Tag', () => {
+            filterByCondition('Contacts','Tag','div[class="tag"]', 'v_vip');
+        });
+    
+        it('Filter theo Country', () => {
+            filterByCondition('Contacts','Country','div[class="country"]', 'India');
+        });
+    
+        it('Filter theo Industry', () => {
+            filterByCondition('Contacts','Industry','div[class="industry"]', 'Healthcare');
+        });
+    
+        it('Filter theo Created date', () => {
+            filterByCondition('Contacts','Created Date','#createdDateFilter', ['October 29, 2025','October 29, 2025']);
+        });
+    } )
 
-    it('Filter theo Tag', () => {
-        filterWithStage('Tag','div[class="tag"]', 'v_vip');
-    });
-
-    it('Filter theo Country', () => {
-        filterWithStage('Country','div[class="country"]', 'India');
-    });
-
-    it.only('Filter theo Industry', () => {
-        filterWithStage('Industry','div[class="industry"]', 'Healthcare');
-    });
-
-    it('Filter theo Created date', () => {
-        filterWithStage('Created Date','#createdDateFilter', ['October 29, 2025','October 29, 2025']);
-    });
+    describe.only('Kiểm tra chức năng filter Deal page', () => {
+        it('Filter theo Closed date', () => {
+            //Tạo test data chưa work
+            //addTestDeal();
+            filterByCondition('Deals','Close Date','.filter__close-date',['October 30, 2025','October 31, 2025'])
+        });
+    })
 })
