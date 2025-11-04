@@ -79,6 +79,9 @@ function verifyKanbanDataWithFilter(filterBy:string, expectedText: string | [sta
                 const end = dayjs(endDate).format("DD/MM/YYYY");
                 cy.get('.deal__item--detail').each(($deal) => {
                     cy.wrap($deal).find('.item__close-date .value').invoke('text').then((text) => {
+                        cy.log(start)
+                        cy.log(end)
+                        cy.log(text)
                         expect(text >= start).to.be.true;
                         expect(text <= end).to.be.true;
                     })
@@ -160,20 +163,26 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
     });  
 }
 
-function addTestDeal() {
-    cy.intercept('GET', Cypress.env('SaleCRM_URL')+'/deals/*').as('getDeals');
-    cy.visit(Cypress.env('SaleCRM_URL')+'deals');
-    cy.wait('@getDeals');
-    cy.get('#btn-create-deal').first().click();
-    cy.get('.offcanvas-body').first().then( $form => {
-        cy.wrap($form).find('#name').type('Test deal auto cypress');
-        cy.wrap($form).find('#formAddDealSelectContact-selectized').click();
-        cy.get(`.selectize-dropdown-content .option`).contains('Vic Main 21').click();
-        cy.wrap($form).find('#formAddDealSelectWorkingModel-selectized').click();
-        cy.get(`.selectize-dropdown-content .option`).contains('Project Based').click();
-        cy.wrap($form).find('#closed_date').click();
-        cy.wrap($form).find(' .flatpickr-days > .dayContainer > .today').click();
-    })
+
+function addTestDealByAPI(dealName:string) {
+    const today = new Date().toLocaleDateString('vi-VN');
+    const randomNum = Math.floor(Math.random() * 100) + 1;
+    const $dealName = dealName + today + randomNum;
+    const body = `name=${$dealName}&stage_id=1&contact_id=49527&closed_date=2025-11-04&amount=&priority=&type_id=&working_model=1&industry_id=`;
+    
+
+    cy.request({
+        method: 'POST',
+        url: `${Cypress.env('SaleCRM_URL')}deals/store`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': '8ZxQbalXd0Ga1vlzUSEz58VxqUyHfIXsrr9aLPFs',
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: body,
+        }).then((response:any) => {
+            expect(response.status).to.eq(200);
+        })
 }
 
 
@@ -183,11 +192,17 @@ const CONTACT_FILTER_OPTIONS_STAGE = [
     { checkboxSelector: '#checkbox2', expectedStage: 'Sales Qualified' },
     { checkboxSelector: '#checkbox3', expectedStage: 'Customer' },
 ]
-
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const today_1 = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
 
 describe('Kiểm tra chức năng filters', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-    beforeEach('Authentication steps', () => {
+    before('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
         cy.saveLoginSession();
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
@@ -222,9 +237,9 @@ describe('Kiểm tra chức năng filters', () => {
 
     describe.only('Kiểm tra chức năng filter Deal page', () => {
         it('Filter theo Closed date', () => {
-            //Tạo test data chưa work
-            //addTestDeal();
-            filterByCondition('Deals','Close Date','.filter__close-date',['October 30, 2025','October 31, 2025'])
+            cy.visit(Cypress.env('SaleCRM_URL')+'deals');
+            addTestDealByAPI('Test deal auto cypress');
+            filterByCondition('Deals','Close Date','.filter__close-date',[today_1,today_1]);
         });
     })
 })
