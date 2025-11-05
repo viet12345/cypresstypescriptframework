@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 function filterByCondition(filterInPage: 'Contacts' | 'Deals',
-    filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry' | 'Created Date' | 'Close Date',
+    filterBy: 'Lifecycle stage' | 'Tag' | 'Country' | 'Industry' | 'Created Date' | 'Contact owner' | 'Team' |'Close Date',
     filterInputElement: string,
     expectedText: string | [startDate:string, endDate:string]) {
     // Chọn điều kiện filter
@@ -17,6 +17,16 @@ function filterByCondition(filterInPage: 'Contacts' | 'Deals',
             cy.get('.flatpickr-days').first().then($calendar => {
                 cy.wrap($calendar).find(`span[aria-label="${start}"]`).first().click();
                 cy.wrap($calendar).find(`span[aria-label="${end}"]`).first().click();
+            });
+        }
+        if (filterBy === 'Contact owner'){
+            cy.get(filterInputElement).then($owner => {
+                cy.wrap($owner).click().type(expectedText).type('{enter}');
+            });
+        }
+        if (filterBy === 'Team'){
+            cy.get(filterInputElement).then($team => {
+                cy.wrap($team).click().type(expectedText).type('{enter}');
             });
         }
         else {
@@ -79,9 +89,6 @@ function verifyKanbanDataWithFilter(filterBy:string, expectedText: string | [sta
                 const end = dayjs(endDate).format("DD/MM/YYYY");
                 cy.get('.deal__item--detail').each(($deal) => {
                     cy.wrap($deal).find('.item__close-date .value').invoke('text').then((text) => {
-                        cy.log(start)
-                        cy.log(end)
-                        cy.log(text)
                         expect(text >= start).to.be.true;
                         expect(text <= end).to.be.true;
                     })
@@ -102,7 +109,7 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
                 const start = dayjs(startDate).format("DD/MM/YYYY");
                 const end = dayjs(endDate).format("DD/MM/YYYY");
         
-                cy.wrap($tableList).find('tr').then(($row) => {
+                cy.wrap($tableList).find('tr').each(($row) => {
                     cy.wrap($row).find('.table__contact--created-date').invoke('text').then((text) => {
                         // So sánh cellDate nằm trong khoảng
                         expect(text >= start).to.be.true;
@@ -139,7 +146,7 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
                     });
                 }
                 if (filterBy === 'Country'){
-                    cy.wait(2000);
+                    cy.wait(5000);
                     cy.wrap($tableList).find('tr').each($row => {
                         cy.wrap($row).find('.table__contact--address').then($cell => {
                             const text = $cell.text().trim();
@@ -150,8 +157,16 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
                 if (filterBy === 'Industry'){
                     cy.wrap($tableList).find('tr').each($row => {
                         cy.wrap($row).find('.table__contact--industry').then($stageCell => {
-                            const stageText = $stageCell.text().trim();
-                            expect(stageText).to.contain(expectedText);
+                            const text = $stageCell.text().trim();
+                            expect(text).to.contain(expectedText);
+                        });
+                    });
+                }
+                if (filterBy === 'Contact owner') {
+                    cy.wrap($tableList).find('tr').each($row => {
+                        cy.wrap($row).find('.table__contact--owner').then($stageCell => {
+                            const text = $stageCell.text().trim();
+                            expect(text).to.contain(expectedText);
                         });
                     });
                 }
@@ -166,9 +181,10 @@ function verifyTableDataWithFilter(filterBy:string,expectedText: string | [start
 
 function addTestDealByAPI(dealName:string) {
     const today = new Date().toLocaleDateString('vi-VN');
+    const today_payload = dayjs().format("YYYY-MM-DD");
     const randomNum = Math.floor(Math.random() * 100) + 1;
     const $dealName = dealName + today + randomNum;
-    const body = `name=${$dealName}&stage_id=1&contact_id=49527&closed_date=2025-11-04&amount=&priority=&type_id=&working_model=1&industry_id=`;
+    const body = `name=${$dealName}&stage_id=1&contact_id=49527&closed_date=${today_payload}&amount=&priority=&type_id=&working_model=1&industry_id=`;
     
 
     cy.request({
@@ -176,7 +192,7 @@ function addTestDealByAPI(dealName:string) {
         url: `${Cypress.env('SaleCRM_URL')}deals/store`,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'X-CSRF-TOKEN': '8ZxQbalXd0Ga1vlzUSEz58VxqUyHfIXsrr9aLPFs',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
             'X-Requested-With': 'XMLHttpRequest',
         },
         body: body,
@@ -185,7 +201,12 @@ function addTestDealByAPI(dealName:string) {
         })
 }
 
+function clearDealTestDataByAPI(dealID:string) {
+    
+    
+}
 
+//Khai báo các biến config/setup data.
 const CONTACT_FILTER_OPTIONS_STAGE = [
     { checkboxSelector: '#checkbox0', expectedStage: 'Lead' },
     { checkboxSelector: '#checkbox1', expectedStage: 'Marketing Qualified' },
@@ -199,16 +220,28 @@ const today_1 = new Date().toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric'
 });
+const Role = Cypress.env('Role');
 
 describe('Kiểm tra chức năng filters', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
-    before('Authentication steps', () => {
+    beforeEach('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
+        cy.reload();
         cy.saveLoginSession();
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
     })
 
     describe('Kiểm tra chức năng filter Contact page', () => {
+        if (Role === 'Admin' || Role === 'Manager') {
+            it('Filter theo Contact owner', () => {
+                filterByCondition('Contacts','Contact owner','input[placeholder="Contact owner"]', 'Đỗ Hoàng Việt');
+            });
+            if (Role === 'Admin') {
+                it('Filter theo Team', () => {
+                    filterByCondition('Contacts','Team','input[placeholder="Team"]', 'Product Development Team');
+                });
+            } 
+        }
         describe('Filter theo Lifecycle stages', () => {
             Object.values(CONTACT_FILTER_OPTIONS_STAGE).forEach(({ checkboxSelector, expectedStage }) => {
                 it(`Kiểm tra filter ${expectedStage} Contact`, () => {
@@ -235,7 +268,7 @@ describe('Kiểm tra chức năng filters', () => {
         });
     } )
 
-    describe.only('Kiểm tra chức năng filter Deal page', () => {
+    describe('Kiểm tra chức năng filter Deal page', () => {
         it('Filter theo Closed date', () => {
             cy.visit(Cypress.env('SaleCRM_URL')+'deals');
             addTestDealByAPI('Test deal auto cypress');
