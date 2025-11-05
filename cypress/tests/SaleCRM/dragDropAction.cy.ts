@@ -1,6 +1,6 @@
 import { getToday } from "../../support/utils/DateHelper";
 
-function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean) {
+function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean, needAmount:boolean = true) {
     cy.visit(Cypress.env('SaleCRM_URL')+'deals'); // Mở trang deals để thực hiện drag and drop
     cy.get(sourceSelector).then($dealItem => {
             cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
@@ -18,14 +18,17 @@ function updateStateByDragDrop(sourceSelector:string, targetSelector:string, nee
                 cy.get('#buttonAcceptMovingDeal').click();
 
                 if (needShowForm) {
-                // 3. Nhập thông tin note và đính kèm file.
-                cy.get('iframe[id="content_ifr"]').first().then($iframe => {
-                    const body = $iframe.contents().find('body');
-                    const currentTime = new Date().toLocaleTimeString();
-                    cy.wrap(body).type('This is auto test for drag and drop action ' +  ' ' + getToday() + ' ' + currentTime);
-                });
-                cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
-                cy.get('button[class="milestone__button--save"]').contains('Save').click({ force: true });
+                    // 3. Nhập thông tin note và đính kèm file.
+                    if (needAmount){
+                        cy.get('input[name="amount_milestone"]').clear({force:true}).type('1000',{force:true});
+                    }
+                    cy.get('iframe[id="content_ifr"]').first().then($iframe => {
+                        const body = $iframe.contents().find('body');
+                        const currentTime = new Date().toLocaleTimeString();
+                        cy.wrap(body).type('This is auto test for drag and drop action ' +  ' ' + getToday() + ' ' + currentTime);
+                    });
+                    cy.get('input[class="filepond--browser"]').first().attachFile(`DataTestingFiles/download.jpeg`); // Đính kèm file ảnh nếu required
+                    cy.get('button[class="milestone__button--save"]').contains('Save').click({ force: true });
                 }
                 
                 // 4. Verify deal đã được cập nhật stage
@@ -48,7 +51,7 @@ describe('Check drag drop action', () => {
     it(`Update deal Approach -> Engaged`, () => {
         const dealSourceSelector = '[data-stage-id="1"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_2';
-        updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true);     
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector, true, false);     
     });
 
     it(`Update deal Engaged -> Opportunity`, () => {
@@ -69,7 +72,7 @@ describe('Check drag drop action', () => {
         const dealSourceSelector = '[data-stage-id="4"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_5';
 
-        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true);  
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true,false);  
 
     });
 
@@ -84,7 +87,7 @@ describe('Check drag drop action', () => {
         const dealSourceSelector = '[data-stage-id="6"] > .deal__item--container:first';
         const dealTargetSelector = '#dealItemGridArea_7';
 
-        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true);
+        updateStateByDragDrop(dealSourceSelector, dealTargetSelector,true,false);
     });
 
     it(`Update deal Closed Won -> Closed Lost`, () => {
