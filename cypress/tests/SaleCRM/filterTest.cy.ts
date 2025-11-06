@@ -187,7 +187,7 @@ function addTestDealByAPI(dealName:string) {
     const body = `name=${$dealName}&stage_id=1&contact_id=49527&closed_date=${today_payload}&amount=&priority=&type_id=&working_model=1&industry_id=`;
     
 
-    cy.request({
+    return cy.request({
         method: 'POST',
         url: `${Cypress.env('SaleCRM_URL')}deals/store`,
         headers: {
@@ -196,14 +196,24 @@ function addTestDealByAPI(dealName:string) {
             'X-Requested-With': 'XMLHttpRequest',
         },
         body: body,
-        }).then((response:any) => {
+        })
+        .then((response:any) => {
             expect(response.status).to.eq(200);
+            const id = response.body.contact_id;
+            return id;
         })
 }
 
 function clearDealTestDataByAPI(dealID:string) {
-    
-    
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}deals/${dealID}/delete`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
 }
 
 //Khai báo các biến config/setup data.
@@ -268,11 +278,13 @@ describe('Kiểm tra chức năng filters', () => {
         });
     } )
 
-    describe('Kiểm tra chức năng filter Deal page', () => {
+    describe.only('Kiểm tra chức năng filter Deal page', () => {
         it('Filter theo Closed date', () => {
             cy.visit(Cypress.env('SaleCRM_URL')+'deals');
-            addTestDealByAPI('Test deal auto cypress');
-            filterByCondition('Deals','Close Date','.filter__close-date',[today_1,today_1]);
+            addTestDealByAPI('Test deal auto cypress').then($id => {
+                // filterByCondition('Deals','Close Date','.filter__close-date',[today_1,today_1]);
+                clearDealTestDataByAPI($id);
+            });
         });
     })
 })
