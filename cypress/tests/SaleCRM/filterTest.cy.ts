@@ -199,7 +199,7 @@ function addTestDealByAPI(dealName:string) {
         })
         .then((response:any) => {
             expect(response.status).to.eq(200);
-            const id = response.body.contact_id;
+            const id = response.body.data.contact_id;
             return id;
         })
 }
