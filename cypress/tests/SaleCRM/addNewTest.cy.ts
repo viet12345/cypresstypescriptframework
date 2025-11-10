@@ -8,6 +8,7 @@ function selectOptionAndVerify(inputSelector: string, inputCase:string) {
 }
 
 const Role = Cypress.env('Role');
+const Today = dayjs().format("MMMM DD, YYYY");
 
 describe('Kiểm tra chức năng filters', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
@@ -67,22 +68,25 @@ describe('Kiểm tra chức năng filters', () => {
     });
 
     describe('Add new deal page', () => {
-        it.only('Add new a deal', () => {
+        it('Add new a deal', () => {
             cy.visit(Cypress.env('SaleCRM_URL')+'deals');
             cy.get('#btn-create-deal').click();
             cy.get('#form-deal').should('be.visible').then($form => {
                 cy.wrap($form).find('#name').type('Cypress');
-                cy.wrap($form).find('#formAddDealSelectContact-selectized').click().type('Vic Main 3').type('{enter}');
-                cy.wrap($form).find('#formAddDealSelectWorkingModel-selectized').click().type('Project Based').type('{enter}');
+                cy.wrap($form).find('#formAddDealSelectContact-selectized').click().type('Vic Main');
+                cy.get(`.option`).contains('Vic Main').should('be.visible').click();
+                cy.wrap($form).get('#formAddDealSelectWorkingModel-selectized').click().type('Project Base');
+                cy.get(`.option`).contains('Project Base').should('be.visible').click();
                 cy.wrap($form).find('#save-deal').click({force:true});
             });
             //Verify add thành công.
-            // cy.wait(2000);
+            cy.wait(10000);
             // //Clear data test.
-            // cy.get(':nth-child(1) > #td_actions > .table__action > #td_delete').click({force:true});
-            // cy.get('#deleteContactModal > .modal-dialog > .modal-content').then(modal => {
-            //     cy.wrap(modal).find('#confirm-delete-contact').click();
-            // })  
+            cy.get('.deal__item--detail').first().then($item => {
+                cy.wrap($item).find('#itemAction').first().click();
+                cy.wrap($item).find('.btn-deal__delete').first().click();
+                cy.get('.button__moving-deal--accept').eq(2).should('be.visible').click();
+            })
         });
 
         it('Add new a list view', () => {
@@ -91,14 +95,25 @@ describe('Kiểm tra chức năng filters', () => {
     })
 
     describe('Add new task page', () => {
-        it('Add new a task', () => {
-            
+        it.only('Add new a task', () => {
+            cy.visit(Cypress.env('SaleCRM_URL')+'tasks');
+            cy.get('.task-list__add-button').click();
+            cy.get('#form-task-module').should('be.visible').then($form => {
+                cy.wrap($form).find('#name').type('Cypress');
+                cy.wrap($form).find('input[id="type_id-selectized"]').click();
+                cy.get(`.option`).contains('Training').should('be.visible').click();
+                cy.get('input[name="due_date"]').click();
+                cy.get('.flatpickr-days').eq(3).within($calendar => {
+                    cy.get(`span[aria-label="${Today}"]`).first().click({force:true});
+                });
+                cy.get('#save-form').click();
+            })
+
         });
     })
 
     describe('Add new staff page', () => {
         it('Add new a staff', () => {
-            
         });
 
         it('Add new a team', () => {
