@@ -18,6 +18,30 @@ function deleteTaskByID(id:string|undefined) {
         }
     })
 }
+
+function deleteStaffByID(id:string|undefined) {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}staffs/${id}`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+}
+
+function deleteTeamByID(id:string|undefined) {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}teams/${id}/delete`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+}
 const Role = Cypress.env('Role');
 const Today = dayjs().format("MMMM DD, YYYY");
 
@@ -106,7 +130,7 @@ describe('Kiểm tra chức năng filters', () => {
     })
 
     describe('Add new task page', () => {
-        it.only('Add new a task', () => {
+        it('Add new a task', () => {
             cy.intercept('GET',Cypress.env('SaleCRM_URL')+'tasks/get-all-task-by-current-role?*').as('GetTasks')
             cy.visit(Cypress.env('SaleCRM_URL')+'tasks');
             cy.get('.task-list__add-button').click();
@@ -134,10 +158,43 @@ describe('Kiểm tra chức năng filters', () => {
 
     describe('Add new staff page', () => {
         it('Add new a staff', () => {
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/staffs/search?*').as('GetStaffs');
+            cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
+            cy.get('.add-staff').click();
+            cy.get('#offcanvasStaff').should('be.visible').then($form => {
+                selectOptionAndVerify('#user_id-selectized','Testers');
+                selectOptionAndVerify('#role_id-selectized','STAFF');
+                selectOptionAndVerify('#position-selectized','Sales');
+                selectOptionAndVerify('#team_id-selectized','Product Development Team');
+                cy.wrap($form).find('.btn-save-staff').click({force:true});
+            });
+            cy.wait('@GetStaffs');
+            //Clear data test.
+            cy.get('.btn-outline-danger').first()
+            .invoke('attr', 'data-id').then($id => {
+                const staffId = $id?.toString();
+                console.log(staffId);
+                deleteStaffByID(staffId);
+            });
         });
 
         it('Add new a team', () => {
-            
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/teams?*').as('GetTeams');
+            cy.visit(Cypress.env('SaleCRM_URL')+'teams');
+            cy.get('#btn-create-team').click();
+            cy.get('#form-team').should('be.visible').then($form => {
+                cy.wrap($form).find('#name').clear().type('Cypress team');
+                cy.wrap($form).find('#description').clear().type('Cypress team');
+                cy.wrap($form).find('#save-team').click();
+            });
+            cy.wait('@GetTeams');
+            //Clear data test.
+            cy.get('.remove-item-btn').first()
+            .invoke('attr', 'data-team-id').then($id => {
+                const teamId = $id?.toString();
+                console.log(teamId);
+                deleteTeamByID(teamId);
+            });
         });
     })
 
