@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 
-function selectOptionAndVerify(inputSelector: string, inputCase:string) {
+function selectOptionAndVerify(inputSelector: string, inputCase:string|any) {
     // Mở form
     // Chọn giá trị từ dropdown.
-    cy.get(inputSelector).click().type(inputCase).wait(2000).type('{enter}');
+    cy.get(inputSelector).click().clear().type(inputCase).type('{enter}');
+    cy.wait(2000);
     // cy.get(`.optgroup .option`).contains(inputCase).click();
 }
 
@@ -157,8 +158,10 @@ describe('Kiểm tra chức năng filters', () => {
     })
 
     describe('Add new staff page', () => {
-        it('Add new a staff', () => {
+        it.only('Add new a staff', () => {
+            //Add staff
             cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/staffs/search?*').as('GetStaffs');
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/teams?*').as('GetKPIs');
             cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
             cy.get('.add-staff').click();
             cy.get('#offcanvasStaff').should('be.visible').then($form => {
@@ -168,8 +171,30 @@ describe('Kiểm tra chức năng filters', () => {
                 selectOptionAndVerify('#team_id-selectized','Product Development Team');
                 cy.wrap($form).find('.btn-save-staff').click({force:true});
             });
+
+            //Add KPIs
+            cy.visit(Cypress.env('SaleCRM_URL')+'kpis');
+            cy.get('#btn-form-configure-kpi').click();
+            cy.get('#form-configure-kpi').should('be.visible').then($form => {
+                selectOptionAndVerify('#selectizeFilterStaffInConfigure-selectized','Tester');
+                cy.get('#selectizeFilterTimeFrame-selectized').click();
+                cy.wrap($form).find('.selectize-dropdown-content .option').contains('2026').click({force:true});
+                cy.wait(3000);
+                cy.wrap($form).find('#month-configure-3').then($input => {
+                    const isDisabled = $input.prop('disabled');
+                    console.log(isDisabled);
+                    if (!isDisabled)
+                    {
+                       cy.wrap($input).type('100');
+                       cy.wrap($form).find('#save-deal').click();
+                       cy.wait('@GetKPIs');
+                    }
+                })
+            });
+
+            //Clear data staff test.
+            cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
             cy.wait('@GetStaffs');
-            //Clear data test.
             cy.get('.btn-outline-danger').first()
             .invoke('attr', 'data-id').then($id => {
                 const staffId = $id?.toString();
@@ -200,7 +225,7 @@ describe('Kiểm tra chức năng filters', () => {
 
     describe('Add new KPIs page', () => {
         it('Add new a KPIs', () => {
-            
+
         });
 
         it('Add new a Revenue KPIs', () => {
