@@ -7,6 +7,17 @@ function selectOptionAndVerify(inputSelector: string, inputCase:string) {
     // cy.get(`.optgroup .option`).contains(inputCase).click();
 }
 
+function deleteTaskByID(id:string|undefined) {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}tasks/${id}/delete`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+}
 const Role = Cypress.env('Role');
 const Today = dayjs().format("MMMM DD, YYYY");
 
@@ -96,6 +107,7 @@ describe('Kiểm tra chức năng filters', () => {
 
     describe('Add new task page', () => {
         it.only('Add new a task', () => {
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'tasks/get-all-task-by-current-role?*').as('GetTasks')
             cy.visit(Cypress.env('SaleCRM_URL')+'tasks');
             cy.get('.task-list__add-button').click();
             cy.get('#form-task-module').should('be.visible').then($form => {
@@ -103,11 +115,19 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.wrap($form).find('input[id="type_id-selectized"]').click();
                 cy.get(`.option`).contains('Training').should('be.visible').click();
                 cy.get('input[name="due_date"]').click();
-                cy.get('.flatpickr-days').eq(3).within($calendar => {
+                cy.get('.flatpickr-days').eq(3).within(() => {
                     cy.get(`span[aria-label="${Today}"]`).first().click({force:true});
                 });
                 cy.get('#save-form').click();
             })
+            cy.wait('@GetTasks');
+            //Clear data test.
+            cy.get('button[data-bs-target="#deleteTaskModuleModal"]').first()
+            .invoke('attr', 'data-delete-task-id').then($id => {
+                const taskId = $id?.toString();
+                console.log(taskId);
+                deleteTaskByID(taskId);
+            });
 
         });
     })
