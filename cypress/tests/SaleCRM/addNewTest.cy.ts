@@ -85,6 +85,7 @@ describe('Kiểm tra chức năng filters', () => {
     
     describe('Add new contact page', () => {
         it('Add new a contact', () => {
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/contacts/get-all-contact-by-current-role*').as('GetContact')
             cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
             cy.get('#btn-add-contact').click();
             cy.get('#form-contact').should('be.visible').then($form => {
@@ -94,15 +95,29 @@ describe('Kiểm tra chức năng filters', () => {
                 selectOptionAndVerify('#formAddContactSelectResource-selectized','Marketing');
                 selectOptionAndVerify('#formAddContactSelectCountry-selectized','Afghanistan');
                 selectOptionAndVerify('#formAddContactSelectIndustry-selectized','Healthcare');
-                // cy.wrap($form).find('phone').clear().type('');
-                // cy.wrap($form).find('linkedin').clear().type('');
-                // cy.wrap($form).find('job').clear().type('');
-                // cy.wrap($form).find('company').clear().type('');
                 cy.wrap($form).find('#save-contact').click({force:true});
             });
             //Verify add thành công.
             cy.wait(2000);
+
+            //Edit
+            cy.get('tr').eq(2).within(() => {
+                cy.get('a[class="contact__name"]').click();
+            });
+            cy.get('.button-edit').click();
+            cy.get('#offcanvasEditContact').click();
+            cy.get('#offcanvasEditContact').should('be.visible').then($form => {
+                cy.wrap($form).find('input[name="phone"]').clear().type('036187834');
+                cy.wrap($form).find('input[name="linked_in"]').clear().type('https://translate.google.com/');
+                cy.wrap($form).find('input[name="job_title"]').clear().type('job_title');
+                cy.wrap($form).find('input[name="company"]').clear().type('company');
+                cy.wrap($form).find('#btnSaveEditContact').click({force:true});
+            });
+
+
             //Clear data test.
+            cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
+            cy.wait('@GetContact');
             cy.get(':nth-child(1) > #td_actions > .table__action > #td_delete').click({force:true});
             cy.get('#deleteContactModal > .modal-dialog > .modal-content').then(modal => {
                 cy.wrap(modal).find('#confirm-delete-contact').click();
@@ -110,7 +125,8 @@ describe('Kiểm tra chức năng filters', () => {
 
         });
 
-        it('Add new a list view', () => {
+        it.only('Add new a list view', () => {
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'contacts/list-view/fill-data-contact?*').as('GetChecklistView')
             cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
             cy.get('#listViewsDropdown').click();
             cy.get('.btn-add-view').click();
@@ -119,7 +135,20 @@ describe('Kiểm tra chức năng filters', () => {
                 selectOptionAndVerify('#formAddViewSelectResource-selectized','Marketing');
                 cy.wrap($form).find('.btn-primary').click({force:true});
             })
-            //Verify add thành công.
+
+            //Edit
+            cy.get('#listViewsDropdown').click();
+            cy.get('.list-view-dropdown-menu').then($dropdown => {
+                cy.wrap($dropdown).find('#itemAction').first().click();
+                cy.wrap($dropdown).find('span[class="edit"]').first().click();
+                cy.get('#form-list-view').should('be.visible').then($form => {
+                    cy.wrap($form).find('#list_name').clear().type('Cypress edit');
+                    selectOptionAndVerify('#formAddViewSelectResource-selectized','Email');
+                    cy.wrap($form).find('.btn-primary').click({force:true});
+                })
+            })
+            cy.wait('@GetChecklistView');
+
             //Clear data test.
             cy.get('#listViewsDropdown').click();
             cy.get('.list-view-dropdown-menu').then($dropdown => {
@@ -127,7 +156,6 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.wrap($dropdown).find('span[class="delete"]').first().click();
                 cy.get('button[type="button"]').contains('Yes, delete it!').click();
             })
-
         });
     });
 
@@ -296,7 +324,7 @@ describe('Kiểm tra chức năng filters', () => {
             })
         });
 
-        it.only('Add new a Tag', () => {
+        it('Add new a Tag', () => {
             cy.intercept('POST',Cypress.env('SaleCRM_URL')+'/settings/tags/store').as('creatTag')
             cy.visit(Cypress.env('SaleCRM_URL')+'settings');
             cy.get('#tag-tab').click();
