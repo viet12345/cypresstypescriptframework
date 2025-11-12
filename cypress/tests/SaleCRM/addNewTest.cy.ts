@@ -43,6 +43,34 @@ function deleteTeamByID(id:string|undefined) {
         }
     })
 }
+
+function deleteIndustryByID(id:string|undefined) {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}settings/industries/${id}/delete`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: 'type_industry=1'
+    })
+}
+
+function deleteTagByID(id:string|undefined) {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env('SaleCRM_URL')}settings/tags/${id}/delete`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-TOKEN': Cypress.env('XCSRFTOKEN'),
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+}
+
+
+
 const Role = Cypress.env('Role');
 const Today = dayjs().format("MMMM DD, YYYY");
 
@@ -158,10 +186,11 @@ describe('Kiểm tra chức năng filters', () => {
     })
 
     describe('Add new staff page', () => {
-        it.only('Add new a staff', () => {
+        it('Add new a staff and update the KPI/Revenue', () => {
             //Add staff
             cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/staffs/search?*').as('GetStaffs');
             cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/teams?*').as('GetKPIs');
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/revenues/filters?*').as('GetRevenues');
             cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
             cy.get('.add-staff').click();
             cy.get('#offcanvasStaff').should('be.visible').then($form => {
@@ -188,6 +217,26 @@ describe('Kiểm tra chức năng filters', () => {
                        cy.wrap($input).type('100');
                        cy.wrap($form).find('#save-deal').click();
                        cy.wait('@GetKPIs');
+                    }
+                })
+            });
+
+            //Add revenue
+            cy.visit(Cypress.env('SaleCRM_URL')+'revenues');
+            cy.get('#btn_configure_revenue').click();
+            cy.get('#form-configure-revenue').should('be.visible').then($form => {
+                selectOptionAndVerify('#selectizeFilterStaffInConfigure-selectized','Tester');
+                cy.get('#selectizeFilterTimeFrame-selectized').click();
+                cy.wrap($form).find('.selectize-dropdown-content .option').contains('2026').click({force:true});
+                cy.wait(3000);
+                cy.wrap($form).find('#quater-configure-1').then($input => {
+                    const isDisabled = $input.prop('disabled');
+                    console.log(isDisabled);
+                    if (!isDisabled)
+                    {
+                       cy.wrap($input).type('100');
+                       cy.wrap($form).find('#save-deal').click();
+                       cy.wait('@GetRevenues');
                     }
                 })
             });
@@ -223,23 +272,50 @@ describe('Kiểm tra chức năng filters', () => {
         });
     })
 
-    describe('Add new KPIs page', () => {
-        it('Add new a KPIs', () => {
-
-        });
-
-        it('Add new a Revenue KPIs', () => {
-            
-        });
-    })
 
     describe('Add new Settings page', () => {
         it('Add new a industries', () => {
-            
+            cy.intercept('POST',Cypress.env('SaleCRM_URL')+'/settings/industries/store').as('creatIndustry')
+            cy.visit(Cypress.env('SaleCRM_URL')+'settings');
+            cy.get('#industry-tab').click();
+            cy.get('.contact-industry').should('be.visible').within(() => {
+                cy.get('.heading__button').click();
+            });
+            cy.get('#offcanvasIndustry').should('be.visible').then($form => {
+                cy.wrap($form).find('#industryName').type('Cypress');
+                cy.get('#btnConfirmIndustry').click();
+                cy.wait('@creatIndustry');
+    
+                //Clear data test.
+                cy.get('.btn__delete--industry').last()
+                .invoke('attr', 'data-id').then($id => {
+                    const id = $id?.toString();
+                    console.log(id);
+                    deleteIndustryByID(id);
+                });
+            })
         });
 
-        it('Add new a Tag', () => {
-            
+        it.only('Add new a Tag', () => {
+            cy.intercept('POST',Cypress.env('SaleCRM_URL')+'/settings/tags/store').as('creatTag')
+            cy.visit(Cypress.env('SaleCRM_URL')+'settings');
+            cy.get('#tag-tab').click();
+            cy.get('.tag').should('be.visible').within(() => {
+                cy.get('.heading__button').click();
+            });
+            cy.get('#offcanvasTag').should('be.visible').then($form => {
+                cy.wrap($form).find('#tagName').type('Cypress');
+                cy.wrap($form).find('.confirm-tag').click({force:true});
+                cy.wait('@creatTag');
+    
+                //Clear data test.
+                cy.get('.btn__delete--tag').first()
+                .invoke('attr', 'data-id').then($id => {
+                    const id = $id?.toString();
+                    console.log(id);
+                    deleteTagByID(id);
+                });
+            })
         });
     })
 })
