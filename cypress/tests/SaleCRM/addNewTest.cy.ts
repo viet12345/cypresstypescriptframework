@@ -125,7 +125,7 @@ describe('Kiểm tra chức năng filters', () => {
 
         });
 
-        it.only('Add new a list view', () => {
+        it('Add new a list view', () => {
             cy.intercept('GET',Cypress.env('SaleCRM_URL')+'contacts/list-view/fill-data-contact?*').as('GetChecklistView')
             cy.visit(Cypress.env('SaleCRM_URL')+'contacts');
             cy.get('#listViewsDropdown').click();
@@ -161,6 +161,7 @@ describe('Kiểm tra chức năng filters', () => {
 
     describe('Add new deal page', () => {
         it('Add new a deal', () => {
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/deals/deal-default*').as('GetDeals')
             cy.visit(Cypress.env('SaleCRM_URL')+'deals');
             cy.get('#btn-create-deal').click();
             cy.get('#form-deal').should('be.visible').then($form => {
@@ -171,9 +172,21 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.get(`.option`).contains('Project Base').should('be.visible').click();
                 cy.wrap($form).find('#save-deal').click({force:true});
             });
-            //Verify add thành công.
-            cy.wait(10000);
+            cy.wait('@GetDeals');
+
+            //Edit
+            cy.get('.deal__item--detail').first().within(() => {
+                cy.get('.item__name').click();
+            })
+            cy.get('#btn-edit-deal').click();
+            cy.get('#form-deal').should('be.visible').then($form => {
+                cy.wrap($form).find('#amount').type('1000');
+                cy.wrap($form).find('#save-deal').click({force:true});
+            });
+
             // //Clear data test.
+            cy.visit(Cypress.env('SaleCRM_URL')+'deals');
+            cy.wait('@GetDeals');
             cy.get('.deal__item--detail').first().then($item => {
                 cy.wrap($item).find('#itemAction').first().click();
                 cy.wrap($item).find('.btn-deal__delete').first().click();
@@ -182,7 +195,35 @@ describe('Kiểm tra chức năng filters', () => {
         });
 
         it('Add new a list view', () => {
-            
+            cy.intercept('GET',Cypress.env('SaleCRM_URL')+'/deals/list-view/fill-data-deal?*').as('GetChecklistView')
+            cy.visit(Cypress.env('SaleCRM_URL')+'deals');
+            cy.get('#listViewsDropdown').click();
+            cy.get('.btn-add-view').click();
+            cy.get('#form-list-view').should('be.visible').then($form => {
+                cy.wrap($form).find('#list_name').type('Cypress test');
+                cy.wrap($form).find('#checkbox-view0').click();
+                cy.wrap($form).find('.btn-primary').click({force:true});
+            })
+
+            //Edit
+            cy.get('#listViewsDropdown').click();
+            cy.get('.list-view-dropdown-menu').then($dropdown => {
+                cy.wrap($dropdown).find('#itemAction').first().click();
+                cy.wrap($dropdown).find('span[class="edit"]').first().click();
+                cy.get('#form-list-view').should('be.visible').then($form => {
+                    cy.wrap($form).find('#list_name').clear().type('Cypress edit');
+                    cy.wrap($form).find('.btn-primary').click({force:true});
+                })
+            })
+            cy.wait('@GetChecklistView');
+
+            //Clear data test.
+            cy.get('#listViewsDropdown').click();
+            cy.get('.list-view-dropdown-menu').then($dropdown => {
+                cy.wrap($dropdown).find('#itemAction').first().click();
+                cy.wrap($dropdown).find('span[class="delete"]').first().click();
+                cy.get('button[type="button"]').contains('Yes, delete it!').click();
+            })
         });
     })
 
@@ -200,8 +241,16 @@ describe('Kiểm tra chức năng filters', () => {
                     cy.get(`span[aria-label="${Today}"]`).first().click({force:true});
                 });
                 cy.get('#save-form').click();
+                cy.wait('@GetTasks');
             })
-            cy.wait('@GetTasks');
+
+            //Edit
+            cy.get('.btn-edit').first().click();
+            cy.get('#form-task-module').should('be.visible').then($form => {
+                cy.wrap($form).find('#name').type('Cypress edit');
+                cy.get('#save-form').click();
+            })
+
             //Clear data test.
             cy.get('button[data-bs-target="#deleteTaskModuleModal"]').first()
             .invoke('attr', 'data-delete-task-id').then($id => {
@@ -269,6 +318,16 @@ describe('Kiểm tra chức năng filters', () => {
                 })
             });
 
+            //Edit
+            cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
+            cy.wait('@GetStaffs');
+            cy.get('.btn-outline-primary').first().click();
+            cy.get('#offcanvasStaff').should('be.visible').then($form => {
+                selectOptionAndVerify('#role_id-selectized','MANAGER');
+                cy.wrap($form).find('.btn-save-staff').click({force:true});
+            });
+
+
             //Clear data staff test.
             cy.visit(Cypress.env('SaleCRM_URL')+'staffs');
             cy.wait('@GetStaffs');
@@ -290,6 +349,16 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.wrap($form).find('#save-team').click();
             });
             cy.wait('@GetTeams');
+
+            //Edit
+            cy.get('.edit-item-btn').first().click();
+             cy.get('#form-team').should('be.visible').then($form => {
+                cy.wrap($form).find('#name').clear().type('Cypress edit');
+                cy.wrap($form).find('#description').clear().type('Cypress edit');
+                cy.wrap($form).find('#save-team').click();
+            });
+            cy.wait('@GetTeams');
+
             //Clear data test.
             cy.get('.remove-item-btn').first()
             .invoke('attr', 'data-team-id').then($id => {
@@ -313,15 +382,22 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.wrap($form).find('#industryName').type('Cypress');
                 cy.get('#btnConfirmIndustry').click();
                 cy.wait('@creatIndustry');
-    
-                //Clear data test.
-                cy.get('.btn__delete--industry').last()
-                .invoke('attr', 'data-id').then($id => {
-                    const id = $id?.toString();
-                    console.log(id);
-                    deleteIndustryByID(id);
-                });
             })
+
+            //Edit
+            cy.get('#btnEditIndustry').first().click();
+            cy.get('#offcanvasIndustry').should('be.visible').then($form => {
+                cy.wrap($form).find('#industryName').type('Cypress edit');
+                cy.get('#btnConfirmIndustry').click();
+            });
+
+            //Clear data test.
+            cy.get('.btn__delete--industry').last()
+            .invoke('attr', 'data-id').then($id => {
+                const id = $id?.toString();
+                console.log(id);
+                deleteIndustryByID(id);
+            });
         });
 
         it('Add new a Tag', () => {
@@ -335,14 +411,22 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.wrap($form).find('#tagName').type('Cypress');
                 cy.wrap($form).find('.confirm-tag').click({force:true});
                 cy.wait('@creatTag');
-    
-                //Clear data test.
-                cy.get('.btn__delete--tag').first()
-                .invoke('attr', 'data-id').then($id => {
-                    const id = $id?.toString();
-                    console.log(id);
-                    deleteTagByID(id);
-                });
+            });
+
+            //Edit
+            cy.get('.btn__edit--tag').first().click();
+            cy.get('#offcanvasTag').should('be.visible').then($form => {
+                cy.wrap($form).find('#tagName').type('Cypress edit');
+                cy.wrap($form).find('.confirm-tag').click({force:true});
+                cy.wait('@creatTag');
+            });
+
+            //Clear data test.
+            cy.get('.btn__delete--tag').first()
+            .invoke('attr', 'data-id').then($id => {
+                const id = $id?.toString();
+                console.log(id);
+                deleteTagByID(id);
             })
         });
     })
