@@ -379,7 +379,7 @@ describe('Kiểm tra chức năng filters', () => {
                 cy.get('.heading__button').click();
             });
             cy.get('#offcanvasIndustry').should('be.visible').then($form => {
-                cy.wrap($form).find('#industryName').type('Cypress');
+                cy.wrap($form).find('#industryName').wait(2000).type('Cypress');
                 cy.get('#btnConfirmIndustry').click();
                 cy.wait('@creatIndustry');
             })
@@ -400,34 +400,31 @@ describe('Kiểm tra chức năng filters', () => {
             });
         });
 
-        it('Add new a Tag', () => {
-            cy.intercept('POST',Cypress.env('SaleCRM_URL')+'/settings/tags/store').as('creatTag')
+        it.only('Add new a Tag', () => {
+            cy.intercept('POST',Cypress.env('SaleCRM_URL')+'/settings/tags/store').as('creatTag');
             cy.visit(Cypress.env('SaleCRM_URL')+'settings');
             cy.get('#tag-tab').click();
             cy.get('.tag').should('be.visible').within(() => {
                 cy.get('.heading__button').click();
             });
-            cy.get('#offcanvasTag').should('be.visible').then($form => {
-                cy.wrap($form).find('#tagName').type('Cypress');
-                cy.wrap($form).find('.confirm-tag').click({force:true});
-                cy.wait('@creatTag');
+            cy.get('#offcanvasTag').should('be.visible').then($addForm => {
+                cy.wrap($addForm).find('#tagName').type('Cypress');
+                cy.wrap($addForm).find('.confirm-tag').click({force:true});
             });
-
+            cy.wait('@creatTag');
             //Edit
-            cy.get('.btn__edit--tag').first().click();
-            cy.get('#offcanvasTag').should('be.visible').then($form => {
-                cy.wrap($form).find('#tagName').type('Cypress edit');
-                cy.wrap($form).find('.confirm-tag').click({force:true});
-                cy.wait('@creatTag');
-            });
+            cy.get('#tableTag').find('.btn__edit--tag').eq(0).should('be.visible').scrollIntoView().click();
+            cy.get('#offcanvasTag').should('be.visible').within(() => {
+                cy.get('#tagName').clear().type('Cypress edit');
+                cy.get('.confirm-tag').click({force:true});
+            });            
 
             //Clear data test.
             cy.get('.btn__delete--tag').first()
             .invoke('attr', 'data-id').then($id => {
                 const id = $id?.toString();
-                console.log(id);
                 deleteTagByID(id);
-            })
+            });
         });
     })
 })

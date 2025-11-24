@@ -1,7 +1,6 @@
 import { getToday } from "../../support/utils/DateHelper";
 
 function updateStateByDragDrop(sourceSelector:string, targetSelector:string, needShowForm?:boolean, needAmount:boolean = true) {
-    cy.visit(Cypress.env('SaleCRM_URL')+'deals'); // Mở trang deals để thực hiện drag and drop
     cy.get(sourceSelector).then($dealItem => {
             cy.wrap($dealItem).find('.item__name').invoke('text').then($dealName => {
                 const expectedDealName = $dealName.trim();
@@ -40,11 +39,20 @@ function updateStateByDragDrop(sourceSelector:string, targetSelector:string, nee
         })
 }
 
+
+const Role = Cypress.env('Role');
 describe('Check drag drop action', () => {
     //Authentication steps: Lưu cookies/session để sử dụng lại trong các test khác.
     beforeEach('Authentication steps', () => {
         // Cách 1: Thiết lập giá trị cookie trực tiếp
         cy.saveLoginSession();
+        cy.visit(Cypress.env('SaleCRM_URL')+'deals'); // Mở trang deals để thực hiện drag and drop
+        if (Role === 'Admin') {
+                cy.get('input[placeholder="Choose contact owner"]').then($owner => {
+                cy.wrap($owner).click().type('Đỗ Hoàng Việt').type('{enter}');
+            });
+            cy.wait(7000); // Chờ 2s để load dữ liệu
+        }
         // Cách 2: Với các hệ thống có chức năng login cơ bản, nên sử dụng hàm LoginbyApi từ command.
     })
 
